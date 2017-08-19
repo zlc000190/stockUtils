@@ -26,7 +26,7 @@ moreAndMoreMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&
 hangyeReportUrl = 'http://datainterface.eastmoney.com//EM_DataCenter/js.aspx?type=SR&sty=HYSR&mkt=0&stat=0&cmd=4&code=&sc=&ps=100&p=1&js=var%20WPaQnqfN={%22data%22:[(x)],%22pages%22:%22(pc)%22,%22update%22:%22(ud)%22,%22count%22:%22(count)%22}&rt=50102402'
 
 #资金流入排行
-zjlrRank = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx/JS.aspx?type=ct&st=(BalFlowMain)&sr=-1&p=1&ps=100&js=var%20ZGdnEqhJ={pages:(pc),date:%222014-10-22%22,data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&cmd=C._AB&sty=DCFFITA&rt=50102411'
+zjlrRank = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx/JS.aspx?type=ct&st=(BalFlowMain)&sr=-1&p=%d&ps=100&js=var%20ZGdnEqhJ={pages:(pc),date:%222014-10-22%22,data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&cmd=C._AB&sty=DCFFITA&rt=50102411'
 
 #东方财富网-公司被调研次数
 dytjBaseUrl = 'http://data.eastmoney.com/DataCenter_V3/jgdy/gsjsdy.ashx?pagesize=100&page=1&js=var%20MavaIUBM&param=&sortRule=-1&sortType=2'
@@ -68,6 +68,17 @@ def getJsonObj2(obj):
         s = list[0]
         sepString = s.split(':')[1]
         return simplejson.loads(sepString)
+    else:
+        return None
+
+def getJsonObj3(obj):
+    partern = re.compile("data:.*?\"]")
+    list = re.findall(partern, obj)
+
+    if list and len(list) > 0:
+        s = list[0]
+        sepString = s.split(':[')[1]
+        return simplejson.loads('[' + sepString)
     else:
         return None
 
@@ -225,61 +236,73 @@ class StockUtils(object):
         res = getHtmlFromUrl(gnzfBaseUrl)
         companyListObj = getJsonObj2(res)
         if companyListObj and len(companyListObj):
-
             cList = []
-
             for item in companyListObj:
-                # '''item 是字符串，应该分割处理'''
-                # info = CompanyRecommandInfo(item['secuFullCode'],
-                #                             item['secuName'], item['datetime'], item['insName'], item['title'],
-                #                                 item['rate'])
-                #   cList.append(info)
+                cList.append(item)
+            return cList
+        return None
+
+    def getInflowRank(self):
+        '''资金流入排行'''
+
+        res = getHtmlFromUrl(zjlrRank)
+        companyListObj = getJsonObj3(res)
+        if companyListObj and len(companyListObj):
+            cList = []
+            for item in companyListObj:
                 cList.append(item)
             return cList
         return None
 
 
+
 if __name__ == '__main__':
     util = StockUtils()
-    #当天创新高
-    print '\n====================当日新高============================='
-    li =  util.getTodayMaxStockList()
-    for item in li:
-        print item.name,item.code
+    # #当天创新高
+    # print '\n====================当日新高============================='
+    # li =  util.getTodayMaxStockList()
+    # for item in li:
+    #     print item.name,item.code
+    #
+    # #最近3天创新高
+    # print '\n====================近3天创新高=========================='
+    # th = util.getThreeDaysMaxStockList()
+    # for item in th:
+    #     print item.name
+    # #行业报告
+    # print '\n====================行业分析报告========================='
+    # hy = util.getIndustryReport()
+    # for item in hy:
+    #     print item
+    #
+    # #调研次数
+    # print '\n====================机构调研次数排行======================'
+    # dy = util.getCompanyResearchRank()
+    # for item in dy:
+    #     print item.name,item.code,item.time,item.desc,item.sum
+    #
+    # #推荐公司
+    # print '\n====================利好公司推荐========================='
+    # tj = util.getRcommandedCompanyList()
+    # for item in tj:
+    #     print item.time,item.org,item.reason,item.advice
+    #
+    # #股东增持
+    # print '\n=====================股东增持==========================='
+    # gd =  util.getStockholderHoldsStocks()
+    # for item in gd:
+    #     print item
+    #
+    # #行业排行
+    # print '\n====================概念涨幅排行=========================='
+    # lit =  util.getIndustryRank()
+    # for item in lit:
+    #     print item
 
-    #最近3天创新高
-    print '\n====================近3天创新高=========================='
-    th = util.getThreeDaysMaxStockList()
-    for item in th:
-        print item.name
-    #行业报告
-    print '\n====================行业分析报告========================='
-    hy = util.getIndustryReport()
-    for item in hy:
+
+    #资金流入排行
+    print '\n====================资金流入排行=========================='
+
+    infl = util.getInflowRank()
+    for item in infl:
         print item
-
-    #调研次数
-    print '\n====================机构调研次数排行======================'
-    dy = util.getCompanyResearchRank()
-    for item in dy:
-        print item.name,item.code,item.time,item.desc,item.sum
-
-    #推荐公司
-    print '\n====================利好公司推荐========================='
-    tj = util.getRcommandedCompanyList()
-    for item in tj:
-        print item.time,item.org,item.reason,item.advice
-
-    #股东增持
-    print '\n=====================股东增持==========================='
-    gd =  util.getStockholderHoldsStocks()
-    for item in gd:
-        print item
-
-    #行业排行
-    print '\n====================概念涨幅排行=========================='
-    lit =  util.getIndustryRank()
-    for item in lit:
-        print item
-
-
