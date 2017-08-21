@@ -259,45 +259,45 @@ class StockUtils(object):
 if __name__ == '__main__':
     util = StockUtils()
     # #当天创新高
-    # print '\n====================当日新高============================='
-    # li =  util.getTodayMaxStockList()
-    # for item in li:
-    #     print item.name,item.code
+    print '\n====================当日新高============================='
+    li =  util.getTodayMaxStockList()
+    for item in li:
+        print item.name,item.code
     #
     # #最近3天创新高
-    # print '\n====================近3天创新高=========================='
-    # th = util.getThreeDaysMaxStockList()
-    # for item in th:
-    #     print item.name
+    print '\n====================近3天创新高=========================='
+    th = util.getThreeDaysMaxStockList()
+    for item in th:
+        print item.name
     # #行业报告
-    # print '\n====================行业分析报告========================='
-    # hy = util.getIndustryReport()
-    # for item in hy:
-    #     print item
+    print '\n====================行业分析报告========================='
+    hy = util.getIndustryReport()
+    for item in hy:
+        print item
     #
     # #调研次数
-    # print '\n====================机构调研次数排行======================'
-    # dy = util.getCompanyResearchRank()
-    # for item in dy:
-    #     print item.name,item.code,item.time,item.desc,item.sum
+    print '\n====================机构调研次数排行======================'
+    dy = util.getCompanyResearchRank()
+    for item in dy:
+        print item.name,item.code,item.time,item.desc,item.sum
     #
     # #推荐公司
-    # print '\n====================利好公司推荐========================='
-    # tj = util.getRcommandedCompanyList()
-    # for item in tj:
-    #     print item.time,item.org,item.reason,item.advice
+    print '\n====================利好公司推荐========================='
+    tj = util.getRcommandedCompanyList()
+    for item in tj:
+        print item.code,item.name, item.time,item.org,item.reason,item.advice
     #
     # #股东增持
-    # print '\n=====================股东增持==========================='
-    # gd =  util.getStockholderHoldsStocks()
-    # for item in gd:
-    #     print item
+    print '\n=====================股东增持==========================='
+    gd =  util.getStockholderHoldsStocks()
+    for item in gd:
+        print item
     #
     # #行业排行
-    # print '\n====================概念涨幅排行=========================='
-    # lit =  util.getIndustryRank()
-    # for item in lit:
-    #     print item
+    print '\n====================概念涨幅排行=========================='
+    lit =  util.getIndustryRank()
+    for item in lit:
+        print item
 
 
     #资金流入排行
