@@ -26,7 +26,9 @@ moreAndMoreMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&
 hangyeReportUrl = 'http://datainterface.eastmoney.com//EM_DataCenter/js.aspx?type=SR&sty=HYSR&mkt=0&stat=0&cmd=4&code=&sc=&ps=100&p=1&js=var%20WPaQnqfN={%22data%22:[(x)],%22pages%22:%22(pc)%22,%22update%22:%22(ud)%22,%22count%22:%22(count)%22}&rt=50102402'
 
 #资金流入排行
-zjlrRank = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx/JS.aspx?type=ct&st=(BalFlowMain)&sr=-1&p=%d&ps=100&js=var%20ZGdnEqhJ={pages:(pc),date:%222014-10-22%22,data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&cmd=C._AB&sty=DCFFITA&rt=50102411'
+#zjlrRank = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx/JS.aspx?type=ct&st=(BalFlowMain)&sr=-1&p=%d&ps=100&js=var%20ZGdnEqhJ={pages:(pc),date:%222014-10-22%22,data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&cmd=C._AB&sty=DCFFITA&rt=50102411'
+zjlrPrefix = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx/JS.aspx?type=ct&st=(BalFlowMain)&sr=-1&p='
+zjlrSuffix = '&ps=100&js=var%20ZGdnEqhJ={pages:(pc),date:%222014-10-22%22,data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&cmd=C._AB&sty=DCFFITA&rt=50102411'
 
 #东方财富网-公司被调研次数
 dytjBaseUrl = 'http://data.eastmoney.com/DataCenter_V3/jgdy/gsjsdy.ashx?pagesize=100&page=1&js=var%20MavaIUBM&param=&sortRule=-1&sortType=2'
@@ -40,6 +42,9 @@ gdzcBaseUrl = 'http://data.eastmoney.com/DataCenter_V3/gdzjc.ashx?pagesize=100&p
 #概念涨幅排行
 gnzfBaseUrl = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?cmd=C._BKGN&type=ct&st=(ChangePercent)&sr=-1&p=1&ps=100&js=var%20vXdHFFJl={pages:(pc),data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&sty=DCFFITABK&rt=50102372'
 
+#沪深A股的详细数据
+xxsjPrefixUrl = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C._A&sty=FCOIATA&sortType=C&sortRule=-1&page='
+xxsjSuffix = '&pageSize=100&js=var%20quote_123%3d{rank:[(x)],pages:(pc)}&token=7bc05d0d4c3c22ef9fca8c2a912d779c&jsName=quote_123&_g=0.681840105810047'
 
 def getHtmlFromUrl(url,utf8coding=False):
     # setCookie2()
@@ -73,6 +78,16 @@ def getJsonObj2(obj):
 
 def getJsonObj3(obj):
     partern = re.compile("data:.*?\"]")
+    list = re.findall(partern, obj)
+
+    if list and len(list) > 0:
+        s = list[0]
+        sepString = s.split(':[')[1]
+        return simplejson.loads('[' + sepString)
+    else:
+        return None
+def getJsonObj4(obj):
+    partern = re.compile("rank:.*?\"]")
     list = re.findall(partern, obj)
 
     if list and len(list) > 0:
@@ -215,7 +230,7 @@ class StockUtils(object):
                 return cList
         return None
 
-
+    @classmethod
     def getStockholderHoldsStocks(self):
         '''股东增持'''
         res = getHtmlFromUrl(gdzcBaseUrl,True)
@@ -229,7 +244,7 @@ class StockUtils(object):
             return cList
         return None
 
-
+    @classmethod
     def getIndustryRank(self):
         '''行业涨幅'''
 
@@ -242,11 +257,11 @@ class StockUtils(object):
             return cList
         return None
 
-    def getInflowRank(self):
+    @classmethod
+    def getDetailStockInfo(self,page):
         '''资金流入排行'''
-
-        res = getHtmlFromUrl(zjlrRank)
-        companyListObj = getJsonObj3(res)
+        res = getHtmlFromUrl(xxsjPrefixUrl + str(page) + xxsjSuffix)
+        companyListObj = getJsonObj4(res)
         if companyListObj and len(companyListObj):
             cList = []
             for item in companyListObj:
@@ -254,6 +269,19 @@ class StockUtils(object):
             return cList
         return None
 
+    @classmethod
+    def getInflowRankForPage(self,page):
+        '''资金流入排行'''
+
+        url = zjlrPrefix + str(page) + zjlrSuffix
+        res = getHtmlFromUrl(url)
+        companyListObj = getJsonObj3(res)
+        if companyListObj and len(companyListObj):
+            cList = []
+            for item in companyListObj:
+                cList.append(item)
+            return cList
+        return None
 
 
 if __name__ == '__main__':
@@ -273,7 +301,7 @@ if __name__ == '__main__':
     print '\n====================行业分析报告========================='
     hy = util.getIndustryReport()
     for item in hy:
-        print item
+        print item.split(',')[10],'  ', item
     #
     # #调研次数
     print '\n====================机构调研次数排行======================'
@@ -302,7 +330,32 @@ if __name__ == '__main__':
 
     #资金流入排行
     print '\n====================资金流入排行=========================='
+    startPage = 1
+    while True:
+        infl = util.getInflowRankForPage(startPage)
+        if len(infl) > 0:
+            for item in infl:
+                print item.split(',')[5] + 'W' + '  ', item
+        if len(infl) < 100:
+            break
+        startPage += 1
 
-    infl = util.getInflowRank()
-    for item in infl:
-        print item
+
+    #沪深A 股的详细数据
+    print '\n====================沪深A股详细数据======================='
+    startPage = 1
+    while True:
+        li = util.getDetailStockInfo(startPage)
+        if len(li) > 0:
+            for item in li:
+                print item
+        if len(li) < 100:
+            break
+        startPage += 1
+
+
+
+
+
+
+
