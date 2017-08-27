@@ -9,6 +9,14 @@ import  urllib
 import  re
 import simplejson
 import os.path as fpath
+from mysqlOperation import mysqlOp
+
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+#每次更新一张表，共5张表
+stockDetailTableList = ['stock1DayDetailData','stock2DayDetailData','stock3DayDetailData','stock4DayDetailData','stock5DayDetailData']
+stocklistName = 'stocklist'
 
 #数据库，股票code为主键，保存，股票开盘价格，闭市价格，最高，最低，涨幅，所属于的概念，助理流入资金，需要3天的这种数据
 #行业涨跌情况最近5天的数据
@@ -162,7 +170,6 @@ class StockUtils(object):
                     cinfo = CompanyInfo(stockInfo[1],stockInfo[2])
                     cList.append(cinfo)
                 return cList
-
         return  None
 
     @classmethod
@@ -286,7 +293,15 @@ class StockUtils(object):
 
 if __name__ == '__main__':
     util = StockUtils()
-    # #当天创新高
+    # #sql
+    sqlins = mysqlOp()
+
+    #================================================
+    #5天的数据，后4张表数据往前挪，所有的新数据插入到第5张表中
+    sqlins.moveDataIntables(stockDetailTableList);
+    #================================================
+
+    #当天创新高
     print '\n====================当日新高============================='
     li =  util.getTodayMaxStockList()
     for item in li:
@@ -328,6 +343,12 @@ if __name__ == '__main__':
         print item
 
 
+    #================================股票详细信息入库第5张表==================================
+    #先清理第5张表股票详细的数据
+    sqlins.clearTableData(stockDetailTableList[4])
+    #清理股票列表，因为有新股更新
+    sqlins.clearTableData(stocklistName)
+
     #资金流入排行
     print '\n====================资金流入排行=========================='
     startPage = 1
@@ -335,11 +356,19 @@ if __name__ == '__main__':
         infl = util.getInflowRankForPage(startPage)
         if len(infl) > 0:
             for item in infl:
-                print item.split(',')[5] + 'W' + '  ', item
+                #code，name，newestprice,zhangfu,zhuliliuru,riqi
+                array = item.split(',')
+                #print array[5] + 'w' + '  ', array[1],array[2],array[3],array[4],array[5],array[15],item
+                value = '\'' + str(array[1]) + '\'' + ',' + '\'' + str(array[2]) + '\'' + ',' + '\'' + str(array[3]) + '\'' + ',' + '\'' + str(array[4]) + '\'' + ',' + '\'' + str(array[5]) + '\'' + ',' + '\'' + str(array[15]) + '\''
+                #资金流入sql
+                sql = 'INSERT INTO stock5DayDetailData(code,sname,endPrice,priceIncrementPercent, inflowCount,sdate) VALUE (%s)' % value
+                #证券列表sql
+                listsql = 'insert into %s(code,name) value(\'%s\',\'%s\')' % (stocklistName,str(array[1]),str(array[2]))
+                sqlins.executeSQL(sql)
+                sqlins.executeSQL(listsql)
         if len(infl) < 100:
             break
         startPage += 1
-
 
     #沪深A 股的详细数据
     print '\n====================沪深A股详细数据======================='
@@ -348,14 +377,21 @@ if __name__ == '__main__':
         li = util.getDetailStockInfo(startPage)
         if len(li) > 0:
             for item in li:
-                print item
+                array = item.split(',')
+                #code1  name2   zhangfu5, startPrice10，max11，min12
+                sql = 'update  stock5DayDetailData set startPrice = \'%s\',maxPrice=\'%s\',minPrice=\'%s\' WHERE  code = \'%s\'' % (str(array[10]),str(array[11]),str(array[12]),str(array[1]))
+                sqlins.executeSQL(sql)
         if len(li) < 100:
             break
         startPage += 1
 
+    #提交更新
+    sqlins.cur.close()
+    sqlins.conn.commit()
+    sqlins.conn.close()
 
 
-
+    #============================end===============================
 
 
 
