@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2601c4f1-a9dd-44fe-890c-ee45f49cb021" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/stockInfo.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stockUtils" afterPath="$PROJECT_DIR$/stockUtils" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,7 +12,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/stockUtils$stockInfo.coverage" NAME="stockInfo Coverage Results" MODIFIED="1503834406669" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/stockUtils" />
+    <SUITE FILE_PATH="coverage/stockUtils$stockInfo.coverage" NAME="stockInfo Coverage Results" MODIFIED="1503835226310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/stockUtils" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
@@ -21,25 +20,27 @@
       <file leaf-file-name="stockInfo.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/stockUtils/stockInfo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1341">
-              <caret line="296" column="10" lean-forward="true" selection-start-line="296" selection-start-column="10" selection-end-line="296" selection-end-column="10" />
+            <state relative-caret-position="264">
+              <caret line="378" column="22" lean-forward="false" selection-start-line="378" selection-start-column="22" selection-end-line="378" selection-end-column="22" />
               <folding>
                 <element signature="e#70#80#0" expanded="true" />
-                <marker date="1503834397000" expanded="true" signature="12810:13768" ph="INSERT INTO stock1DayDetailData... " />
-                <marker date="1503834397000" expanded="true" signature="12816:12842" ph="insert into stock1DayDetailData... " />
-                <marker date="1503834397000" expanded="true" signature="12816:12846" ph="insert into stock1DayDetailData... " />
-                <marker date="1503834397000" expanded="true" signature="12816:12852" ph="insert into stock1DayDetailData... " />
-                <marker date="1503834397000" expanded="true" signature="12816:12896" ph="insert into stock1DayDetailData... " />
-                <marker date="1503834397000" expanded="true" signature="12816:12897" ph="insert into stock1DayDetailData... " />
-                <marker date="1503834397000" expanded="true" signature="12816:12902" ph="insert into stock1DayDetailData... " />
-                <marker date="1503834397000" expanded="true" signature="12816:12903" ph="insert into stock1DayDetailData... " />
-                <marker date="1503834397000" expanded="true" signature="12816:12914" ph="insert into stock1DayDetailData... " />
-                <marker date="1503834397000" expanded="true" signature="12816:13768" ph="insert into stock1DayDetailData... " />
-                <marker date="1503834397000" expanded="true" signature="13379:13460" ph="update stock... " />
-                <marker date="1503834397000" expanded="true" signature="13379:13476" ph="update stock... " />
-                <marker date="1503834397000" expanded="true" signature="13379:13477" ph="update stock... " />
-                <marker date="1503834397000" expanded="true" signature="13379:13483" ph="update stock... " />
-                <marker date="1503834397000" expanded="true" signature="13385:13460" ph="INSERT INTO stock1DayDetailData... " />
+                <marker date="1503835218000" expanded="true" signature="13104:14223" ph="INSERT INTO stock1DayDetailData... " />
+                <marker date="1503835218000" expanded="true" signature="13110:13136" ph="insert into stock1DayDetailData... " />
+                <marker date="1503835218000" expanded="true" signature="13110:13140" ph="insert into stock1DayDetailData... " />
+                <marker date="1503835218000" expanded="true" signature="13110:13146" ph="insert into stock1DayDetailData... " />
+                <marker date="1503835218000" expanded="true" signature="13110:13190" ph="insert into stock1DayDetailData... " />
+                <marker date="1503835218000" expanded="true" signature="13110:13191" ph="insert into stock1DayDetailData... " />
+                <marker date="1503835218000" expanded="true" signature="13110:13196" ph="insert into stock1DayDetailData... " />
+                <marker date="1503835218000" expanded="true" signature="13110:13197" ph="insert into stock1DayDetailData... " />
+                <marker date="1503835218000" expanded="true" signature="13110:13208" ph="insert into stock1DayDetailData... " />
+                <marker date="1503835218000" expanded="true" signature="13110:14223" ph="insert into stock1DayDetailData... " />
+                <marker date="1503835218000" expanded="true" signature="13270:13302" ph="insert into missing_value... " />
+                <marker date="1503835218000" expanded="true" signature="13270:13316" ph="insert into " />
+                <marker date="1503835218000" expanded="true" signature="13862:13943" ph="update stock... " />
+                <marker date="1503835218000" expanded="true" signature="13862:13959" ph="update stock... " />
+                <marker date="1503835218000" expanded="true" signature="13862:13960" ph="update stock... " />
+                <marker date="1503835218000" expanded="true" signature="13862:13966" ph="update stock... " />
+                <marker date="1503835218000" expanded="true" signature="13868:13943" ph="INSERT INTO stock1DayDetailData... " />
               </folding>
             </state>
           </provider>
@@ -48,8 +49,8 @@
       <file leaf-file-name="mysqlOperation.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/stockUtils/mysqlOperation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="21" column="16" lean-forward="false" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
+            <state relative-caret-position="157">
+              <caret line="20" column="8" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
               <folding>
                 <marker date="1503834382000" expanded="true" signature="1092:1298" ph="insert into missing_value... " />
                 <marker date="1503834382000" expanded="true" signature="1197:1298" ph="select code,... missing_value" />
@@ -364,7 +365,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4871795" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15224358" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -398,21 +399,23 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1503834397000" expanded="true" signature="12810:13768" ph="INSERT INTO stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12842" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12846" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12852" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12896" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12897" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12902" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12903" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12914" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:13768" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="13379:13460" ph="update stock... " />
-            <marker date="1503834397000" expanded="true" signature="13379:13476" ph="update stock... " />
-            <marker date="1503834397000" expanded="true" signature="13379:13477" ph="update stock... " />
-            <marker date="1503834397000" expanded="true" signature="13379:13483" ph="update stock... " />
-            <marker date="1503834397000" expanded="true" signature="13385:13460" ph="INSERT INTO stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13104:14223" ph="INSERT INTO stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13136" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13140" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13146" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13190" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13191" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13196" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13197" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13208" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:14223" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13270:13302" ph="insert into missing_value... " />
+            <marker date="1503835218000" expanded="true" signature="13270:13316" ph="insert into " />
+            <marker date="1503835218000" expanded="true" signature="13862:13943" ph="update stock... " />
+            <marker date="1503835218000" expanded="true" signature="13862:13959" ph="update stock... " />
+            <marker date="1503835218000" expanded="true" signature="13862:13960" ph="update stock... " />
+            <marker date="1503835218000" expanded="true" signature="13862:13966" ph="update stock... " />
+            <marker date="1503835218000" expanded="true" signature="13868:13943" ph="INSERT INTO stock1DayDetailData... " />
           </folding>
         </state>
       </provider>
@@ -423,21 +426,23 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1503834397000" expanded="true" signature="12810:13768" ph="INSERT INTO stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12842" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12846" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12852" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12896" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12897" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12902" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12903" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12914" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:13768" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="13379:13460" ph="update stock... " />
-            <marker date="1503834397000" expanded="true" signature="13379:13476" ph="update stock... " />
-            <marker date="1503834397000" expanded="true" signature="13379:13477" ph="update stock... " />
-            <marker date="1503834397000" expanded="true" signature="13379:13483" ph="update stock... " />
-            <marker date="1503834397000" expanded="true" signature="13385:13460" ph="INSERT INTO stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13104:14223" ph="INSERT INTO stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13136" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13140" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13146" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13190" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13191" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13196" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13197" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13208" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:14223" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13270:13302" ph="insert into missing_value... " />
+            <marker date="1503835218000" expanded="true" signature="13270:13316" ph="insert into " />
+            <marker date="1503835218000" expanded="true" signature="13862:13943" ph="update stock... " />
+            <marker date="1503835218000" expanded="true" signature="13862:13959" ph="update stock... " />
+            <marker date="1503835218000" expanded="true" signature="13862:13960" ph="update stock... " />
+            <marker date="1503835218000" expanded="true" signature="13862:13966" ph="update stock... " />
+            <marker date="1503835218000" expanded="true" signature="13868:13943" ph="INSERT INTO stock1DayDetailData... " />
           </folding>
         </state>
       </provider>
@@ -460,8 +465,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/stockUtils/mysqlOperation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="21" column="16" lean-forward="false" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
+        <state relative-caret-position="157">
+          <caret line="20" column="8" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
           <folding>
             <marker date="1503834382000" expanded="true" signature="1092:1298" ph="insert into missing_value... " />
             <marker date="1503834382000" expanded="true" signature="1197:1298" ph="select code,... missing_value" />
@@ -473,25 +478,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/stockUtils/stockInfo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1341">
-          <caret line="296" column="10" lean-forward="true" selection-start-line="296" selection-start-column="10" selection-end-line="296" selection-end-column="10" />
+        <state relative-caret-position="264">
+          <caret line="378" column="22" lean-forward="false" selection-start-line="378" selection-start-column="22" selection-end-line="378" selection-end-column="22" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1503834397000" expanded="true" signature="12810:13768" ph="INSERT INTO stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12842" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12846" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12852" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12896" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12897" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12902" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12903" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:12914" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="12816:13768" ph="insert into stock1DayDetailData... " />
-            <marker date="1503834397000" expanded="true" signature="13379:13460" ph="update stock... " />
-            <marker date="1503834397000" expanded="true" signature="13379:13476" ph="update stock... " />
-            <marker date="1503834397000" expanded="true" signature="13379:13477" ph="update stock... " />
-            <marker date="1503834397000" expanded="true" signature="13379:13483" ph="update stock... " />
-            <marker date="1503834397000" expanded="true" signature="13385:13460" ph="INSERT INTO stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13104:14223" ph="INSERT INTO stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13136" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13140" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13146" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13190" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13191" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13196" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13197" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:13208" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13110:14223" ph="insert into stock1DayDetailData... " />
+            <marker date="1503835218000" expanded="true" signature="13270:13302" ph="insert into missing_value... " />
+            <marker date="1503835218000" expanded="true" signature="13270:13316" ph="insert into " />
+            <marker date="1503835218000" expanded="true" signature="13862:13943" ph="update stock... " />
+            <marker date="1503835218000" expanded="true" signature="13862:13959" ph="update stock... " />
+            <marker date="1503835218000" expanded="true" signature="13862:13960" ph="update stock... " />
+            <marker date="1503835218000" expanded="true" signature="13862:13966" ph="update stock... " />
+            <marker date="1503835218000" expanded="true" signature="13868:13943" ph="INSERT INTO stock1DayDetailData... " />
           </folding>
         </state>
       </provider>
