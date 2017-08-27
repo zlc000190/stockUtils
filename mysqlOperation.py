@@ -21,7 +21,7 @@ class mysqlOp(object):
     def executeSQL(self,sql):
         '''初始化数据'''
         if sql and len(sql) > 0:
-            #print 'insert SQL == %s' % sql
+            print 'SQL = ', sql
             return self.cur.execute(sql)
         else:
             return
@@ -38,7 +38,6 @@ class mysqlOp(object):
                 dst = tablelist[index]
                 self.clearTableData(dst)
                 sql = 'insert into %s(code,sname,startPrice,minPrice,maxPrice,endPrice,inflowCount,sdate,priceIncrementPercent) select code,sname,startPrice,minPrice,maxPrice,endPrice,inflowCount,sdate,priceIncrementPercent from %s' % (dst,src)
-                print sql
                 self.executeSQL(sql)
     def clearTableData(self,tableName):
         self.executeSQL('delete from %s' % tableName)
