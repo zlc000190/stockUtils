@@ -16,7 +16,7 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 #每次更新一张表，共5张表
-stockDetailTableList = ['stock1DayDetailData','stock2DayDetailData','stock3DayDetailData','stock4DayDetailData','stock5DayDetailData']
+stockDetailTableList = ['stock_5DayDetailData','stock_4DayDetailData','stock_3DayDetailData','stock_2DayDetailData','stock_1DayDetailData','stock1DayDetailData','stock2DayDetailData','stock3DayDetailData','stock4DayDetailData','stock5DayDetailData']
 stocklistName = 'stocklist'
 
 #数据库，股票code为主键，保存，股票开盘价格，闭市价格，最高，最低，涨幅，所属于的概念，助理流入资金，需要3天的这种数据
@@ -346,12 +346,12 @@ def mainMethod():
     if sqlins.getNewestDate() in tstr:
         return
     # ================================================
-    # 5天的数据，后4张表数据往前挪，所有的新数据插入到第5张表中
+    # 10天的数据，后9张表数据往前挪，所有的新数据插入到第5张表中
     sqlins.moveDataIntables(stockDetailTableList);
     # ================================================
     # ================================股票详细信息入库第5张表==================================
-    # 先清理第5张表股票详细的数据
-    sqlins.clearTableData(stockDetailTableList[4])
+    # 先清理第10张表股票详细的数据
+    sqlins.clearTableData(stockDetailTableList[9])
     # 清理股票列表，因为有新股更新
     sqlins.clearTableData(stocklistName)
 
