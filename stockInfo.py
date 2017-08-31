@@ -298,14 +298,6 @@ def mainMethod():
     util = StockUtils()
     # #sql
     sqlins = mysqlOp()
-    tstr = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    if sqlins.getNewestDate() in tstr:
-        return
-
-    # ================================================
-    # 5天的数据，后4张表数据往前挪，所有的新数据插入到第5张表中
-    sqlins.moveDataIntables(stockDetailTableList);
-    # ================================================
 
     # 当天创新高
     print '\n====================当日新高============================='
@@ -348,6 +340,15 @@ def mainMethod():
     for item in lit:
         print item
 
+
+    #=======================================================
+    tstr = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    if sqlins.getNewestDate() in tstr:
+        return
+    # ================================================
+    # 5天的数据，后4张表数据往前挪，所有的新数据插入到第5张表中
+    sqlins.moveDataIntables(stockDetailTableList);
+    # ================================================
     # ================================股票详细信息入库第5张表==================================
     # 先清理第5张表股票详细的数据
     sqlins.clearTableData(stockDetailTableList[4])
@@ -400,7 +401,6 @@ def mainMethod():
     sqlins.conn.commit()
     sqlins.conn.close()
     # ============================end===============================
-
 
 if __name__ == '__main__':
     mainMethod()
