@@ -21,9 +21,18 @@ class mysqlOp(object):
     def executeSQL(self,sql):
         '''初始化数据'''
         if sql and len(sql) > 0:
+            # print 'SQL = ', sql
             return self.cur.execute(sql)
         else:
             return
+
+
+    def getNewestDate(self):
+        '''获取最新股票信息日期'''
+        self.cur.execute('select  distinct sdate from  stock5DayDetailData')
+        string =  self.cur.fetchall()[0][0]
+        return string.split(' ')[0]
+
 
     def moveDataIntables(self,tablelist):
         '''必须要至少2个元素，现在是写死的5个'''

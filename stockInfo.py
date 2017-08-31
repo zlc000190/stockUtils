@@ -8,6 +8,7 @@ import  sys
 import  urllib
 import  re
 import simplejson
+import  time
 import os.path as fpath
 from mysqlOperation import mysqlOp
 
@@ -290,22 +291,28 @@ class StockUtils(object):
             return cList
         return None
 
+def mainMethod():
 
-if __name__ == '__main__':
+    #如果是周六日，不执行
+    day = time.strftime('%w')
+    if day == '0' or day == '6':return
     util = StockUtils()
     # #sql
     sqlins = mysqlOp()
+    tstr = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    if sqlins.getNewestDate() in tstr:
+        return
 
-    #================================================
-    #5天的数据，后4张表数据往前挪，所有的新数据插入到第5张表中
+    # ================================================
+    # 5天的数据，后4张表数据往前挪，所有的新数据插入到第5张表中
     sqlins.moveDataIntables(stockDetailTableList);
-    #================================================
+    # ================================================
 
-    #当天创新高
+    # 当天创新高
     print '\n====================当日新高============================='
-    li =  util.getTodayMaxStockList()
+    li = util.getTodayMaxStockList()
     for item in li:
-        print item.name,item.code
+        print item.name, item.code
     #
     # #最近3天创新高
     print '\n====================近3天创新高=========================='
@@ -316,61 +323,64 @@ if __name__ == '__main__':
     print '\n====================行业分析报告========================='
     hy = util.getIndustryReport()
     for item in hy:
-        print item.split(',')[10],'  ', item
+        print item.split(',')[10], '  ', item
     #
     # #调研次数
     print '\n====================机构调研次数排行======================'
     dy = util.getCompanyResearchRank()
     for item in dy:
-        print item.name,item.code,item.time,item.desc,item.sum
+        print item.name, item.code, item.time, item.desc, item.sum
     #
     # #推荐公司
     print '\n====================利好公司推荐========================='
     tj = util.getRcommandedCompanyList()
     for item in tj:
-        print item.code,item.name, item.time,item.org,item.reason,item.advice
+        print item.code, item.name, item.time, item.org, item.reason, item.advice
     #
     # #股东增持
     print '\n=====================股东增持==========================='
-    gd =  util.getStockholderHoldsStocks()
+    gd = util.getStockholderHoldsStocks()
     for item in gd:
         print item
     #
     # #行业排行
     print '\n====================概念涨幅排行=========================='
-    lit =  util.getIndustryRank()
+    lit = util.getIndustryRank()
     for item in lit:
         print item
 
-
-    #================================股票详细信息入库第5张表==================================
-    #先清理第5张表股票详细的数据
+    # ================================股票详细信息入库第5张表==================================
+    # 先清理第5张表股票详细的数据
     sqlins.clearTableData(stockDetailTableList[4])
-    #清理股票列表，因为有新股更新
+    # 清理股票列表，因为有新股更新
     sqlins.clearTableData(stocklistName)
 
-    #资金流入排行
+    # 资金流入排行
     print '\n====================资金流入排行=========================='
     startPage = 1
     while True:
         infl = util.getInflowRankForPage(startPage)
         if len(infl) > 0:
             for item in infl:
-                #code，name，newestprice,zhangfu,zhuliliuru,riqi
+                # code，name，newestprice,zhangfu,zhuliliuru,riqi
                 array = item.split(',')
-                #print array[5] + 'w' + '  ', array[1],array[2],array[3],array[4],array[5],array[15],item
-                value = '\'' + str(array[1]) + '\'' + ',' + '\'' + str(array[2]) + '\'' + ',' + '\'' + str(array[3]) + '\'' + ',' + '\'' + str(array[4]) + '\'' + ',' + '\'' + str(array[5]) + '\'' + ',' + '\'' + str(array[15]) + '\''
-                #资金流入sql
-                sql = 'INSERT INTO stock5DayDetailData(code,sname,endPrice,priceIncrementPercent, inflowCount,sdate) VALUE (%s)' % value
-                #证券列表sql
-                listsql = 'insert into %s(code,name) value(\'%s\',\'%s\')' % (stocklistName,str(array[1]),str(array[2]))
+                # print array[5] + 'w' + '  ', array[1],array[2],array[3],array[4],array[5],array[15],item
+                value = '\'' + str(array[1]) + '\'' + ',' + '\'' + str(array[2]).encode(
+                    'utf8') + '\'' + ',' + '\'' + str(array[3]) + '\'' + ',' + '\'' + str(
+                    array[4]) + '\'' + ',' + '\'' + str(array[5]) + '\'' + ',' + '\'' + str(array[15]) + '\''
+                # 资金流入sql
+                sql = 'insert into stock5DayDetailData(code,sname,endPrice,priceIncrementPercent, inflowCount,sdate) VALUE (%s)' % value
+
+                # 证券列表sql
+                listsql = 'insert into %s(code,name) value(\'%s\',\'%s\')' % (
+                stocklistName, str(array[1]), str(array[2]))
                 sqlins.executeSQL(sql)
                 sqlins.executeSQL(listsql)
         if len(infl) < 100:
             break
         startPage += 1
 
-    #沪深A 股的详细数据
+    # 沪深A 股的详细数据
     print '\n====================沪深A股详细数据======================='
     startPage = 1
     while True:
@@ -378,20 +388,22 @@ if __name__ == '__main__':
         if len(li) > 0:
             for item in li:
                 array = item.split(',')
-                #code1  name2   zhangfu5, startPrice10，max11，min12
-                sql = 'update  stock5DayDetailData set startPrice = \'%s\',maxPrice=\'%s\',minPrice=\'%s\' WHERE  code = \'%s\'' % (str(array[10]),str(array[11]),str(array[12]),str(array[1]))
+                # code1  name2   zhangfu5, startPrice10，max11，min12
+                sql = 'update  stock5DayDetailData set startPrice = \'%s\',maxPrice=\'%s\',minPrice=\'%s\' WHERE  code = \'%s\'' % (
+                str(array[10]), str(array[11]), str(array[12]), str(array[1]))
                 sqlins.executeSQL(sql)
         if len(li) < 100:
             break
         startPage += 1
 
-    #提交更新
+    # 提交更新
     sqlins.cur.close()
     sqlins.conn.commit()
     sqlins.conn.close()
+    # ============================end===============================
 
 
-    #============================end===============================
-
+if __name__ == '__main__':
+    mainMethod()
 
 
