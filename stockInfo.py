@@ -292,7 +292,6 @@ class StockUtils(object):
         return None
 
 def mainMethod():
-
     #如果是周六日，不执行
     day = time.strftime('%w')
     if day == '0' or day == '6':return

@@ -21,11 +21,16 @@ class mysqlOp(object):
     def executeSQL(self,sql):
         '''初始化数据'''
         if sql and len(sql) > 0:
+<<<<<<< HEAD
             # print 'SQL = ', sql
+=======
+            print 'SQL = ', sql
+>>>>>>> 05159872da6fccb767bc0cf6bf8b9006dd009b85
             return self.cur.execute(sql)
         else:
             return
 
+<<<<<<< HEAD
 
     def getNewestDate(self):
         '''获取最新股票信息日期'''
@@ -34,6 +39,8 @@ class mysqlOp(object):
         return string.split(' ')[0]
 
 
+=======
+>>>>>>> 05159872da6fccb767bc0cf6bf8b9006dd009b85
     def moveDataIntables(self,tablelist):
         '''必须要至少2个元素，现在是写死的5个'''
         if len(tablelist) < 2:return
