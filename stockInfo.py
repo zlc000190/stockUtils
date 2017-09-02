@@ -51,9 +51,14 @@ gdzcBaseUrl = 'http://data.eastmoney.com/DataCenter_V3/gdzjc.ashx?pagesize=100&p
 #概念涨幅排行
 gnzfBaseUrl = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?cmd=C._BKGN&type=ct&st=(ChangePercent)&sr=-1&p=1&ps=100&js=var%20vXdHFFJl={pages:(pc),data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&sty=DCFFITABK&rt=50102372'
 
+
+#5日资金流入
+hyzf = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?cmd=C._BKHY&type=ct&st=(BalFlowMainNet5)&sr=-1&p=1&ps=100&js=var%20yJcNkasY={pages:(pc),data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&sty=DCFFITABK5&rt=50142870'
+
 #沪深A股的详细数据
 xxsjPrefixUrl = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C._A&sty=FCOIATA&sortType=C&sortRule=-1&page='
 xxsjSuffix = '&pageSize=100&js=var%20quote_123%3d{rank:[(x)],pages:(pc)}&token=7bc05d0d4c3c22ef9fca8c2a912d779c&jsName=quote_123&_g=0.681840105810047'
+
 
 def getHtmlFromUrl(url,utf8coding=False):
     # setCookie2()
@@ -254,7 +259,7 @@ class StockUtils(object):
 
     @classmethod
     def getIndustryRank(self):
-        '''行业涨幅'''
+        '''概念涨幅'''
 
         res = getHtmlFromUrl(gnzfBaseUrl)
         companyListObj = getJsonObj2(res)
@@ -264,6 +269,19 @@ class StockUtils(object):
                 cList.append(item)
             return cList
         return None
+
+    @classmethod
+    def getHyzfRank(self):
+        '''近5日行业资金流入'''
+        res = getHtmlFromUrl(hyzf)
+        listobj = getJsonObj2(res)
+        if listobj and len(listobj):
+            clist = []
+            for item in listobj:
+                clist.append(item)
+            return clist
+        return None
+
 
     @classmethod
     def getDetailStockInfo(self,page):
@@ -292,9 +310,6 @@ class StockUtils(object):
         return None
 
 def mainMethod():
-    #如果是周六日，不执行
-    day = time.strftime('%w')
-    if day == '0' or day == '6':return
     util = StockUtils()
     # #sql
     sqlins = mysqlOp()
@@ -310,12 +325,8 @@ def mainMethod():
     th = util.getThreeDaysMaxStockList()
     for item in th:
         print item.name
-    # #行业报告
-    print '\n====================行业分析报告========================='
-    hy = util.getIndustryReport()
-    for item in hy:
-        print item.split(',')[10], '  ', item
-    #
+
+
     # #调研次数
     print '\n====================机构调研次数排行======================'
     dy = util.getCompanyResearchRank()
@@ -333,13 +344,29 @@ def mainMethod():
     gd = util.getStockholderHoldsStocks()
     for item in gd:
         print item
-    #
-    # #行业排行
+
+    # #行业报告
+    print '\n====================行业涨幅分析报告========================='
+    hy = util.getIndustryReport()
+    for item in hy:
+        print item.split(',')[10],item.split(',')[-1],'   ', item
+
+    #行业资金流入排行
+    print '\n====================行业资金流入排行=========================='
+    lit = util.getHyzfRank()
+    for item in lit:
+        print item
+
+    # #概念排行
     print '\n====================概念涨幅排行=========================='
     lit = util.getIndustryRank()
     for item in lit:
         print item
 
+
+    #如果是周六日，不执行
+    day = time.strftime('%w')
+    if day == '0' or day == '6':return
 
     #=======================================================
     tstr = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
