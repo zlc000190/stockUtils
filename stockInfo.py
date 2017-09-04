@@ -10,6 +10,7 @@ import  re
 import simplejson
 import  time
 import os.path as fpath
+from bs4 import BeautifulSoup
 from mysqlOperation import mysqlOp
 
 reload(sys)
@@ -60,6 +61,9 @@ xxsjPrefixUrl = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?
 xxsjSuffix = '&pageSize=100&js=var%20quote_123%3d{rank:[(x)],pages:(pc)}&token=7bc05d0d4c3c22ef9fca8c2a912d779c&jsName=quote_123&_g=0.681840105810047'
 
 
+#涨幅空间排行
+mbzfRank = 'http://q.stock.sohu.com/jlp/rank/priceExpect.up'
+
 def getHtmlFromUrl(url,utf8coding=False):
     # setCookie2()
     # req = urllib2.Request(url,None,header)
@@ -68,9 +72,6 @@ def getHtmlFromUrl(url,utf8coding=False):
         return ret.read().decode('gbk', 'ignore').encode('utf-8')
     else:
         return ret.read()
-
-    # return ret.read().decode('gbk', 'ignore').encode('utf-8')
-
 
 def getJsonObj(obj):
     #"var moJuuzHq="{"Results":["2,300672,国科微,是","2,300676,华大基因,是","1,603612,索通发展,是","1,603707,健友股份,是","2,002888,惠威科技,是","2,300678,中科信息,是","2,002889,东方嘉盛,是","1,603860,中公高科,是","2,300685,艾德生物,是","2,300687,赛意信息,是","1,603880,南卫股份,是","2,300689,澄天伟业,是","1,603602,纵横通信,是","2,300688,创业黑马,是","1,603721,中广天择,是","2,300691,联合光电,是","1,601326,秦港股份,是","1,603776,永安行,是","2,002892,科力尔,是","1,603129,春风动力,是","1,603557,起步股份,是"],"AllCount":"21","PageCount":"1","AtPage":"1","PageSize":"40","ErrMsg":"","UpdateTime":"2017/8/19 13:37:03","TimeOut":"3ms"}"
@@ -110,6 +111,14 @@ def getJsonObj4(obj):
         return simplejson.loads('[' + sepString)
     else:
         return None
+
+
+def getGloRank():
+    '''目标涨幅排行'''
+    res = getHtmlFromUrl(mbzfRank)
+    soup = BeautifulSoup(res)
+    soup.find()
+
 
 class CompanyInfo(object):
     def __init__(self,code,name):
@@ -227,7 +236,7 @@ class StockUtils(object):
 
 
     @classmethod
-    def getRcommandedCompanyList(self):
+    def getRcommandedCompanyList(cls):
         '''券商推荐'''
         res = getHtmlFromUrl(tjgsBaseUrl)
         companyListObj = getJsonObj(res)
@@ -242,6 +251,13 @@ class StockUtils(object):
                     cList.append(info)
                 return cList
         return None
+
+
+    @classmethod
+    def getMbzfRank(cls):
+        '''目标涨幅空间'''
+        res = getHtmlFromUrl(mbzfRank)
+
 
     @classmethod
     def getStockholderHoldsStocks(self):
@@ -339,6 +355,13 @@ def mainMethod():
     for item in tj:
         print item.code, item.name, item.time, item.org, item.reason, item.advice
     #
+    #涨幅空间排行
+    print '\n====================涨幅空间排行========================='
+    tj = util.getRcommandedCompanyList()
+    for item in tj:
+        print item.code, item.name, item.time, item.org, item.reason, item.advice
+
+
     # #股东增持
     print '\n=====================股东增持==========================='
     gd = util.getStockholderHoldsStocks()
@@ -368,19 +391,22 @@ def mainMethod():
     day = time.strftime('%w')
     if day == '0' or day == '6':return
 
+    #判断日期，如果是当天的重复数据，就只更新stock5DayDetailData，否则开始迁移表数据
     #=======================================================
     tstr = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    if sqlins.getNewestDate() in tstr:
-        return
-    # ================================================
-    # 10天的数据，后9张表数据往前挪，所有的新数据插入到第5张表中
-    sqlins.moveDataIntables(stockDetailTableList);
-    # ================================================
-    # ================================股票详细信息入库第5张表==================================
-    # 先清理第10张表股票详细的数据
-    sqlins.clearTableData(stockDetailTableList[9])
-    # 清理股票列表，因为有新股更新
-    sqlins.clearTableData(stocklistName)
+    if sqlins.getNewestDate() not in tstr:
+        # ================================================
+        # 10天的数据，后9张表数据往前挪，所有的新数据插入到第5张表中
+        sqlins.moveDataIntables(stockDetailTableList);
+        # ================================================
+        # ================================股票详细信息入库第5张表==================================
+        # 先清理第10张表股票详细的数据
+        sqlins.clearTableData(stockDetailTableList[9])
+        # 清理股票列表，因为有新股更新
+        sqlins.clearTableData(stocklistName)
+    else:
+        #直接更新stock5DayDetailData的数据
+        pass
 
     # 资金流入排行
     print '\n====================资金流入排行=========================='
