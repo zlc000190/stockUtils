@@ -394,7 +394,8 @@ def mainMethod():
     #判断日期，如果是当天的重复数据，就只更新stock5DayDetailData，否则开始迁移表数据
     #=======================================================
     tstr = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    if sqlins.getNewestDate() not in tstr:
+    sqlTime = sqlins.getNewestDate()
+    if sqlTime and sqlTime not in tstr:
         # ================================================
         # 10天的数据，后9张表数据往前挪，所有的新数据插入到第5张表中
         sqlins.moveDataIntables(stockDetailTableList);
