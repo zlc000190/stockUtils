@@ -4,6 +4,8 @@
 #date:2017.8.16
 
 import MySQLdb
+from constant import stockDetailTableList
+
 conn = MySQLdb.connect(host='localhost',
                        port=3306,
                        user='root',
@@ -11,7 +13,6 @@ conn = MySQLdb.connect(host='localhost',
                        db ='stockDB',
                        )
 
-cur = conn.cursor()
 class mysqlOp(object):
     def __init__(self):
         super(mysqlOp,self).__init__()
@@ -20,7 +21,6 @@ class mysqlOp(object):
 
     def executeSQL(self,sql):
         '''初始化数据'''
-        print sql
         if sql and len(sql) > 0:
 
             return self.cur.execute(sql)

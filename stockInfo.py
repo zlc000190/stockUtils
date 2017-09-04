@@ -12,13 +12,11 @@ import  time
 import os.path as fpath
 from bs4 import BeautifulSoup
 from mysqlOperation import mysqlOp
+from constant import stockDetailTableList,stocklistName
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-#每次更新一张表，共5张表
-stockDetailTableList = ['stock_5DayDetailData','stock_4DayDetailData','stock_3DayDetailData','stock_2DayDetailData','stock_1DayDetailData','stock1DayDetailData','stock2DayDetailData','stock3DayDetailData','stock4DayDetailData','stock5DayDetailData']
-stocklistName = 'stocklist'
 
 #数据库，股票code为主键，保存，股票开盘价格，闭市价格，最高，最低，涨幅，所属于的概念，助理流入资金，需要3天的这种数据
 #行业涨跌情况最近5天的数据
