@@ -22,7 +22,6 @@ class mysqlOp(object):
     def executeSQL(self,sql):
         '''初始化数据'''
         if sql and len(sql) > 0:
-
             return self.cur.execute(sql)
         else:
             return
