@@ -33,7 +33,7 @@ class mysqlOp(object):
         return string.split(' ')[0]
 
     def moveDataIntables(self,tablelist):
-        '''必须要至少2个元素，现在是写死的5个'''
+        '''必须要至少2个元素，现在是写死的10个'''
         if len(tablelist) < 2:return
         for table in tablelist:
             if table == tablelist[0]:
