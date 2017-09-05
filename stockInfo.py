@@ -404,8 +404,9 @@ def mainMethod():
         # 清理股票列表，因为有新股更新
         sqlins.clearTableData(stocklistName)
     else:
-        #直接更新stock5DayDetailData的数据
-        pass
+        # 先清理，然后直接更新stock5DayDetailData的数据
+        sqlins.clearTableData(stockDetailTableList[9])
+
 
     # 资金流入排行
     print '\n====================资金流入排行=========================='
