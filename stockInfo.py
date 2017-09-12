@@ -54,10 +54,13 @@ gnzfBaseUrl = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?cm
 #5日资金流入
 hyzf = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?cmd=C._BKHY&type=ct&st=(BalFlowMainNet5)&sr=-1&p=1&ps=100&js=var%20yJcNkasY={pages:(pc),data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&sty=DCFFITABK5&rt=50142870'
 
-#沪深A股的详细数据
+#沪深A股价格相关数据
 xxsjPrefixUrl = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C._A&sty=FCOIATA&sortType=C&sortRule=-1&page='
 xxsjSuffix = '&pageSize=100&js=var%20quote_123%3d{rank:[(x)],pages:(pc)}&token=7bc05d0d4c3c22ef9fca8c2a912d779c&jsName=quote_123&_g=0.681840105810047'
 
+#沪深A股市盈率、市净率、市值相关数据
+sylDetailPrefixUrl = 'http://nuff.eastmoney.com/EM_Finance2015TradeInterface/JS.ashx?id='
+sylDetailSuffixUrl = '&token=4f1862fc3b5e77c150a2b985b12db0fd&cb=jQuery183041202991002070233_1505234287664&_=1505234288231'
 
 #涨幅空间排行
 mbzfRank = 'http://q.stock.sohu.com/jlp/rank/priceExpect.up'
@@ -110,6 +113,27 @@ def getJsonObj4(obj):
     else:
         return None
 
+def getJsonObj5(obj):
+    partern = re.compile("\"Value\":.*?\"]")
+    list = re.findall(partern, obj)
+
+    if list and len(list) > 0:
+        s = list[0]
+        sepString = s.split(':[')[1]
+        return simplejson.loads('[' + sepString)
+    else:
+        return None
+
+def getMarketId(code):
+    subCode = code[0:3]
+    if subCode == '009' or subCode == '126' or subCode == '110':
+        return '1'
+    else:
+        fCode = subCode[0:1]
+        if fCode =='5' or fCode == '6' or fCode == '9':
+            return '1'
+        else:
+            return '2'
 
 def getGloRank():
     '''目标涨幅排行'''
@@ -151,6 +175,14 @@ class StockEachDayInfo(CompanyInfo):
         self.inflowCount = inflowCount
         self.concept = concept
 
+class CompanyValueInfo(CompanyInfo):
+    def __init__(self,code,name,syl,sjl,sz,hsl):
+        '''代码，名字，市盈率，市净率，市值、换手率'''
+        super(CompanyValueInfo,self).__init__(code,name)
+        self.syl = syl
+        self.sjl = sjl
+        self.sz = sz
+        self.hsl = hsl
 
 class StockLatestInfo(CompanyInfo):
     '''股票最近数据行情,保存的是 StockEachDayInfo 的数据'''
@@ -162,11 +194,9 @@ class StockLatestInfo(CompanyInfo):
     def addStockDayInfo(self,dayInfo):
         self.stockInfo.append(dayInfo)
 
-
-
 class StockUtils(object):
     def __init__(self):
-        super(StockUtils,self)
+        super(StockUtils,self).__init__()
 
     @classmethod
     def getTodayMaxStockList(self):
@@ -322,6 +352,15 @@ class StockUtils(object):
                 cList.append(item)
             return cList
         return None
+    @classmethod
+    def getSylDetailDataForCode(self,code):
+        '''市盈率、市值相关数据'''
+        url = sylDetailPrefixUrl + code + getMarketId(code)+sylDetailSuffixUrl
+        res = getHtmlFromUrl(url)
+        valueList =  getJsonObj5(res)
+        if valueList and len(valueList) > 0:
+           return CompanyValueInfo(valueList[1],valueList[2],valueList[-15],valueList[-10],str(long(valueList[-7])/10000/10000), valueList[-16]+'%')
+        return None
 
 def mainMethod():
     util = StockUtils()
@@ -352,13 +391,6 @@ def mainMethod():
     tj = util.getRcommandedCompanyList()
     for item in tj:
         print item.code, item.name, item.time, item.org, item.reason, item.advice
-    #
-    #涨幅空间排行
-    print '\n====================涨幅空间排行========================='
-    tj = util.getRcommandedCompanyList()
-    for item in tj:
-        print item.code, item.name, item.time, item.org, item.reason, item.advice
-
 
     # #股东增持
     print '\n=====================股东增持==========================='
@@ -442,8 +474,11 @@ def mainMethod():
             for item in li:
                 array = item.split(',')
                 # code1  name2   zhangfu5, startPrice10，max11，min12
-                sql = 'update  stock5DayDetailData set startPrice = \'%s\',maxPrice=\'%s\',minPrice=\'%s\' WHERE  code = \'%s\'' % (
-                str(array[10]), str(array[11]), str(array[12]), str(array[1]))
+                code = str(array[1])
+                #市盈率、市净率、市值
+                valueModel = util.getSylDetailDataForCode(code)
+                sql = 'update  stock5DayDetailData set startPrice = \'%s\',maxPrice=\'%s\',minPrice=\'%s\',syl = \'%s\',sjl=\'%s\',sz=\'%s\',hsl=\'%s\' WHERE  code = \'%s\'' % (
+                str(array[10]), str(array[11]), str(array[12]),valueModel.syl,valueModel.sjl,valueModel.sz,valueModel.hsl,str(array[1]))
                 sqlins.executeSQL(sql)
         if len(li) < 100:
             break
