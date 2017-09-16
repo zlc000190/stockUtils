@@ -491,6 +491,7 @@ def mainMethod():
     sqlins.conn.commit()
     sqlins.conn.close()
     # ============================end===============================
+    print '\n\n\n\n\n\n\n\n\n'
 
 if __name__ == '__main__':
     mainMethod()
