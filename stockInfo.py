@@ -456,7 +456,7 @@ def mainMethod():
                     'utf8') + '\'' + ',' + '\'' + str(array[3]) + '\'' + ',' + '\'' + str(
                     array[4]) + '\'' + ',' + '\'' + str(array[5]) + '\'' + ',' + '\'' + str(array[15]) + '\''
                 # 资金流入sql
-                sql = 'insert into stock5DayDetailData(code,sname,endPrice,priceIncrementPercent, inflowCount,sdate) VALUE (%s)' % value
+                sql = 'insert into %s(code,sname,endPrice,priceIncrementPercent, inflowCount,sdate) VALUE (%s)' % (stockDetailTableList[-1],value)
 
                 # 证券列表sql
                 listsql = 'insert into %s(code,name) value(\'%s\',\'%s\')' % (
@@ -479,8 +479,8 @@ def mainMethod():
                 code = str(array[1])
                 #市盈率、市净率、市值
                 valueModel = util.getSylDetailDataForCode(code)
-                sql = 'update  stock5DayDetailData set startPrice = \'%s\',maxPrice=\'%s\',minPrice=\'%s\',syl = \'%s\',sjl=\'%s\',sz=\'%s\',hsl=\'%s\' WHERE  code = \'%s\'' % (
-                str(array[10]), str(array[11]), str(array[12]),valueModel.syl,valueModel.sjl,valueModel.sz,valueModel.hsl,str(array[1]))
+                sql = 'update  %s set startPrice = \'%s\',maxPrice=\'%s\',minPrice=\'%s\',syl = \'%s\',sjl=\'%s\',sz=\'%s\',hsl=\'%s\' WHERE  code = \'%s\'' % (
+                stockDetailTableList[-1],str(array[10]), str(array[11]), str(array[12]),valueModel.syl,valueModel.sjl,valueModel.sz,valueModel.hsl,str(array[1]))
                 sqlins.executeSQL(sql)
         if len(li) < 100:
             break
