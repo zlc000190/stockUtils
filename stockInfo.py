@@ -68,6 +68,10 @@ sylDetailSuffixUrl = '&token=4f1862fc3b5e77c150a2b985b12db0fd&cb=jQuery183041202
 #涨幅空间排行
 mbzfRank = 'http://q.stock.sohu.com/jlp/rank/priceExpect.up'
 
+#公司市值下限
+companySzDownLimit = 50
+companyHslDownLimit = 1.0
+
 def getHtmlFromUrl(url,utf8coding=False):
     # setCookie2()
     # req = urllib2.Request(url,None,header)
@@ -384,12 +388,16 @@ class StockUtils(object):
 
 
 def szyjl(code):
-    model = StockUtils().getSylDetailDataForCode(code)
+    return  StockUtils().getSylDetailDataForCode(code)
+
+def szyjlString(model):
     return u'市值:'+ model.sz +u'亿' + u'  市盈率:'+model.syl + u'  市净率:'+model.sjl + u'  换手率:'+model.hsl
+
+def percentToFloat(s):
+    return float(s.strip("%"))
 
 def mainMethod():
     util = StockUtils()
-    # #sql
     sqlins = mysqlOp()
 
     # 当天创新高
@@ -397,19 +405,25 @@ def mainMethod():
     print '==============可能当日开始突破、也可能已经突破了数日==========='
     li = util.getTodayMaxStockList()
     for item in li:
-        print item.name, item.code,szyjl(item.code)
+        model = szyjl(item.code)
+        if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit :continue
+        print item.name, item.code,szyjlString(model)
     #
     # #最近3天创新高
     print '\n====================近3天创新高=========================='
     th = util.getThreeDaysMaxStockList()
     for item in th:
-        print item.name,item.code,szyjl(item.code)
+        model = szyjl(item.code)
+        if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
+        print item.name,item.code,szyjlString(model)
 
     # #最近5天创新高
     print '\n====================近5天创新高=========================='
     th = util.getFiveDaysMaxStockList()
     for item in th:
-        print item.name,item.code,szyjl(item.code)
+        model = szyjl(item.code)
+        if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
+        print item.name,item.code,szyjlString(model)
 
 
     # #调研次数
