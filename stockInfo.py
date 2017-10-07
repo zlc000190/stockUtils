@@ -289,7 +289,7 @@ class StockUtils(object):
                     stockInfo = item.split(',')
                     jzcsyl = str(float(stockInfo[3].split('(')[0]) * 100) + '%'
                     fhlrzzl = str(float(stockInfo[4].split('(')[0]) * 100) + '%'
-                    sz = str(float(stockInfo[5])/10000/10000) + u'亿'
+                    sz = str(int(float(stockInfo[5])/10000/10000))
                     cinfo = MostValueableCompanyInfo(stockInfo[1],stockInfo[2],jzcsyl,fhlrzzl,sz)
                     cList.append(cinfo)
                 return cList
@@ -434,7 +434,7 @@ def szyjlString(model):
     return u'市值:'+ model.sz +u'亿' + u'  市盈率:'+model.syl + u'  市净率:'+model.sjl + u'  换手率:'+model.hsl
 
 def mostValueableCompanyString(model):
-    return u'市值:'+ model.sz +u'亿' + u'  净资产收益率:'+model.jzcsyl + u'  3年利润复合增长率:'+model.fhjlrzzl
+    return '净资产收益率:'+model.jzcsyl + u'  3年利润复合增长率:'+model.fhjlrzzl
 
 
 def percentToFloat(s):
@@ -445,8 +445,8 @@ def mainMethod():
     sqlins = mysqlOp()
 
     # 当天创新高
-    print '\n====================当日新高============================='
-    print '==============可能当日开始突破、也可能已经突破了数日==========='
+    print '\n===========================当日新高==================================='
+    print '====================可能当日开始突破、也可能已经突破了数日===================='
     li = util.getTodayMaxStockList()
     for item in li:
         model = szyjl(item.code)
@@ -454,7 +454,7 @@ def mainMethod():
         print item.name, item.code,szyjlString(model)
     #
     # #最近3天创新高
-    print '\n====================近3天创新高=========================='
+    print '\n============================近3天创新高=================================='
     th = util.getThreeDaysMaxStockList()
     for item in th:
         model = szyjl(item.code)
@@ -462,7 +462,7 @@ def mainMethod():
         print item.name,item.code,szyjlString(model)
 
     # #最近5天创新高
-    print '\n====================近5天创新高=========================='
+    print '\n=============================近5天创新高=================================='
     th = util.getFiveDaysMaxStockList()
     for item in th:
         model = szyjl(item.code)
@@ -470,28 +470,28 @@ def mainMethod():
         print item.name,item.code,szyjlString(model)
 
     #价值投资选股
-    print '\n====================价值投资股票=========================='
+    print '\n=============================价值投资股票=================================='
     th = util.getMostValueableStockList()
     for item in th:
         model = szyjl(item.code)
         #不需要过滤换手率以及市值，价值投资
-        print item.name,item.code,mostValueableCompanyString(item)
+        print item.name,item.code,mostValueableCompanyString(item),szyjlString(model)
 
 
     # #调研次数
-    print '\n====================机构调研次数排行======================'
+    print '\n=========================机构调研次数排行=========================='
     dy = util.getCompanyResearchRank()
     for item in dy:
         print item.name, item.code, item.time, item.desc, item.sum
     #
     # #推荐公司
-    print '\n====================利好公司推荐========================='
+    print '\n=========================利好公司推荐=============================='
     tj = util.getRcommandedCompanyList()
     for item in tj:
         print item.code, item.name, item.time, item.org, item.reason, item.advice
 
     # #股东增持
-    print '\n=====================股东增持==========================='
+    print '\n===========================股东增持================================='
     gd = util.getStockholderHoldsStocks()
     for item in gd:
         print item
