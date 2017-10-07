@@ -25,10 +25,13 @@ sys.setdefaultencoding('utf8')
 #东方财富网-今日最高
 todayMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb03]&p=1&jn=moJuuzHq&ps=100&s=hqzb03&st=-1&r=1503071461051'
 #3日新高
-threeDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb03][hqzb06(1|3)]&p=1&jn=ScQYjbVF&ps=100&s=hqzb06(1|3)&st=-1&r=1503071688010'
+threeDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|3)]&p=1&jn=EYOfLXHJ&ps=40&s=hqzb05(1|3)&st=-1&r=1507347185807'
+
+#5日新高
+fiveDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|5)]&p=1&jn=JODmOFXH&ps=40&s=hqzb05(1|5)&st=-1&r=1507347434465'
 
 #连续涨3天以上
-moreAndMoreMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb07(4|3)]&p=1&jn=xiZaGiTW&ps=300&s=hqzb07(4|3)&st=-1'
+# moreAndMoreMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb07(4|3)]&p=1&jn=xiZaGiTW&ps=300&s=hqzb07(4|3)&st=-1'
 
 #行业研报
 hangyeReportUrl = 'http://datainterface.eastmoney.com//EM_DataCenter/js.aspx?type=SR&sty=HYSR&mkt=0&stat=0&cmd=4&code=&sc=&ps=100&p=1&js=var%20WPaQnqfN={%22data%22:[(x)],%22pages%22:%22(pc)%22,%22update%22:%22(ud)%22,%22count%22:%22(count)%22}&rt=50102402'
@@ -233,6 +236,23 @@ class StockUtils(object):
         return  None
 
     @classmethod
+    def getFiveDaysMaxStockList(self):
+        '''最近5天创新高'''
+        res = getHtmlFromUrl(fiveDaysMaxPriceUrl)
+        companyListObj = getJsonObj(res)
+        if companyListObj:
+            list =  companyListObj['Results']
+            cList = []
+            if list and len(list):
+                for item in list:
+                    stockInfo = item.split(',')
+                    cinfo = CompanyInfo(stockInfo[1],stockInfo[2])
+                    cList.append(cinfo)
+                return cList
+
+        return  None
+
+    @classmethod
     def getIndustryReport(self):
         '''行业调研'''
         res = getHtmlFromUrl(hangyeReportUrl)
@@ -362,6 +382,11 @@ class StockUtils(object):
            return CompanyValueInfo(valueList[1],valueList[2],valueList[-15],valueList[-10],str(long(valueList[-7])/10000/10000), valueList[-16]+'%')
         return None
 
+
+def szyjl(code):
+    model = StockUtils().getSylDetailDataForCode(code)
+    return u'市值:'+ model.sz +u'亿' + u'  市盈率:'+model.syl + u'  市净率:'+model.sjl + u'  换手率:'+model.hsl
+
 def mainMethod():
     util = StockUtils()
     # #sql
@@ -369,15 +394,22 @@ def mainMethod():
 
     # 当天创新高
     print '\n====================当日新高============================='
+    print '==============可能当日开始突破、也可能已经突破了数日==========='
     li = util.getTodayMaxStockList()
     for item in li:
-        print item.name, item.code
+        print item.name, item.code,szyjl(item.code)
     #
     # #最近3天创新高
     print '\n====================近3天创新高=========================='
     th = util.getThreeDaysMaxStockList()
     for item in th:
-        print item.name
+        print item.name,item.code,szyjl(item.code)
+
+    # #最近5天创新高
+    print '\n====================近5天创新高=========================='
+    th = util.getFiveDaysMaxStockList()
+    for item in th:
+        print item.name,item.code,szyjl(item.code)
 
 
     # #调研次数
