@@ -347,7 +347,8 @@ class StockUtils(object):
         s = ''
         if li and len(li) > 0:
             for item in li:
-                s += '  季报:' + item.dateOfRoe + '  投资回报率:' + item.roe + '%' + '  利润增长率:' + item.profitRate + '%'
+                s += '季报:' + item.dateOfRoe + '  投资回报率:' + item.roe + '%' + '  利润增长率:' + item.profitRate + '%'
+                s += '\n'
             return s
         else:
             return None
@@ -532,8 +533,8 @@ def mainMethod():
     for item in th:
         model = szyjl(item.code)
         #不需要过滤换手率以及市值，价值投资
-        print item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model),util.RoeStringForCode(item.code)
-
+        print item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
+        print util.RoeStringForCode(item.code)
 
     # #调研次数
     print '\n=========================机构调研次数排行=========================='
