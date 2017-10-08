@@ -47,6 +47,9 @@ dytjBaseUrl = 'http://data.eastmoney.com/DataCenter_V3/jgdy/gsjsdy.ashx?pagesize
 #东方财富网-券商推荐公司
 tjgsBaseUrl = 'http://datainterface.eastmoney.com//EM_DataCenter/js.aspx?type=SR&sty=GGSR&js=var%20jXudgyZA={%22data%22:[(x)],%22pages%22:%22(pc)%22,%22update%22:%22(ud)%22,%22count%22:%22(count)%22}&ps=100&p=1&mkt=0&stat=0&cmd=2&code='
 
+#公司推荐次数排行
+reommendRankUrl = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C._A&sty=GEMCPF&st=(AllNum)&sr=-1&p=1&ps=100&cb=&js=var%20vCvDXueG={%22data%22:[(x)],%22pages%22:%22(pc)%22}&token=3a965a43f705cf1d9ad7e1a3e429d622&rt=50248407'
+
 #东方财富网-股东增持
 gdzcBaseUrl = 'http://data.eastmoney.com/DataCenter_V3/gdzjc.ashx?pagesize=100&page=1&js=var%20ukjJZiRW&param=&sortRule=-1&sortType=BDJZ&tabid=jzc&code=&name=&rt=50102353'
 
@@ -190,6 +193,12 @@ class CompanyRecommandInfo(CompanyInfo):
         self.reason = reason
         self.advice = advice
 
+class CompanyRecommandRankInfo(CompanyInfo):
+    def __init__(self,code,name,count,buyCount,addCount):
+        super(CompanyRecommandRankInfo,self).__init__(code,name)
+        self.count = count
+        self.buyCount = buyCount
+        self.addCount = addCount
 
 class StockEachDayInfo(CompanyInfo):
     '''每一天的数据行情'''
@@ -394,6 +403,22 @@ class StockUtils(object):
                 return cList
         return None
 
+    @classmethod
+    def getRcommandRankList(self):
+        '''券商推荐次数排行'''
+        res = getHtmlFromUrl(reommendRankUrl)
+        companyListObj = getJsonObj(res)
+        if companyListObj:
+            list = companyListObj['data']
+            cList = []
+            if list and len(list):
+                for item in list:
+                    li = item.split(',')
+                    info = CompanyRecommandRankInfo(li[1],
+                        li[2],li[5],li[6], li[7])
+                    cList.append(info)
+                return cList
+        return None
 
     @classmethod
     def getMbzfRank(cls):
@@ -535,11 +560,18 @@ def mainMethod():
         print item.name, item.code, item.time, item.desc, item.sum
     #
     # #推荐公司
-    print '\n===============================利好公司推荐======================================='
+    print '\n===============================券商推荐公司======================================='
     tj = util.getRcommandedCompanyList()
     for item in tj:
         print item.code, item.name, item.time, item.org, item.reason, item.advice
-        print util.RoeStringForCode(item.code)
+        #print util.RoeStringForCode(item.code)
+
+    #推荐次数排行公司
+    print '\n======================================券商推荐次数排行============================================='
+    tj = util.getRcommandRankList()
+    for item in tj:
+        print item.code.ljust(9,' '),item.name.ljust(8,' '),('券商推荐次数:'+item.count + '  买入评级:' + item.buyCount + '  增持评级:' + item.addCount)
+
 
     # #股东增持
     print '\n====================================股东增持====================================='
