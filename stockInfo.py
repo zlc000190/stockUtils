@@ -325,7 +325,7 @@ class StockUtils(object):
         url = ROEOfStockUrl % (getMarketCode(code))
         res = getHtmlFromUrl(url)
         ROEList = getJsonList(res)
-        if ROEList:
+        if isinstance(ROEList,list):
             cList = []
             for item in ROEList:
                 m = RoeModel(item['ReportDate'],item['WeightedYieldOnNetAssets'],item['ProfitsYOYRate'],item['mainBusinessIncome'],item['retainedProfits'])
@@ -345,7 +345,6 @@ class StockUtils(object):
             return s
         else:
             return None
-
 
     @classmethod
     def getIndustryReport(self):
@@ -547,7 +546,7 @@ def mainMethod():
     gd = util.getStockholderHoldsStocks()
     for item in gd:
         companyInfo = item.split(',')
-        print item[0],item[1],item
+        print companyInfo[0],companyInfo[1],item
 
     # #行业报告
     print '\n==================================行业涨幅分析报告================================='
