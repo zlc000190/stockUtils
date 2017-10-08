@@ -78,7 +78,7 @@ mbzfRank = 'http://q.stock.sohu.com/jlp/rank/priceExpect.up'
 # lxsz3Day = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.15)][cz_cznl06(1|0.1)][cz20(1|100y)][cz_hqzb07(4|3)]&p=1&jn=fcDVFSUc&ps=40&s=cz_hqzb07(4|3)&st=-1&r=1507351771770'
 
 #净资产收益率15%  3年利润增长率10% 100亿市值以上
-mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.15)][cz_cznl06(1|0.1)][cz20(1|100y)]&p=1&jn=pUnYlfVk&ps=40&s=cz20(1|100y)&st=-1&r=1507352123438'
+mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.1)][cz_cznl06(1|0.1)][cz20(1|100y)]&p=1&jn=pUnYlfVk&ps=100&s=cz20(1|100y)&st=-1&r=1507352123438'
 
 #公司市值下限
 companySzDownLimit = 50
@@ -221,6 +221,10 @@ class MostValueableCompanyInfo(CompanyInfo):
         self.fhjlrzzl = fhjlrzzl
         self.sz = sz
 
+    #如果要排序，就需要实现该方法
+    def __lt__(self, other):
+        return float(self.fhjlrzzl.strip('%')) > float(other.fhjlrzzl.strip('%'))
+
 class StockUtils(object):
     def __init__(self):
         super(StockUtils,self).__init__()
@@ -292,6 +296,10 @@ class StockUtils(object):
                     sz = str(int(float(stockInfo[5])/10000/10000))
                     cinfo = MostValueableCompanyInfo(stockInfo[1],stockInfo[2],jzcsyl,fhlrzzl,sz)
                     cList.append(cinfo)
+
+                #   根据3年利润复合增长率递增排序
+                    cList.sort()
+
                 return cList
 
         return  None
@@ -434,7 +442,7 @@ def szyjlString(model):
     return u'市值:'+ model.sz +u'亿' + u'  市盈率:'+model.syl + u'  市净率:'+model.sjl + u'  换手率:'+model.hsl
 
 def mostValueableCompanyString(model):
-    return '净资产收益率:'+model.jzcsyl + u'  3年利润复合增长率:'+model.fhjlrzzl
+    return ('净资产收益率:'+model.jzcsyl).ljust(15,' ') + (u'  3年利润复合增长率:'+model.fhjlrzzl).ljust(21,' ')
 
 
 def percentToFloat(s):
@@ -475,7 +483,7 @@ def mainMethod():
     for item in th:
         model = szyjl(item.code)
         #不需要过滤换手率以及市值，价值投资
-        print item.name,item.code,mostValueableCompanyString(item),szyjlString(model)
+        print item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
 
 
     # #调研次数
