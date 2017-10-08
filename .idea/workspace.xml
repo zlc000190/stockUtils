@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2601c4f1-a9dd-44fe-890c-ee45f49cb021" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stockInfo.py" afterPath="$PROJECT_DIR$/stockInfo.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,14 +20,14 @@
       <file leaf-file-name="stockInfo.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/stockInfo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
-              <caret line="80" column="191" lean-forward="false" selection-start-line="80" selection-start-column="191" selection-end-line="80" selection-end-column="191" />
+            <state relative-caret-position="67">
+              <caret line="79" column="25" lean-forward="false" selection-start-line="79" selection-start-column="25" selection-end-line="79" selection-end-column="25" />
               <folding>
                 <element signature="e#70#80#0" expanded="true" />
-                <marker date="1507439847000" expanded="true" signature="20632:20644" ph="insert into stock5DayDetailData... " />
-                <marker date="1507439847000" expanded="true" signature="20632:20719" ph="insert into missing_value... " />
-                <marker date="1507439847000" expanded="true" signature="20810:20856" ph="insert into missing_value... " />
-                <marker date="1507439847000" expanded="true" signature="21552:21684" ph="update missi... " />
+                <marker date="1507439897000" expanded="true" signature="20633:20645" ph="insert into stock5DayDetailData... " />
+                <marker date="1507439897000" expanded="true" signature="20633:20720" ph="insert into missing_value... " />
+                <marker date="1507439897000" expanded="true" signature="20811:20857" ph="insert into missing_value... " />
+                <marker date="1507439897000" expanded="true" signature="21553:21685" ph="update missi... " />
               </folding>
             </state>
           </provider>
@@ -448,7 +447,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5371248" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5371248" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -511,10 +510,10 @@
           <caret line="312" column="18" lean-forward="true" selection-start-line="312" selection-start-column="18" selection-end-line="312" selection-end-column="18" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507439847000" expanded="true" signature="20632:20644" ph="insert into stock5DayDetailData... " />
-            <marker date="1507439847000" expanded="true" signature="20632:20719" ph="insert into missing_value... " />
-            <marker date="1507439847000" expanded="true" signature="20810:20856" ph="insert into missing_value... " />
-            <marker date="1507439847000" expanded="true" signature="21552:21684" ph="update missi... " />
+            <marker date="1507439897000" expanded="true" signature="20633:20645" ph="insert into stock5DayDetailData... " />
+            <marker date="1507439897000" expanded="true" signature="20633:20720" ph="insert into missing_value... " />
+            <marker date="1507439897000" expanded="true" signature="20811:20857" ph="insert into missing_value... " />
+            <marker date="1507439897000" expanded="true" signature="21553:21685" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -554,10 +553,10 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507439847000" expanded="true" signature="20632:20644" ph="insert into stock5DayDetailData... " />
-            <marker date="1507439847000" expanded="true" signature="20632:20719" ph="insert into missing_value... " />
-            <marker date="1507439847000" expanded="true" signature="20810:20856" ph="insert into missing_value... " />
-            <marker date="1507439847000" expanded="true" signature="21552:21684" ph="update missi... " />
+            <marker date="1507439897000" expanded="true" signature="20633:20645" ph="insert into stock5DayDetailData... " />
+            <marker date="1507439897000" expanded="true" signature="20633:20720" ph="insert into missing_value... " />
+            <marker date="1507439897000" expanded="true" signature="20811:20857" ph="insert into missing_value... " />
+            <marker date="1507439897000" expanded="true" signature="21553:21685" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -597,10 +596,10 @@
           <caret line="476" column="9" lean-forward="false" selection-start-line="476" selection-start-column="9" selection-end-line="476" selection-end-column="9" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507439847000" expanded="true" signature="20632:20644" ph="insert into stock5DayDetailData... " />
-            <marker date="1507439847000" expanded="true" signature="20632:20719" ph="insert into missing_value... " />
-            <marker date="1507439847000" expanded="true" signature="20810:20856" ph="insert into missing_value... " />
-            <marker date="1507439847000" expanded="true" signature="21552:21684" ph="update missi... " />
+            <marker date="1507439897000" expanded="true" signature="20633:20645" ph="insert into stock5DayDetailData... " />
+            <marker date="1507439897000" expanded="true" signature="20633:20720" ph="insert into missing_value... " />
+            <marker date="1507439897000" expanded="true" signature="20811:20857" ph="insert into missing_value... " />
+            <marker date="1507439897000" expanded="true" signature="21553:21685" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -633,10 +632,10 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507439847000" expanded="true" signature="20632:20644" ph="insert into stock5DayDetailData... " />
-            <marker date="1507439847000" expanded="true" signature="20632:20719" ph="insert into missing_value... " />
-            <marker date="1507439847000" expanded="true" signature="20810:20856" ph="insert into missing_value... " />
-            <marker date="1507439847000" expanded="true" signature="21552:21684" ph="update missi... " />
+            <marker date="1507439897000" expanded="true" signature="20633:20645" ph="insert into stock5DayDetailData... " />
+            <marker date="1507439897000" expanded="true" signature="20633:20720" ph="insert into missing_value... " />
+            <marker date="1507439897000" expanded="true" signature="20811:20857" ph="insert into missing_value... " />
+            <marker date="1507439897000" expanded="true" signature="21553:21685" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -669,10 +668,10 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507439847000" expanded="true" signature="20632:20644" ph="insert into stock5DayDetailData... " />
-            <marker date="1507439847000" expanded="true" signature="20632:20719" ph="insert into missing_value... " />
-            <marker date="1507439847000" expanded="true" signature="20810:20856" ph="insert into missing_value... " />
-            <marker date="1507439847000" expanded="true" signature="21552:21684" ph="update missi... " />
+            <marker date="1507439897000" expanded="true" signature="20633:20645" ph="insert into stock5DayDetailData... " />
+            <marker date="1507439897000" expanded="true" signature="20633:20720" ph="insert into missing_value... " />
+            <marker date="1507439897000" expanded="true" signature="20811:20857" ph="insert into missing_value... " />
+            <marker date="1507439897000" expanded="true" signature="21553:21685" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -892,14 +891,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/stockInfo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="80" column="191" lean-forward="false" selection-start-line="80" selection-start-column="191" selection-end-line="80" selection-end-column="191" />
+        <state relative-caret-position="67">
+          <caret line="79" column="25" lean-forward="false" selection-start-line="79" selection-start-column="25" selection-end-line="79" selection-end-column="25" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507439847000" expanded="true" signature="20632:20644" ph="insert into stock5DayDetailData... " />
-            <marker date="1507439847000" expanded="true" signature="20632:20719" ph="insert into missing_value... " />
-            <marker date="1507439847000" expanded="true" signature="20810:20856" ph="insert into missing_value... " />
-            <marker date="1507439847000" expanded="true" signature="21552:21684" ph="update missi... " />
+            <marker date="1507439897000" expanded="true" signature="20633:20645" ph="insert into stock5DayDetailData... " />
+            <marker date="1507439897000" expanded="true" signature="20633:20720" ph="insert into missing_value... " />
+            <marker date="1507439897000" expanded="true" signature="20811:20857" ph="insert into missing_value... " />
+            <marker date="1507439897000" expanded="true" signature="21553:21685" ph="update missi... " />
           </folding>
         </state>
       </provider>
