@@ -68,15 +68,6 @@ sylDetailSuffixUrl = '&token=4f1862fc3b5e77c150a2b985b12db0fd&cb=jQuery183041202
 #涨幅空间排行
 mbzfRank = 'http://q.stock.sohu.com/jlp/rank/priceExpect.up'
 
-# #资产收益率
-# zcsyl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.15)]&p=1&jn=PjxcQEPi&ps=40&s=cz_ylnl01(1|0.15)&st=-1&r=1507351655919'
-#
-# #3年净利润增长10%以上
-# lrzzl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.15)][cz_cznl06(1|0.1)]&p=1&jn=qnbTLhLx&ps=40&s=cz_cznl06(1|0.1)&st=-1&r=1507351729913'
-#
-# #股价连续上涨3天
-# lxsz3Day = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.15)][cz_cznl06(1|0.1)][cz20(1|100y)][cz_hqzb07(4|3)]&p=1&jn=fcDVFSUc&ps=40&s=cz_hqzb07(4|3)&st=-1&r=1507351771770'
-
 #净资产收益率12%  3年利润增长率10% 100亿市值以上
 mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.12)][cz_cznl06(1|0.1)][cz20(1|100y)]&p=1&jn=pUnYlfVk&ps=100&s=cz20(1|100y)&st=-1&r=1507352123438'
 
@@ -243,12 +234,14 @@ class MostValueableCompanyInfo(CompanyInfo):
         return float(self.fhjlrzzl.strip('%')) > float(other.fhjlrzzl.strip('%'))
 
 class RoeModel(object):
-    '''日期，roe，利润增长率'''
-    def __init__(self,date,roe,profit):
+    '''日期，roe，利润增长率,总收入，总利润'''
+    def __init__(self,date,roe,profitRate,income,profit,):
         super(RoeModel,self).__init__()
         self.dateOfRoe = date
         self.roe = roe
-        self.profitRate = profit
+        self.profitRate = profitRate
+        self.income = income
+        self.profit = profit
 
 class StockUtils(object):
     def __init__(self):
@@ -335,7 +328,7 @@ class StockUtils(object):
         if ROEList:
             cList = []
             for item in ROEList:
-                m = RoeModel(item['ReportDate'],item['WeightedYieldOnNetAssets'],item['ProfitsYOYRate'])
+                m = RoeModel(item['ReportDate'],item['WeightedYieldOnNetAssets'],item['ProfitsYOYRate'],item['mainBusinessIncome'],item['retainedProfits'])
                 cList.append(m)
             return cList
         else:
@@ -347,7 +340,7 @@ class StockUtils(object):
         s = ''
         if li and len(li) > 0:
             for item in li:
-                s += '季报:' + item.dateOfRoe + '  投资回报率:' + item.roe + '%' + '  利润增长率:' + item.profitRate + '%'
+                s += '季报:' + item.dateOfRoe + '  投资回报率:' + item.roe + '%' + '  利润增长率:' + item.profitRate + '%' + '  总收入:' + str(int(float(item.income) / 10000)) + '亿' + ' 总利润:' + str(int(float(item.profit) / 10000)) + '亿'
                 s += '\n'
             return s
         else:
@@ -503,8 +496,8 @@ def mainMethod():
     sqlins = mysqlOp()
 
     # 当天创新高
-    print '\n===========================当日新高==================================='
-    print '====================可能当日开始突破、也可能已经突破了数日===================='
+    print '\n==============================当日新高======================================'
+    print '=======================可能当日开始突破、也可能已经突破了数日======================='
     li = util.getTodayMaxStockList()
     for item in li:
         model = szyjl(item.code)
@@ -512,7 +505,7 @@ def mainMethod():
         print item.name, item.code,szyjlString(model)
     #
     # #最近3天创新高
-    print '\n============================近3天创新高=================================='
+    print '\n=================================近3天创新高===================================='
     th = util.getThreeDaysMaxStockList()
     for item in th:
         model = szyjl(item.code)
@@ -520,7 +513,7 @@ def mainMethod():
         print item.name,item.code,szyjlString(model)
 
     # #最近5天创新高
-    print '\n=============================近5天创新高=================================='
+    print '\n=================================近5天创新高====================================='
     th = util.getFiveDaysMaxStockList()
     for item in th:
         model = szyjl(item.code)
@@ -528,7 +521,7 @@ def mainMethod():
         print item.name,item.code,szyjlString(model)
 
     #价值投资选股
-    print '\n=============================价值投资股票=================================='
+    print '\n===============================价值投资股票========================================'
     th = util.getMostValueableStockList()
     for item in th:
         model = szyjl(item.code)
@@ -537,37 +530,39 @@ def mainMethod():
         print util.RoeStringForCode(item.code)
 
     # #调研次数
-    print '\n=========================机构调研次数排行=========================='
+    print '\n=================================机构调研次数排行==================================='
     dy = util.getCompanyResearchRank()
     for item in dy:
         print item.name, item.code, item.time, item.desc, item.sum
     #
     # #推荐公司
-    print '\n=========================利好公司推荐=============================='
+    print '\n===============================利好公司推荐======================================='
     tj = util.getRcommandedCompanyList()
     for item in tj:
         print item.code, item.name, item.time, item.org, item.reason, item.advice
+        print util.RoeStringForCode(item.code)
 
     # #股东增持
-    print '\n===========================股东增持================================='
+    print '\n====================================股东增持====================================='
     gd = util.getStockholderHoldsStocks()
     for item in gd:
-        print item
+        companyInfo = item.split(',')
+        print item[0],item[1],item
 
     # #行业报告
-    print '\n====================行业涨幅分析报告========================='
+    print '\n==================================行业涨幅分析报告================================='
     hy = util.getIndustryReport()
     for item in hy:
         print item.split(',')[10],item.split(',')[-1],'   ', item
 
     #行业资金流入排行
-    print '\n====================行业资金流入排行=========================='
+    print '\n==============================行业资金流入排行====================================='
     lit = util.getHyzfRank()
     for item in lit:
         print item
 
     # #概念排行
-    print '\n====================概念涨幅排行=========================='
+    print '\n=================================概念涨幅排行====================================='
     lit = util.getIndustryRank()
     for item in lit:
         print item
@@ -599,7 +594,7 @@ def mainMethod():
 
 
     # 资金流入排行
-    print '\n====================资金流入排行=========================='
+    print '\n==============================资金流入排行======================================='
     startPage = 1
     while True:
         infl = util.getInflowRankForPage(startPage)
@@ -624,7 +619,7 @@ def mainMethod():
         startPage += 1
 
     # 沪深A 股的详细数据
-    print '\n====================沪深A股详细数据======================='
+    print '\n================================沪深A股详细数据==================================='
     startPage = 1
     while True:
         li = util.getDetailStockInfo(startPage)
