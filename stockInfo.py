@@ -78,6 +78,8 @@ mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&s
 #ROE 投资回报率
 ROEOfStockUrl = 'http://data.eastmoney.com/DataCenter_V3/stockdata/cwzy.ashx?code=%s'
 
+#公司经营业务  sz000001
+bussinessDetailUrl = 'http://emweb.securities.eastmoney.com/PC_HSF10/CoreConception/CoreConceptionAjax?code=%s'
 
 #近4个月k线走势
 last4MonthKLineUrl = 'http://pifm.eastmoney.com/EM_Finance2014PictureInterface/Index.aspx?ID=%s&UnitWidth=-5&imageType=KXL&EF=&Formula=RSI&AT=1&&type=&token=44c9d251add88e27b65ed86506f6e5da&_=0.7768000600639573'
@@ -109,6 +111,11 @@ def getJsonObj(obj):
     # return  simplejson.loads(newobj)
     newobj = "{" + obj.split('={')[1]
     return simplejson.loads(newobj)
+
+
+def getJsonObjOrigin(obj):
+    if not obj:return None
+    return simplejson.loads(obj)
 
 def getJsonList(obj):
     '''解析列表'''
@@ -171,13 +178,18 @@ def getMarketId(code):
         else:
             return '2'
 
-def getMarketCode(code):
+def getMarketCode(code,prefix = False):
     ret = getMarketId(code)
-    if ret == '1':
-        return  code + '.SH'
+    if prefix:
+        if ret == '1':
+            return  'sh' + code
+        else:
+            return  'sz' + code
     else:
-        return  code + '.SZ'
-
+        if ret == '1':
+            return  code + '.SH'
+        else:
+            return  code + '.SZ'
 
 def getGloRank():
     '''目标涨幅排行'''
@@ -320,6 +332,14 @@ class StockUtils(object):
                 return cList
         return  None
 
+    def getCompanyBussinessDetailString(self,code):
+        res = getHtmlFromUrl((bussinessDetailUrl % getMarketCode(code)))
+        obj = getJsonObjOrigin(res)
+        if obj:
+            li = obj['hxtc']
+            if li and len(li) > 2:
+                return li[0]['ydnr'] + '\n' + li[1]['ydnr']
+        return None
 
     @classmethod
     def getMostValueableStockList(self):
@@ -596,7 +616,6 @@ def mainMethod():
     if tj and len(tj):
         for item in tj:
             print item.code, item.name, item.time, item.org, item.reason, item.advice
-            #print util.RoeStringForCode(item.code)
 
     #推荐次数排行公司
     print '\n======================================券商推荐次数排行============================================='
@@ -604,7 +623,9 @@ def mainMethod():
     if tj and len(tj):
         for item in tj:
             print item.code.ljust(9,' '),item.name.ljust(8,' '),('券商推荐次数:'+item.count + '  买入评级:' + item.buyCount + '  增持评级:' + item.addCount)
-
+            print util.RoeStringForCode(item.code)
+            print util.getCompanyBussinessDetailString(item.code)
+            print '\n'
 
     # #股东增持
     print '\n====================================股东增持====================================='
