@@ -91,14 +91,15 @@ companyHslDownLimit = 1.0
 def getHtmlFromUrl(url,utf8coding=False):
     try:
         ret = urllib.urlopen(url)
+        res = None
         if utf8coding:
-            return ret.read().decode('gbk', 'ignore').encode('utf-8')
+            res = ret.read().decode('gbk', 'ignore').encode('utf-8')
         else:
-            return ret.read()
+            res = ret.read()
     except  Exception:
             print 'exception  occur'
     finally:
-        return None
+        return res
 
 def getJsonObj(obj):
     if not obj:return None
