@@ -570,6 +570,7 @@ def mainMethod():
     if li and len(li) > 0:
         for item in li:
             model = szyjl(item.code)
+            if not model:continue
             if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit :continue
             print item.name, item.code,szyjlString(model)
     #
@@ -579,6 +580,7 @@ def mainMethod():
     if th and len(th) > 0:
         for item in th:
             model = szyjl(item.code)
+            if not model: continue
             if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
             print item.name,item.code,szyjlString(model)
 
@@ -588,6 +590,7 @@ def mainMethod():
     if th and len(th) > 0:
         for item in th:
             model = szyjl(item.code)
+            if not model: continue
             if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
             print item.name,item.code,szyjlString(model)
             print '月K线图:' +  util.getLast4MonthKLine(item.code)
@@ -599,6 +602,7 @@ def mainMethod():
     if th and len(th) > 0:
         for item in th:
             model = szyjl(item.code)
+            if not model: continue
             #不需要过滤换手率以及市值，价值投资
             print item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
             print util.RoeStringForCode(item.code)
@@ -718,6 +722,7 @@ def mainMethod():
                 code = str(array[1])
                 #市盈率、市净率、市值
                 valueModel = util.getSylDetailDataForCode(code)
+                if not valueModel:continue
                 sql = 'update  %s set startPrice = \'%s\',maxPrice=\'%s\',minPrice=\'%s\',syl = \'%s\',sjl=\'%s\',sz=\'%s\',hsl=\'%s\' WHERE  code = \'%s\'' % (
                 stockDetailTableList[-1],str(array[10]), str(array[11]), str(array[12]),valueModel.syl,valueModel.sjl,valueModel.sz,valueModel.hsl,str(array[1]))
                 sqlins.executeSQL(sql)
