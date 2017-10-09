@@ -77,20 +77,31 @@ mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&s
 #ROE 投资回报率
 ROEOfStockUrl = 'http://data.eastmoney.com/DataCenter_V3/stockdata/cwzy.ashx?code=%s'
 
+
+#近4个月k线走势
+last4MonthKLineUrl = 'http://pifm.eastmoney.com/EM_Finance2014PictureInterface/Index.aspx?ID=%s&UnitWidth=-5&imageType=KXL&EF=&Formula=RSI&AT=1&&type=&token=44c9d251add88e27b65ed86506f6e5da&_=0.7768000600639573'
+
+#近4年k线走势
+last4YearKLineUrl = 'http://pifm.eastmoney.com/EM_Finance2014PictureInterface/Index.aspx?ID=%s&UnitWidth=-6&imageType=KXL&EF=&Formula=RSI&AT=1&&type=M&token=44c9d251add88e27b65ed86506f6e5da&_=0.4133575449252702'
+
 #公司市值下限
 companySzDownLimit = 50
 companyHslDownLimit = 1.0
 
 def getHtmlFromUrl(url,utf8coding=False):
-    # setCookie2()
-    # req = urllib2.Request(url,None,header)
-    ret = urllib.urlopen(url)
-    if utf8coding:
-        return ret.read().decode('gbk', 'ignore').encode('utf-8')
-    else:
-        return ret.read()
+    try:
+        ret = urllib.urlopen(url)
+        if utf8coding:
+            return ret.read().decode('gbk', 'ignore').encode('utf-8')
+        else:
+            return ret.read()
+    except  Exception:
+            print 'exception  occur'
+    finally:
+        return None
 
 def getJsonObj(obj):
+    if not obj:return None
     #"var moJuuzHq="{"Results":["2,300672,国科微,是","2,300676,华大基因,是","1,603612,索通发展,是","1,603707,健友股份,是","2,002888,惠威科技,是","2,300678,中科信息,是","2,002889,东方嘉盛,是","1,603860,中公高科,是","2,300685,艾德生物,是","2,300687,赛意信息,是","1,603880,南卫股份,是","2,300689,澄天伟业,是","1,603602,纵横通信,是","2,300688,创业黑马,是","1,603721,中广天择,是","2,300691,联合光电,是","1,601326,秦港股份,是","1,603776,永安行,是","2,002892,科力尔,是","1,603129,春风动力,是","1,603557,起步股份,是"],"AllCount":"21","PageCount":"1","AtPage":"1","PageSize":"40","ErrMsg":"","UpdateTime":"2017/8/19 13:37:03","TimeOut":"3ms"}"
     # newobj = obj.split('=')[1]  #//必须要将前面的= 去掉
     # return  simplejson.loads(newobj)
@@ -105,6 +116,7 @@ def getJsonList(obj):
         return None
 
 def getJsonObj2(obj):
+    if not obj: return None
     partern = re.compile("data:.*?\"]")
     list = re.findall(partern, obj)
     if list and len(list) > 0:
@@ -115,9 +127,9 @@ def getJsonObj2(obj):
         return None
 
 def getJsonObj3(obj):
+    if not obj: return None
     partern = re.compile("data:.*?\"]")
     list = re.findall(partern, obj)
-
     if list and len(list) > 0:
         s = list[0]
         sepString = s.split(':[')[1]
@@ -125,9 +137,9 @@ def getJsonObj3(obj):
     else:
         return None
 def getJsonObj4(obj):
+    if not obj: return None
     partern = re.compile("rank:.*?\"]")
     list = re.findall(partern, obj)
-
     if list and len(list) > 0:
         s = list[0]
         sepString = s.split(':[')[1]
@@ -136,9 +148,9 @@ def getJsonObj4(obj):
         return None
 
 def getJsonObj5(obj):
+    if not obj: return None
     partern = re.compile("\"Value\":.*?\"]")
     list = re.findall(partern, obj)
-
     if list and len(list) > 0:
         s = list[0]
         sepString = s.split(':[')[1]
@@ -501,6 +513,17 @@ class StockUtils(object):
            return CompanyValueInfo(valueList[1],valueList[2],valueList[-15],valueList[-10],str(long(valueList[-7])/10000/10000), valueList[-16]+'%')
         return None
 
+    def getLast4MonthKLine(self,code):
+        '''近4个月k线图'''
+        url = last4MonthKLineUrl % (code + getMarketId(code))
+        # res = getHtmlFromUrl(url)
+        return  url
+
+    def getLast4YearKLine(self,code):
+        url = last4YearKLineUrl % (code + getMarketId(code))
+        # res = getHtmlFromUrl(url)
+        return  url
+
 
 def szyjl(code):
     return  StockUtils().getSylDetailDataForCode(code)
@@ -510,7 +533,6 @@ def szyjlString(model):
 
 def mostValueableCompanyString(model):
     return ('净资产收益率:'+model.jzcsyl).ljust(15,' ') + (u'  3年利润复合增长率:'+model.fhjlrzzl).ljust(21,' ')
-
 
 def percentToFloat(s):
     return float(s.strip("%"))
@@ -523,81 +545,92 @@ def mainMethod():
     print '\n==============================当日新高======================================'
     print '=======================可能当日开始突破、也可能已经突破了数日======================='
     li = util.getTodayMaxStockList()
-    for item in li:
-        model = szyjl(item.code)
-        if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit :continue
-        print item.name, item.code,szyjlString(model)
+    if li and len(li) > 0:
+        for item in li:
+            model = szyjl(item.code)
+            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit :continue
+            print item.name, item.code,szyjlString(model)
     #
     # #最近3天创新高
     print '\n=================================近3天创新高===================================='
     th = util.getThreeDaysMaxStockList()
-    for item in th:
-        model = szyjl(item.code)
-        if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
-        print item.name,item.code,szyjlString(model)
+    if th and len(th) > 0:
+        for item in th:
+            model = szyjl(item.code)
+            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
+            print item.name,item.code,szyjlString(model)
 
     # #最近5天创新高
     print '\n=================================近5天创新高====================================='
     th = util.getFiveDaysMaxStockList()
-    for item in th:
-        model = szyjl(item.code)
-        if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
-        print item.name,item.code,szyjlString(model)
+    if th and len(th) > 0:
+        for item in th:
+            model = szyjl(item.code)
+            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
+            print item.name,item.code,szyjlString(model)
+            print util.getLast4MonthKLine(item.code)
 
     #价值投资选股
     print '\n===============================价值投资股票========================================'
     th = util.getMostValueableStockList()
-    for item in th:
-        model = szyjl(item.code)
-        #不需要过滤换手率以及市值，价值投资
-        print item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
-        print util.RoeStringForCode(item.code)
+    if th and len(th) > 0:
+        for item in th:
+            model = szyjl(item.code)
+            #不需要过滤换手率以及市值，价值投资
+            print item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
+            print util.RoeStringForCode(item.code)
 
     # #调研次数
     print '\n=================================机构调研次数排行==================================='
     dy = util.getCompanyResearchRank()
-    for item in dy:
-        print item.name, item.code, item.time, item.desc, item.sum
+    if dy and len(dy):
+        for item in dy:
+            print item.name, item.code, item.time, item.desc, item.sum
     #
     # #推荐公司
     print '\n===============================券商推荐公司======================================='
     tj = util.getRcommandedCompanyList()
-    for item in tj:
-        print item.code, item.name, item.time, item.org, item.reason, item.advice
-        #print util.RoeStringForCode(item.code)
+    if tj and len(tj):
+        for item in tj:
+            print item.code, item.name, item.time, item.org, item.reason, item.advice
+            #print util.RoeStringForCode(item.code)
 
     #推荐次数排行公司
     print '\n======================================券商推荐次数排行============================================='
     tj = util.getRcommandRankList()
-    for item in tj:
-        print item.code.ljust(9,' '),item.name.ljust(8,' '),('券商推荐次数:'+item.count + '  买入评级:' + item.buyCount + '  增持评级:' + item.addCount)
+    if tj and len(tj):
+        for item in tj:
+            print item.code.ljust(9,' '),item.name.ljust(8,' '),('券商推荐次数:'+item.count + '  买入评级:' + item.buyCount + '  增持评级:' + item.addCount)
 
 
     # #股东增持
     print '\n====================================股东增持====================================='
     gd = util.getStockholderHoldsStocks()
-    for item in gd:
-        companyInfo = item.split(',')
-        print companyInfo[0],companyInfo[1],item
+    if gd and len(gd):
+        for item in gd:
+            companyInfo = item.split(',')
+            print companyInfo[0],companyInfo[1],item
 
     # #行业报告
     print '\n==================================行业涨幅分析报告================================='
     hy = util.getIndustryReport()
-    for item in hy:
-        print item.split(',')[10],item.split(',')[-1],'   ', item
+    if hy and len(hy):
+        for item in hy:
+            print item.split(',')[10],item.split(',')[-1],'   ', item
 
     #行业资金流入排行
     print '\n==============================行业资金流入排行====================================='
     lit = util.getHyzfRank()
-    for item in lit:
-        print item
+    if lit and len(lit):
+        for item in lit:
+            print item
 
     # #概念排行
     print '\n=================================概念涨幅排行====================================='
     lit = util.getIndustryRank()
-    for item in lit:
-        print item
-
+    if lit and len(lit):
+        for item in lit:
+            print item
 
     #如果是周六日，不执行
     day = time.strftime('%w')
@@ -629,7 +662,7 @@ def mainMethod():
     startPage = 1
     while True:
         infl = util.getInflowRankForPage(startPage)
-        if len(infl) > 0:
+        if infl and len(infl) > 0:
             for item in infl:
                 # code，name，newestprice,zhangfu,zhuliliuru,riqi
                 array = item.split(',')
@@ -645,7 +678,7 @@ def mainMethod():
                 stocklistName, str(array[1]), str(array[2]))
                 sqlins.executeSQL(sql)
                 sqlins.executeSQL(listsql)
-        if len(infl) < 100:
+        if infl and len(infl) < 100:
             break
         startPage += 1
 
@@ -654,7 +687,7 @@ def mainMethod():
     startPage = 1
     while True:
         li = util.getDetailStockInfo(startPage)
-        if len(li) > 0:
+        if li and len(li) > 0:
             for item in li:
                 array = item.split(',')
                 # code1  name2   zhangfu5, startPrice10，max11，min12

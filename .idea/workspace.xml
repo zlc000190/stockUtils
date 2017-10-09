@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2601c4f1-a9dd-44fe-890c-ee45f49cb021" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stockInfo.py" afterPath="$PROJECT_DIR$/stockInfo.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stock_crontab.log" afterPath="$PROJECT_DIR$/stock_crontab.log" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,7 +13,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/stockUtils$stockInfo.coverage" NAME="stockInfo Coverage Results" MODIFIED="1507473493496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/stockUtils$stockInfo.coverage" NAME="stockInfo Coverage Results" MODIFIED="1507515827739" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
@@ -21,15 +21,25 @@
       <file leaf-file-name="stockInfo.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/stockInfo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="572" column="60" lean-forward="false" selection-start-line="572" selection-start-column="60" selection-end-line="572" selection-end-column="60" />
+            <state relative-caret-position="204">
+              <caret line="680" column="19" lean-forward="false" selection-start-line="680" selection-start-column="19" selection-end-line="680" selection-end-column="19" />
               <folding>
                 <element signature="e#70#80#0" expanded="true" />
-                <marker date="1507473485000" expanded="true" signature="23437:23449" ph="insert into stock5DayDetailData... " />
-                <marker date="1507473485000" expanded="true" signature="23437:23524" ph="insert into missing_value... " />
-                <marker date="1507473485000" expanded="true" signature="23615:23661" ph="insert into missing_value... " />
-                <marker date="1507473485000" expanded="true" signature="24381:24513" ph="update missi... " />
+                <marker date="1507515821000" expanded="true" signature="24878:24890" ph="insert into stock5DayDetailData... " />
+                <marker date="1507515821000" expanded="true" signature="24878:24965" ph="insert into missing_value... " />
+                <marker date="1507515821000" expanded="true" signature="25056:25102" ph="insert into missing_value... " />
+                <marker date="1507515821000" expanded="true" signature="25838:25970" ph="update missi... " />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="exceptions.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Caches/PyCharm2017.1/python_stubs/-2125986627/exceptions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="685">
+              <caret line="386" column="23" lean-forward="false" selection-start-line="386" selection-start-column="6" selection-end-line="386" selection-end-column="23" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -110,16 +120,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons/django/db/models/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="query.py" pinned="false" current-in-tab="false">
         <entry file="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons/django/db/models/query.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -163,6 +163,9 @@
       <find>gd</find>
       <find>利亚</find>
       <find>rank</find>
+      <find>合</find>
+      <find>last</find>
+      <find>update</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -186,10 +189,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="29" />
-    <option name="y" value="81" />
-    <option name="width" value="1216" />
-    <option name="height" value="644" />
+    <option name="x" value="66" />
+    <option name="y" value="23" />
+    <option name="width" value="1249" />
+    <option name="height" value="728" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -450,18 +453,19 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="29" y="81" width="1216" height="644" extended-state="0" />
+    <frame x="66" y="23" width="1249" height="728" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1996587" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19419087" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.57608694" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4198113" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45833334" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45754716" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -484,64 +488,60 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>414</line>
+          <line>426</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>572</line>
+          <line>602</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>412</line>
+          <line>424</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>408</line>
+          <line>420</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>108</line>
+          <line>120</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>570</line>
+          <line>599</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>415</line>
+          <line>427</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>198</line>
+          <line>210</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/stockInfo.py</url>
+          <line>107</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/stockInfo.py</url>
+          <line>548</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="23" />
+      <option name="time" value="25" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mysqlOperation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#70#84#0" expanded="true" />
-            <marker date="1507083257000" expanded="true" signature="743:791" ph="select disti... stock5DayDetailData" />
-            <marker date="1507083257000" expanded="true" signature="1301:1507" ph="insert into missing_value... " />
-            <marker date="1507083257000" expanded="true" signature="1406:1507" ph="select code,... missing_value" />
-            <marker date="1507083257000" expanded="true" signature="1625:1637" ph="delete from " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/constant.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -563,10 +563,10 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507473485000" expanded="true" signature="23437:23449" ph="insert into stock5DayDetailData... " />
-            <marker date="1507473485000" expanded="true" signature="23437:23524" ph="insert into missing_value... " />
-            <marker date="1507473485000" expanded="true" signature="23615:23661" ph="insert into missing_value... " />
-            <marker date="1507473485000" expanded="true" signature="24381:24513" ph="update missi... " />
+            <marker date="1507515821000" expanded="true" signature="24878:24890" ph="insert into stock5DayDetailData... " />
+            <marker date="1507515821000" expanded="true" signature="24878:24965" ph="insert into missing_value... " />
+            <marker date="1507515821000" expanded="true" signature="25056:25102" ph="insert into missing_value... " />
+            <marker date="1507515821000" expanded="true" signature="25838:25970" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -606,10 +606,10 @@
           <caret line="476" column="9" lean-forward="false" selection-start-line="476" selection-start-column="9" selection-end-line="476" selection-end-column="9" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507473485000" expanded="true" signature="23437:23449" ph="insert into stock5DayDetailData... " />
-            <marker date="1507473485000" expanded="true" signature="23437:23524" ph="insert into missing_value... " />
-            <marker date="1507473485000" expanded="true" signature="23615:23661" ph="insert into missing_value... " />
-            <marker date="1507473485000" expanded="true" signature="24381:24513" ph="update missi... " />
+            <marker date="1507515821000" expanded="true" signature="24878:24890" ph="insert into stock5DayDetailData... " />
+            <marker date="1507515821000" expanded="true" signature="24878:24965" ph="insert into missing_value... " />
+            <marker date="1507515821000" expanded="true" signature="25056:25102" ph="insert into missing_value... " />
+            <marker date="1507515821000" expanded="true" signature="25838:25970" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -642,10 +642,10 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507473485000" expanded="true" signature="23437:23449" ph="insert into stock5DayDetailData... " />
-            <marker date="1507473485000" expanded="true" signature="23437:23524" ph="insert into missing_value... " />
-            <marker date="1507473485000" expanded="true" signature="23615:23661" ph="insert into missing_value... " />
-            <marker date="1507473485000" expanded="true" signature="24381:24513" ph="update missi... " />
+            <marker date="1507515821000" expanded="true" signature="24878:24890" ph="insert into stock5DayDetailData... " />
+            <marker date="1507515821000" expanded="true" signature="24878:24965" ph="insert into missing_value... " />
+            <marker date="1507515821000" expanded="true" signature="25056:25102" ph="insert into missing_value... " />
+            <marker date="1507515821000" expanded="true" signature="25838:25970" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -678,10 +678,10 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507473485000" expanded="true" signature="23437:23449" ph="insert into stock5DayDetailData... " />
-            <marker date="1507473485000" expanded="true" signature="23437:23524" ph="insert into missing_value... " />
-            <marker date="1507473485000" expanded="true" signature="23615:23661" ph="insert into missing_value... " />
-            <marker date="1507473485000" expanded="true" signature="24381:24513" ph="update missi... " />
+            <marker date="1507515821000" expanded="true" signature="24878:24890" ph="insert into stock5DayDetailData... " />
+            <marker date="1507515821000" expanded="true" signature="24878:24965" ph="insert into missing_value... " />
+            <marker date="1507515821000" expanded="true" signature="25056:25102" ph="insert into missing_value... " />
+            <marker date="1507515821000" expanded="true" signature="25838:25970" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -920,16 +920,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2017.1/python_stubs/-2125986627/exceptions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="685">
+          <caret line="386" column="23" lean-forward="false" selection-start-line="386" selection-start-column="6" selection-end-line="386" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/stockInfo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="572" column="60" lean-forward="false" selection-start-line="572" selection-start-column="60" selection-end-line="572" selection-end-column="60" />
+        <state relative-caret-position="204">
+          <caret line="680" column="19" lean-forward="false" selection-start-line="680" selection-start-column="19" selection-end-line="680" selection-end-column="19" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507473485000" expanded="true" signature="23437:23449" ph="insert into stock5DayDetailData... " />
-            <marker date="1507473485000" expanded="true" signature="23437:23524" ph="insert into missing_value... " />
-            <marker date="1507473485000" expanded="true" signature="23615:23661" ph="insert into missing_value... " />
-            <marker date="1507473485000" expanded="true" signature="24381:24513" ph="update missi... " />
+            <marker date="1507515821000" expanded="true" signature="24878:24890" ph="insert into stock5DayDetailData... " />
+            <marker date="1507515821000" expanded="true" signature="24878:24965" ph="insert into missing_value... " />
+            <marker date="1507515821000" expanded="true" signature="25056:25102" ph="insert into missing_value... " />
+            <marker date="1507515821000" expanded="true" signature="25838:25970" ph="update missi... " />
           </folding>
         </state>
       </provider>
