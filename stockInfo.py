@@ -9,6 +9,7 @@ import  urllib
 import  re
 import simplejson
 import  time
+from datetime import datetime
 import os.path as fpath
 from bs4 import BeautifulSoup
 from mysqlOperation import mysqlOp
@@ -542,7 +543,7 @@ def mainMethod():
     util = StockUtils()
     sqlins = mysqlOp()
 
-    # 当天创新高
+    print '\n=======================%s=========================' % datetime.today()
     print '\n==============================当日新高======================================'
     print '=======================可能当日开始突破、也可能已经突破了数日======================='
     li = util.getTodayMaxStockList()
@@ -569,7 +570,8 @@ def mainMethod():
             model = szyjl(item.code)
             if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
             print item.name,item.code,szyjlString(model)
-            print util.getLast4MonthKLine(item.code)
+            print '月K线图:' +  util.getLast4MonthKLine(item.code)
+            print '年K线图:' +  util.getLast4YearKLine(item.code)
 
     #价值投资选股
     print '\n===============================价值投资股票========================================'
