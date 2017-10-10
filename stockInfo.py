@@ -569,7 +569,7 @@ def szyjlString(model):
     return u'市值:'+ model.sz +u'亿' + u'  市盈率:'+model.syl + u'  市净率:'+model.sjl + u'  换手率:'+model.hsl
 
 def mostValueableCompanyString(model):
-    return ('净资产收益率增长率:'+model.jzcsyl).ljust(15,' ') + (u'  3年利润复合增长率:'+model.fhjlrzzl).ljust(21,' ') + ('  持仓机构数:' + model.orgCount)
+    return ('净资产收益率年增长率:'+model.jzcsyl).ljust(15,' ') + (u'  3年利润复合增长率:'+model.fhjlrzzl).ljust(21,' ') + ('  持仓机构数:' + model.orgCount)
 
 def percentToFloat(s):
     return float(s.strip("%"))
