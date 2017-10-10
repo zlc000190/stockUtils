@@ -12,7 +12,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/stockUtils$stockInfo.coverage" NAME="stockInfo Coverage Results" MODIFIED="1507564037152" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/stockUtils$stockInfo.coverage" NAME="stockInfo Coverage Results" MODIFIED="1507648472953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
@@ -20,14 +20,13 @@
       <file leaf-file-name="stockInfo.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/stockInfo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="126" column="19" lean-forward="true" selection-start-line="126" selection-start-column="19" selection-end-line="126" selection-end-column="19" />
+            <state relative-caret-position="68">
+              <caret line="571" column="22" lean-forward="false" selection-start-line="571" selection-start-column="22" selection-end-line="571" selection-end-column="22" />
               <folding>
                 <element signature="e#70#80#0" expanded="true" />
-                <marker date="1507564009000" expanded="true" signature="26539:26551" ph="insert into stock5DayDetailData... " />
-                <marker date="1507564009000" expanded="true" signature="26539:26626" ph="insert into missing_value... " />
-                <marker date="1507564009000" expanded="true" signature="26717:26763" ph="insert into missing_value... " />
-                <marker date="1507564009000" expanded="true" signature="27542:27674" ph="update missi... " />
+                <marker date="1507648466000" expanded="true" signature="26967:27054" ph="insert into missing_value... " />
+                <marker date="1507648466000" expanded="true" signature="27145:27191" ph="insert into missing_value... " />
+                <marker date="1507648466000" expanded="true" signature="27975:28107" ph="update missi... " />
               </folding>
             </state>
           </provider>
@@ -36,7 +35,7 @@
       <file leaf-file-name="re.py" pinned="false" current-in-tab="false">
         <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/re.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
+            <state relative-caret-position="4389">
               <caret line="233" column="0" lean-forward="false" selection-start-line="233" selection-start-column="0" selection-end-line="233" selection-end-column="0" />
               <folding />
             </state>
@@ -47,13 +46,8 @@
         <entry file="file://$PROJECT_DIR$/mysqlOperation.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="95">
-              <caret line="5" column="14" lean-forward="true" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
-              <folding>
-                <marker date="1507521742000" expanded="true" signature="725:773" ph="select disti... stock5DayDetailData" />
-                <marker date="1507521742000" expanded="true" signature="1283:1489" ph="insert into missing_value... " />
-                <marker date="1507521742000" expanded="true" signature="1388:1489" ph="select code,... missing_value" />
-                <marker date="1507521742000" expanded="true" signature="1607:1619" ph="delete from " />
-              </folding>
+              <caret line="5" column="14" lean-forward="false" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -70,10 +64,9 @@
       </file>
       <file leaf-file-name="stock_crontab.log" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/stock_crontab.log">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="1110" column="13" lean-forward="false" selection-start-line="1110" selection-start-column="13" selection-end-line="1110" selection-end-column="13" />
-              <folding />
+          <provider selected="true" editor-type-id="LogFileEditorProvider">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
             </state>
           </provider>
         </entry>
@@ -116,6 +109,7 @@
       <find>update</find>
       <find>print</find>
       <find>mostValueableStockUrl</find>
+      <find>3年</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -139,10 +133,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="27" />
-    <option name="y" value="53" />
+    <option name="x" value="24" />
+    <option name="y" value="23" />
     <option name="width" value="1248" />
-    <option name="height" value="702" />
+    <option name="height" value="694" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -159,6 +153,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -188,7 +183,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -403,19 +397,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="27" y="53" width="1248" height="702" extended-state="0" />
-    <editor active="true" />
+    <frame x="24" y="23" width="1248" height="694" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19767442" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17524917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3704918" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5215947" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29344264" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29344264" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -513,10 +506,9 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507564009000" expanded="true" signature="26539:26551" ph="insert into stock5DayDetailData... " />
-            <marker date="1507564009000" expanded="true" signature="26539:26626" ph="insert into missing_value... " />
-            <marker date="1507564009000" expanded="true" signature="26717:26763" ph="insert into missing_value... " />
-            <marker date="1507564009000" expanded="true" signature="27542:27674" ph="update missi... " />
+            <marker date="1507648466000" expanded="true" signature="26967:27054" ph="insert into missing_value... " />
+            <marker date="1507648466000" expanded="true" signature="27145:27191" ph="insert into missing_value... " />
+            <marker date="1507648466000" expanded="true" signature="27975:28107" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -525,12 +517,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1507521742000" expanded="true" signature="725:773" ph="select disti... stock5DayDetailData" />
-            <marker date="1507521742000" expanded="true" signature="1283:1489" ph="insert into missing_value... " />
-            <marker date="1507521742000" expanded="true" signature="1388:1489" ph="select code,... missing_value" />
-            <marker date="1507521742000" expanded="true" signature="1607:1619" ph="delete from " />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -555,10 +542,9 @@
           <caret line="476" column="9" lean-forward="false" selection-start-line="476" selection-start-column="9" selection-end-line="476" selection-end-column="9" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507564009000" expanded="true" signature="26539:26551" ph="insert into stock5DayDetailData... " />
-            <marker date="1507564009000" expanded="true" signature="26539:26626" ph="insert into missing_value... " />
-            <marker date="1507564009000" expanded="true" signature="26717:26763" ph="insert into missing_value... " />
-            <marker date="1507564009000" expanded="true" signature="27542:27674" ph="update missi... " />
+            <marker date="1507648466000" expanded="true" signature="26967:27054" ph="insert into missing_value... " />
+            <marker date="1507648466000" expanded="true" signature="27145:27191" ph="insert into missing_value... " />
+            <marker date="1507648466000" expanded="true" signature="27975:28107" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -567,12 +553,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1507521742000" expanded="true" signature="725:773" ph="select disti... stock5DayDetailData" />
-            <marker date="1507521742000" expanded="true" signature="1283:1489" ph="insert into missing_value... " />
-            <marker date="1507521742000" expanded="true" signature="1388:1489" ph="select code,... missing_value" />
-            <marker date="1507521742000" expanded="true" signature="1607:1619" ph="delete from " />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -590,10 +571,9 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507564009000" expanded="true" signature="26539:26551" ph="insert into stock5DayDetailData... " />
-            <marker date="1507564009000" expanded="true" signature="26539:26626" ph="insert into missing_value... " />
-            <marker date="1507564009000" expanded="true" signature="26717:26763" ph="insert into missing_value... " />
-            <marker date="1507564009000" expanded="true" signature="27542:27674" ph="update missi... " />
+            <marker date="1507648466000" expanded="true" signature="26967:27054" ph="insert into missing_value... " />
+            <marker date="1507648466000" expanded="true" signature="27145:27191" ph="insert into missing_value... " />
+            <marker date="1507648466000" expanded="true" signature="27975:28107" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -602,12 +582,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1507521742000" expanded="true" signature="725:773" ph="select disti... stock5DayDetailData" />
-            <marker date="1507521742000" expanded="true" signature="1283:1489" ph="insert into missing_value... " />
-            <marker date="1507521742000" expanded="true" signature="1388:1489" ph="select code,... missing_value" />
-            <marker date="1507521742000" expanded="true" signature="1607:1619" ph="delete from " />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -625,10 +600,9 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507564009000" expanded="true" signature="26539:26551" ph="insert into stock5DayDetailData... " />
-            <marker date="1507564009000" expanded="true" signature="26539:26626" ph="insert into missing_value... " />
-            <marker date="1507564009000" expanded="true" signature="26717:26763" ph="insert into missing_value... " />
-            <marker date="1507564009000" expanded="true" signature="27542:27674" ph="update missi... " />
+            <marker date="1507648466000" expanded="true" signature="26967:27054" ph="insert into missing_value... " />
+            <marker date="1507648466000" expanded="true" signature="27145:27191" ph="insert into missing_value... " />
+            <marker date="1507648466000" expanded="true" signature="27975:28107" ph="update missi... " />
           </folding>
         </state>
       </provider>
@@ -741,7 +715,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -777,7 +750,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -785,7 +757,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -793,7 +764,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -801,7 +771,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -809,7 +778,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6992">
           <caret line="373" column="0" lean-forward="false" selection-start-line="373" selection-start-column="0" selection-end-line="373" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -825,7 +793,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="309">
           <caret line="386" column="23" lean-forward="false" selection-start-line="386" selection-start-column="6" selection-end-line="386" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -833,26 +800,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mysqlOperation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
-          <caret line="5" column="14" lean-forward="true" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
-          <folding>
-            <marker date="1507521742000" expanded="true" signature="725:773" ph="select disti... stock5DayDetailData" />
-            <marker date="1507521742000" expanded="true" signature="1283:1489" ph="insert into missing_value... " />
-            <marker date="1507521742000" expanded="true" signature="1388:1489" ph="select code,... missing_value" />
-            <marker date="1507521742000" expanded="true" signature="1607:1619" ph="delete from " />
-          </folding>
+          <caret line="5" column="14" lean-forward="false" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/re.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
+        <state relative-caret-position="4389">
           <caret line="233" column="0" lean-forward="false" selection-start-line="233" selection-start-column="0" selection-end-line="233" selection-end-column="0" />
           <folding />
         </state>
@@ -867,7 +828,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/stock_crontab.log">
-      <provider selected="true" editor-type-id="text-editor">
+      <provider selected="true" editor-type-id="LogFileEditorProvider">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
         <state relative-caret-position="227">
           <caret line="1110" column="13" lean-forward="false" selection-start-line="1110" selection-start-column="13" selection-end-line="1110" selection-end-column="13" />
           <folding />
@@ -876,14 +842,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/stockInfo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="126" column="19" lean-forward="true" selection-start-line="126" selection-start-column="19" selection-end-line="126" selection-end-column="19" />
+        <state relative-caret-position="68">
+          <caret line="571" column="22" lean-forward="false" selection-start-line="571" selection-start-column="22" selection-end-line="571" selection-end-column="22" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1507564009000" expanded="true" signature="26539:26551" ph="insert into stock5DayDetailData... " />
-            <marker date="1507564009000" expanded="true" signature="26539:26626" ph="insert into missing_value... " />
-            <marker date="1507564009000" expanded="true" signature="26717:26763" ph="insert into missing_value... " />
-            <marker date="1507564009000" expanded="true" signature="27542:27674" ph="update missi... " />
+            <marker date="1507648466000" expanded="true" signature="26967:27054" ph="insert into missing_value... " />
+            <marker date="1507648466000" expanded="true" signature="27145:27191" ph="insert into missing_value... " />
+            <marker date="1507648466000" expanded="true" signature="27975:28107" ph="update missi... " />
           </folding>
         </state>
       </provider>

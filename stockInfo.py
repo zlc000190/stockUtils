@@ -398,7 +398,7 @@ class StockUtils(object):
         s = ''
         if li and len(li) > 0:
             for item in li:
-                s += '季报:' + item.dateOfRoe + '  投资回报率:' + item.roe + '%' + '  利润增长率:' + item.profitRate + '%' + '  总收入:' + str(int(float(item.income) / 10000)) + '亿' + ' 总利润:' + str(int(float(item.profit) / 10000)) + '亿'
+                s += '季报:' + item.dateOfRoe + '  净资产收益率:' + item.roe + '%' + '  净利润同比增长率:' + item.profitRate + '%' + '  总收入:' + str(int(float(item.income) / 10000)) + '亿' + ' 总利润:' + str(int(float(item.profit) / 10000)) + '亿'
                 s += '\n'
             return s
         else:
@@ -569,7 +569,7 @@ def szyjlString(model):
     return u'市值:'+ model.sz +u'亿' + u'  市盈率:'+model.syl + u'  市净率:'+model.sjl + u'  换手率:'+model.hsl
 
 def mostValueableCompanyString(model):
-    return ('净资产收益率:'+model.jzcsyl).ljust(15,' ') + (u'  3年利润复合增长率:'+model.fhjlrzzl).ljust(21,' ') + ('  持仓机构数:' + model.orgCount)
+    return ('净资产收益率增长率:'+model.jzcsyl).ljust(15,' ') + (u'  3年利润复合增长率:'+model.fhjlrzzl).ljust(21,' ') + ('  持仓机构数:' + model.orgCount)
 
 def percentToFloat(s):
     return float(s.strip("%"))
