@@ -75,7 +75,10 @@ mbzfRank = 'http://q.stock.sohu.com/jlp/rank/priceExpect.up'
 #净资产收益率12%  3年利润增长率10% 100亿市值以上
 #mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.12)][cz_cznl06(1|0.1)][cz20(1|100y)]&p=1&jn=pUnYlfVk&ps=100&s=cz20(1|100y)&st=-1&r=1507352123438'
 #净资产收益率12%  3年利润增长率10%，利润同比增长率
-mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.12)][cz_cznl06(1|0.1)][cz_jgcg01][cznl05(4|0.1)][cz19(1|100y)]&p=1&jn=DvMQgnCP&ps=100&r=1507563206241'
+#mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.12)][cz_cznl06(1|0.1)][cz_jgcg01][cznl05(4|0.1)][cz19(1|100y)]&p=1&jn=DvMQgnCP&ps=100&r=1507563206241'
+#3年净利润增长率10以上，资产收益率大于8%，市值超过210亿
+mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cznl06(1|0.1)][cz_jgcg01][cz_ylnl01(4|0.08,5|1.00)][cz19(4|2100000w)]&p=%s&jn=qVlwdjPQ&ps=100&s=cz_jgcg01&st=-1&r=1507621522335'
+
 
 #ROE 投资回报率
 ROEOfStockUrl = 'http://data.eastmoney.com/DataCenter_V3/stockdata/cwzy.ashx?code=%s'
@@ -92,6 +95,7 @@ last4YearKLineUrl = 'http://pifm.eastmoney.com/EM_Finance2014PictureInterface/In
 #公司市值下限
 companySzDownLimit = 50
 companyHslDownLimit = 1.0
+pageSize  = 100
 
 def getHtmlFromUrl(url,utf8coding=False):
     try:
@@ -106,8 +110,13 @@ def getHtmlFromUrl(url,utf8coding=False):
     finally:
         return res
 
+def hasHTML(obj):
+    return obj.startswith('<!DOCTYPE HTML PUBLIC')
+
+
 def getJsonObj(obj):
     if not obj:return None
+    if hasHTML(obj):return None
     #"var moJuuzHq="{"Results":["2,300672,国科微,是","2,300676,华大基因,是","1,603612,索通发展,是","1,603707,健友股份,是","2,002888,惠威科技,是","2,300678,中科信息,是","2,002889,东方嘉盛,是","1,603860,中公高科,是","2,300685,艾德生物,是","2,300687,赛意信息,是","1,603880,南卫股份,是","2,300689,澄天伟业,是","1,603602,纵横通信,是","2,300688,创业黑马,是","1,603721,中广天择,是","2,300691,联合光电,是","1,601326,秦港股份,是","1,603776,永安行,是","2,002892,科力尔,是","1,603129,春风动力,是","1,603557,起步股份,是"],"AllCount":"21","PageCount":"1","AtPage":"1","PageSize":"40","ErrMsg":"","UpdateTime":"2017/8/19 13:37:03","TimeOut":"3ms"}"
     # newobj = obj.split('=')[1]  #//必须要将前面的= 去掉
     # return  simplejson.loads(newobj)
@@ -117,17 +126,19 @@ def getJsonObj(obj):
 
 def getJsonObjOrigin(obj):
     if not obj:return None
+    if hasHTML(obj): return None
     return simplejson.loads(obj)
 
 def getJsonList(obj):
-    '''解析列表'''
-    if obj:
+    '''解析列表,[ 开头'''
+    if obj and obj.startswith('['):
         return simplejson.loads(obj)
     else:
         return None
 
 def getJsonObj2(obj):
     if not obj: return None
+    if hasHTML(obj): return None
     partern = re.compile("data:.*?\"]")
     list = re.findall(partern, obj)
     if list and len(list) > 0:
@@ -139,6 +150,7 @@ def getJsonObj2(obj):
 
 def getJsonObj3(obj):
     if not obj: return None
+    if hasHTML(obj): return None
     partern = re.compile("data:.*?\"]")
     list = re.findall(partern, obj)
     if list and len(list) > 0:
@@ -149,6 +161,7 @@ def getJsonObj3(obj):
         return None
 def getJsonObj4(obj):
     if not obj: return None
+    if hasHTML(obj): return None
     partern = re.compile("rank:.*?\"]")
     list = re.findall(partern, obj)
     if list and len(list) > 0:
@@ -160,6 +173,7 @@ def getJsonObj4(obj):
 
 def getJsonObj5(obj):
     if not obj: return None
+    if hasHTML(obj): return None
     partern = re.compile("\"Value\":.*?\"]")
     list = re.findall(partern, obj)
     if list and len(list) > 0:
@@ -192,12 +206,6 @@ def getMarketCode(code,prefix = False):
             return  code + '.SH'
         else:
             return  code + '.SZ'
-
-def getGloRank():
-    '''目标涨幅排行'''
-    res = getHtmlFromUrl(mbzfRank)
-    soup = BeautifulSoup(res)
-    soup.find()
 
 
 class CompanyInfo(object):
@@ -260,17 +268,16 @@ class StockLatestInfo(CompanyInfo):
 
 class MostValueableCompanyInfo(CompanyInfo):
     '''最可投资价值股票,净资产收益率>15%，3年净利润复合增长率>10%'''
-    def __init__(self,code,name,jzcsyl,fhjlrzzl,orgCount,profitIncreaseRate,sz):
+    def __init__(self,code,name,jzcsyl,fhjlrzzl,orgCount,sz):
         super(MostValueableCompanyInfo,self).__init__(code,name)
         self.jzcsyl = jzcsyl
         self.fhjlrzzl = fhjlrzzl
         self.orgCount = orgCount
-        self.profitIncreaseRate = profitIncreaseRate
         self.sz = sz
 
     #如果要排序，就需要实现该方法
     def __lt__(self, other):
-        return float(self.fhjlrzzl.strip('%')) > float(other.fhjlrzzl.strip('%'))
+        return float(self.orgCount) > float(other.orgCount)
 
 class RoeModel(object):
     '''日期，roe，利润增长率,总收入，总利润'''
@@ -348,31 +355,33 @@ class StockUtils(object):
     @classmethod
     def getMostValueableStockList(self):
         '''价值投资股票列表'''
-        res = getHtmlFromUrl(mostValueableStockUrl)
-        companyListObj = getJsonObj(res)
-        if companyListObj:
-            list =  companyListObj['Results']
-            cList = []
-            if list and len(list):
-                for item in list:
-                    stockInfo = item.split(',')
-                    jzcsyl = str(float(stockInfo[3].split('(')[0]) * 100) + '%'
-                    fhlrzzl = str(float(stockInfo[4].split('(')[0]) * 100) + '%'
-                    orgCount = stockInfo[5].split('(')[0]
-                    profitIncreaseRate = str(float(stockInfo[6].split('(')[0]) * 100) + '%'
-                    sz = str(int(float(stockInfo[7])/10000/10000))
-                    cinfo = MostValueableCompanyInfo(stockInfo[1],stockInfo[2],jzcsyl,fhlrzzl,orgCount,profitIncreaseRate,sz)
-                    cList.append(cinfo)
-                #   根据3年利润复合增长率递增排序
-                    cList.sort()
-                return cList
-        return  None
+        page = 1
+        cList = []
+        while True:
+            res = getHtmlFromUrl(mostValueableStockUrl % page)
+            if res:page += 1
+            companyListObj = getJsonObj(res)
+            if companyListObj:
+                list =  companyListObj['Results']
+                if list and len(list):
+                    for item in list:
+                        stockInfo = item.split(',')
+                        jzcsyl = str(float(stockInfo[5].split('(')[0]) * 100) + '%'
+                        fhlrzzl = str(float(stockInfo[3].split('(')[0]) * 100) + '%'
+                        orgCount = stockInfo[4].split('(')[0]
+                        sz = str(int(float(stockInfo[6])/10000/10000))
+                        cinfo = MostValueableCompanyInfo(stockInfo[1],stockInfo[2],jzcsyl,fhlrzzl,orgCount,sz)
+                        cList.append(cinfo)
+                    if len(list) < pageSize:break
+                else:break
+            else:break
+        return cList
 
     @classmethod
     def getRoeModelListOfStockForCode(self,code):
         '''价值投资股票列表'''
         url = ROEOfStockUrl % (getMarketCode(code))
-        res = getHtmlFromUrl(url)
+        res = getHtmlFromUrl(url,True)
         ROEList = getJsonList(res)
         if isinstance(ROEList,list):
             cList = []
@@ -560,7 +569,7 @@ def szyjlString(model):
     return u'市值:'+ model.sz +u'亿' + u'  市盈率:'+model.syl + u'  市净率:'+model.sjl + u'  换手率:'+model.hsl
 
 def mostValueableCompanyString(model):
-    return ('净资产收益率:'+model.jzcsyl).ljust(15,' ') + (u'  3年利润复合增长率:'+model.fhjlrzzl).ljust(21,' ')
+    return ('净资产收益率:'+model.jzcsyl).ljust(15,' ') + (u'  3年利润复合增长率:'+model.fhjlrzzl).ljust(21,' ') + ('   持仓机构数:' + model.orgCount)
 
 def percentToFloat(s):
     return float(s.strip("%"))
@@ -712,7 +721,7 @@ def mainMethod():
                 stocklistName, str(array[1]), str(array[2]))
                 sqlins.executeSQL(sql)
                 sqlins.executeSQL(listsql)
-        if infl and len(infl) < 100:
+        if infl and len(infl) < pageSize:
             break
         startPage += 1
 
@@ -732,7 +741,7 @@ def mainMethod():
                 sql = 'update  %s set startPrice = \'%s\',maxPrice=\'%s\',minPrice=\'%s\',syl = \'%s\',sjl=\'%s\',sz=\'%s\',hsl=\'%s\' WHERE  code = \'%s\'' % (
                 stockDetailTableList[-1],str(array[10]), str(array[11]), str(array[12]),valueModel.syl,valueModel.sjl,valueModel.sz,valueModel.hsl,str(array[1]))
                 sqlins.executeSQL(sql)
-        if len(li) < 100:
+        if len(li) < pageSize:
             break
         startPage += 1
 
