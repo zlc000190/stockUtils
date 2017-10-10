@@ -77,7 +77,7 @@ mbzfRank = 'http://q.stock.sohu.com/jlp/rank/priceExpect.up'
 #净资产收益率12%  3年利润增长率10%，利润同比增长率
 #mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.12)][cz_cznl06(1|0.1)][cz_jgcg01][cznl05(4|0.1)][cz19(1|100y)]&p=1&jn=DvMQgnCP&ps=100&r=1507563206241'
 #3年净利润增长率10以上，资产收益率大于8%，市值超过210亿
-mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cznl06(1|0.1)][cz_jgcg01][cz_ylnl01(4|0.08,5|1.00)][cz19(4|2100000w)]&p=%s&jn=qVlwdjPQ&ps=100&s=cz_jgcg01&st=-1&r=1507621522335'
+mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cznl06(1|0.1)][cz_jgcg01][cz_ylnl01(4|0.08,5|1.00)][cz19(4|2400000w)]&p=%s&jn=qVlwdjPQ&ps=100&s=cz_jgcg01&st=-1&r=1507621522335'
 
 
 #ROE 投资回报率
