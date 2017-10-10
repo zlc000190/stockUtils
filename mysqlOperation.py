@@ -22,9 +22,10 @@ class mysqlOp(object):
     def executeSQL(self,sql):
         '''初始化数据'''
         if sql and len(sql) > 0:
-            return self.cur.execute(sql)
+            #return self.cur.execute(sql)
+            return None
         else:
-            return
+            return  None
     def getNewestDate(self):
         '''获取最新股票信息日期'''
         self.cur.execute('select  distinct sdate from  stock5DayDetailData')
