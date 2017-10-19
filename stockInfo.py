@@ -82,7 +82,8 @@ mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&s
 
 #ROE 投资回报率
 ROEOfStockUrl = 'http://data.eastmoney.com/DataCenter_V3/stockdata/cwzy.ashx?code=%s'
-
+#code = sh601318
+ROEOfStockUrl2 = 'http://emweb.securities.eastmoney.com/PC_HSF10/FinanceAnalysis/FinanceAnalysisAjax?code=%s&ctype=2'
 #公司经营业务  sz000001
 bussinessDetailUrl = 'http://emweb.securities.eastmoney.com/PC_HSF10/CoreConception/CoreConceptionAjax?code=%s'
 
@@ -373,16 +374,22 @@ class StockUtils(object):
                         cinfo = MostValueableCompanyInfo(stockInfo[1],stockInfo[2],jzcsyl,fhlrzzl,orgCount,sz)
                         cList.append(cinfo)
                     if len(list) < pageSize:break
+                    #如果将要获取的页码比总共的页码大，那么直接退出
+                    if int(companyListObj['PageCount']) < page:break
                 else:break
             else:break
         return cList
 
     @classmethod
     def getRoeModelListOfStockForCode(self,code):
-        '''价值投资股票列表'''
-        url = ROEOfStockUrl % (getMarketCode(code))
+        '''价值投资股票信息'''
+        #url = ROEOfStockUrl % (getMarketCode(code,prefix=False))
+        url = ROEOfStockUrl2 % (getMarketCode(code,prefix=True))
         res = getHtmlFromUrl(url,True)
-        ROEList = getJsonList(res)
+        #ROEList = getJsonList(res)
+        obj = getJsonObjOrigin(res)
+        if not obj:return None
+        ROEList = obj['Result']['zyzb']
         if isinstance(ROEList,list):
             cList = []
             for item in ROEList:
