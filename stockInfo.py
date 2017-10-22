@@ -128,7 +128,13 @@ def getJsonObj(obj):
 def getJsonObjOrigin(obj):
     if not obj:return None
     if hasHTML(obj): return None
-    return simplejson.loads(obj)
+    o = None
+
+    try:
+        o = simplejson.loads(obj)
+    except Exception:
+        print  Exception.__name__,Exception
+    return o
 
 def getJsonList(obj):
     '''解析列表,[ 开头'''
@@ -281,12 +287,13 @@ class MostValueableCompanyInfo(CompanyInfo):
         return float(self.orgCount) > float(other.orgCount)
 
 class RoeModel(object):
-    '''日期，roe，利润增长率,总收入，总利润'''
-    def __init__(self,date,roe,profitRate,income,profit,):
+    '''日期，roe，利润增长率,收入增长率，总收入，总利润'''
+    def __init__(self,date,roe,profitRate,incomeRate,income,profit,):
         super(RoeModel,self).__init__()
         self.dateOfRoe = date
         self.roe = roe
         self.profitRate = profitRate
+        self.incomeRate = incomeRate
         self.income = income
         self.profit = profit
 
@@ -385,15 +392,15 @@ class StockUtils(object):
         '''价值投资股票信息'''
         #url = ROEOfStockUrl % (getMarketCode(code,prefix=False))
         url = ROEOfStockUrl2 % (getMarketCode(code,prefix=True))
-        res = getHtmlFromUrl(url,True)
+        res = getHtmlFromUrl(url,False)
         #ROEList = getJsonList(res)
         obj = getJsonObjOrigin(res)
         if not obj:return None
         ROEList = obj['Result']['zyzb']
-        if isinstance(ROEList,list):
+        if isinstance(ROEList,list) and len(ROEList) > 0:
             cList = []
             for item in ROEList:
-                m = RoeModel(item['ReportDate'],item['WeightedYieldOnNetAssets'],item['ProfitsYOYRate'],item['mainBusinessIncome'],item['retainedProfits'])
+                m = RoeModel(item['date'],item['jqjzcsyl'],item['gsjlrtbzz'],item['yyzsrtbzz'], item['yyzsr'],item['kfjlr'])
                 cList.append(m)
             return cList
         else:
@@ -405,7 +412,7 @@ class StockUtils(object):
         s = ''
         if li and len(li) > 0:
             for item in li:
-                s += '季报:' + item.dateOfRoe + '  净资产收益率:' + item.roe + '%' + '  净利润同比增长率:' + item.profitRate + '%' + '  总收入:' + str(int(float(item.income) / 10000)) + '亿' + ' 总利润:' + str(int(float(item.profit) / 10000)) + '亿'
+                s += (u'季报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ')
                 s += '\n'
             return s
         else:
