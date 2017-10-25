@@ -666,7 +666,7 @@ def mainMethod():
     if gd and len(gd):
         for item in gd:
             companyInfo = item.split(',')
-            print companyInfo[0],companyInfo[1],item
+            print companyInfo[0],companyInfo[1], companyInfo[-4],u'至',companyInfo[-3], companyInfo[5],(companyInfo[6] + u'万').ljust(13,' '),u'占流通股的', (companyInfo[7] + '%')
 
     # #行业报告
     print '\n==================================行业涨幅分析报告================================='
