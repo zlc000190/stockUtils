@@ -297,6 +297,11 @@ class RoeModel(object):
         self.income = income
         self.profit = profit
 
+class  CompanyProfitRankModel(CompanyInfo):
+    def __init__(self,code,name,profit):
+        super(CompanyProfitRankModel,self).__init__(code,name)
+        self.profit = profit
+
 class StockUtils(object):
     def __init__(self):
         super(StockUtils,self).__init__()
@@ -407,7 +412,7 @@ class StockUtils(object):
             return  None
 
     @classmethod
-    def RoeStringForCode(self,code):
+    def roeStringForCode(self,code):
         li = self.getRoeModelListOfStockForCode(code)
         s = ''
         if li and len(li) > 0:
@@ -415,6 +420,15 @@ class StockUtils(object):
                 s += (u'季报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ')
                 s += '\n'
             return s
+        else:
+            return None
+
+    @classmethod
+    def profitRankForCode(self,code):
+        li = self.getRoeModelListOfStockForCode(code)
+        s = ''
+        if li and len(li) > 0:
+            return li[0].profit
         else:
             return None
 
@@ -634,7 +648,7 @@ def mainMethod():
             if not model: continue
             #不需要过滤换手率以及市值，价值投资
             print item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
-            print util.RoeStringForCode(item.code)
+            print util.roeStringForCode(item.code)
 
     # #调研次数
     print '\n=================================机构调研次数排行==================================='
@@ -656,7 +670,7 @@ def mainMethod():
     if tj and len(tj):
         for item in tj:
             print item.code.ljust(9,' '),item.name.ljust(8,' '),('券商推荐次数:'+item.count + '  买入评级:' + item.buyCount + '  增持评级:' + item.addCount)
-            print util.RoeStringForCode(item.code)
+            print util.roeStringForCode(item.code)
             print util.getCompanyBussinessDetailString(item.code)
             print '\n'
 
@@ -717,6 +731,7 @@ def mainMethod():
     # 资金流入排行
     print '\n==============================资金流入排行======================================='
     startPage = 1
+    profitModelList = []
     while True:
         infl = util.getInflowRankForPage(startPage)
         if infl and len(infl) > 0:
@@ -729,41 +744,47 @@ def mainMethod():
                     array[4]) + '\'' + ',' + '\'' + str(array[5]) + '\'' + ',' + '\'' + str(array[15]) + '\''
                 # 资金流入sql
                 sql = 'insert into %s(code,sname,endPrice,priceIncrementPercent, inflowCount,sdate) VALUE (%s)' % (stockDetailTableList[-1],value)
-
                 # 证券列表sql
                 listsql = 'insert into %s(code,name) value(\'%s\',\'%s\')' % (
                 stocklistName, str(array[1]), str(array[2]))
-                sqlins.executeSQL(sql)
-                sqlins.executeSQL(listsql)
+                # sqlins.executeSQL(sql)
+                # sqlins.executeSQL(listsql)
+                p = util.profitRankForCode(array[1])
+                pmodel = CompanyProfitRankModel(array[1],array[2],p)
+                profitModelList.append(pmodel)
+                print 'page = %s'%str(startPage)
         if infl and len(infl) < pageSize:
+            sorted(profitModelList, key=lambda mo: mo.profit)
+            for model in profitModelList:
+                print model.code ,model.name,model.profit
             break
         startPage += 1
 
     # 沪深A 股的详细数据
-    print '\n================================沪深A股详细数据==================================='
-    startPage = 1
-    while True:
-        li = util.getDetailStockInfo(startPage)
-        if li and len(li) > 0:
-            for item in li:
-                array = item.split(',')
-                # code1  name2   zhangfu5, startPrice10，max11，min12
-                code = str(array[1])
-                #市盈率、市净率、市值
-                valueModel = util.getSylDetailDataForCode(code)
-                if not valueModel:continue
-                sql = 'update  %s set startPrice = \'%s\',maxPrice=\'%s\',minPrice=\'%s\',syl = \'%s\',sjl=\'%s\',sz=\'%s\',hsl=\'%s\' WHERE  code = \'%s\'' % (
-                stockDetailTableList[-1],str(array[10]), str(array[11]), str(array[12]),valueModel.syl,valueModel.sjl,valueModel.sz,valueModel.hsl,str(array[1]))
-                sqlins.executeSQL(sql)
-        if len(li) < pageSize:
-            break
-        startPage += 1
-
-    # 提交更新
-    sqlins.cur.close()
-    sqlins.conn.commit()
-    sqlins.conn.close()
-    # ============================end===============================
+    # print '\n================================沪深A股详细数据==================================='
+    # startPage = 1
+    # while True:
+    #     li = util.getDetailStockInfo(startPage)
+    #     if li and len(li) > 0:
+    #         for item in li:
+    #             array = item.split(',')
+    #             # code1  name2   zhangfu5, startPrice10，max11，min12
+    #             code = str(array[1])
+    #             #市盈率、市净率、市值
+    #             valueModel = util.getSylDetailDataForCode(code)
+    #             if not valueModel:continue
+    #             sql = 'update  %s set startPrice = \'%s\',maxPrice=\'%s\',minPrice=\'%s\',syl = \'%s\',sjl=\'%s\',sz=\'%s\',hsl=\'%s\' WHERE  code = \'%s\'' % (
+    #             stockDetailTableList[-1],str(array[10]), str(array[11]), str(array[12]),valueModel.syl,valueModel.sjl,valueModel.sz,valueModel.hsl,str(array[1]))
+    #             sqlins.executeSQL(sql)
+    #     if len(li) < pageSize:
+    #         break
+    #     startPage += 1
+    #
+    # # 提交更新
+    # sqlins.cur.close()
+    # sqlins.conn.commit()
+    # sqlins.conn.close()
+    # # ============================end===============================
     print '\n\n\n\n\n\n\n\n\n'
 
 if __name__ == '__main__':
