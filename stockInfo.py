@@ -426,7 +426,6 @@ class StockUtils(object):
     @classmethod
     def profitRankForCode(self,code):
         li = self.getRoeModelListOfStockForCode(code)
-        s = ''
         if li and len(li) > 0:
             return li[0].profit
         else:
@@ -703,30 +702,6 @@ def mainMethod():
         for item in lit:
             print item
 
-    #如果是周六日，不执行
-    day = time.strftime('%w')
-    if day == '0' or day == '6':return
-
-    #判断日期，如果是当天的重复数据，就只更新stock5DayDetailData，否则开始迁移表数据
-    #=======================================================
-    tstr = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    hour = time.localtime().tm_hour
-    sqlTime = sqlins.getNewestDate()
-    if sqlTime and sqlTime not in tstr and hour >= 16 and hour <= 23:
-        #下午4点到夜里23点才能更新数据
-        # ================================================
-        # 10天的数据，后9张表数据往前挪，所有的新数据插入到第5张表中
-        sqlins.moveDataIntables(stockDetailTableList);
-        # ================================================
-        # ================================股票详细信息入库第5张表==================================
-        # 先清理第10张表股票详细的数据
-        sqlins.clearTableData(stockDetailTableList[9])
-        # 清理股票列表，因为有新股更新
-        sqlins.clearTableData(stocklistName)
-    else:
-        # 先清理，然后直接更新stock5DayDetailData的数据
-        sqlins.clearTableData(stockDetailTableList[9])
-
 
     # 资金流入排行
     print '\n==============================盈利排行======================================'
@@ -749,15 +724,28 @@ def mainMethod():
                 stocklistName, str(array[1]), str(array[2]))
                 # sqlins.executeSQL(sql)
                 # sqlins.executeSQL(listsql)
-                p = util.profitRankForCode(array[1])[0:-1]
-                pmodel = CompanyProfitRankModel(array[1],array[2],p)
+                p = util.profitRankForCode(array[1])
+                # 如果没有数据
+                try:
+                    if '-' in p:continue
+                    elif p.endswith(u'万'):
+                        pr = float(p[0:-1])/10000
+                    else:
+                        pr = float(p[0:-1])
+
+                except Exception:
+                    print Exception.__name__,p,pr
+                    continue
+                finally:
+                    pass
+                pmodel = CompanyProfitRankModel(array[1], array[2], pr)
                 if pmodel:
                     profitModelList.append(pmodel)
 
         if infl and len(infl) < pageSize:
-            sorted(profitModelList, key=lambda mo: mo.profit)
-            for model in profitModelList:
-                print model.code ,model.name,(model.profit+'亿')
+            nlist = sorted(profitModelList, key=lambda mo: mo.profit)
+            for model in nlist:
+                print model.code ,model.name,(str(model.profit)+'亿')
             break
         startPage += 1
 
