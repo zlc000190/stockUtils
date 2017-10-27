@@ -749,18 +749,17 @@ def mainMethod():
                 stocklistName, str(array[1]), str(array[2]))
                 # sqlins.executeSQL(sql)
                 # sqlins.executeSQL(listsql)
-                p = util.profitRankForCode(array[1])
+                p = util.profitRankForCode(array[1])[0:-1]
                 pmodel = CompanyProfitRankModel(array[1],array[2],p)
                 if pmodel.profit.endswith(u'万'):
                     continue
                 else:
                     profitModelList.append(pmodel)
 
-                print 'page = %s'%str(startPage)
         if infl and len(infl) < pageSize:
             sorted(profitModelList, key=lambda mo: mo.profit)
             for model in profitModelList:
-                print model.code ,model.name,model.profit
+                print model.code ,model.name,(model.profit+'亿')
             break
         startPage += 1
 
