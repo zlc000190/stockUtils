@@ -751,9 +751,7 @@ def mainMethod():
                 # sqlins.executeSQL(listsql)
                 p = util.profitRankForCode(array[1])[0:-1]
                 pmodel = CompanyProfitRankModel(array[1],array[2],p)
-                if pmodel.profit.endswith(u'万'):
-                    continue
-                else:
+                if pmodel:
                     profitModelList.append(pmodel)
 
         if infl and len(infl) < pageSize:
