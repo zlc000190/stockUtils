@@ -642,11 +642,12 @@ def mainMethod():
     print '\n===============================价值投资股票========================================'
     th = util.getMostValueableStockList()
     if th and len(th) > 0:
+        print '===============================共 %s 个========================================\n' % str(len(th))
         for item in th:
             model = szyjl(item.code)
             if not model: continue
             #不需要过滤换手率以及市值，价值投资
-            print item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
+            print (u'第%s个:' % str(th.index(item) + 1)), item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
             print util.roeStringForCode(item.code)
 
     # #调研次数
