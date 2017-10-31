@@ -12,56 +12,117 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/stockUtils$stockInfo.coverage" NAME="stockInfo Coverage Results" MODIFIED="1509033940103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/stockUtils$stockInfo.coverage" NAME="stockInfo Coverage Results" MODIFIED="1509286171295" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="stockInfo.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/stockInfo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="146">
-              <caret line="754" column="28" lean-forward="true" selection-start-line="754" selection-start-column="28" selection-end-line="754" selection-end-column="28" />
+            <state relative-caret-position="189">
+              <caret line="113" column="23" lean-forward="false" selection-start-line="113" selection-start-column="23" selection-end-line="113" selection-end-column="23" />
               <folding>
                 <element signature="e#70#80#0" expanded="true" />
-                <marker date="1509033935000" expanded="true" signature="28172:28259" ph="insert into missing_value... " />
-                <marker date="1509033935000" expanded="true" signature="28349:28395" ph="insert into missing_value... " />
-                <marker date="1509033935000" expanded="true" signature="29694:29826" ph="update missi... " />
+                <marker date="1509285787000" expanded="true" signature="29409:29496" ph="insert into missing_value... " />
+                <marker date="1509285787000" expanded="true" signature="29586:29632" ph="insert into missing_value... " />
+                <marker date="1509285787000" expanded="true" signature="31248:31380" ph="update missi... " />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utf_8.py" pinned="false" current-in-tab="false">
-        <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/encodings/utf_8.py">
+      <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7">
-              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="-2576">
+              <caret line="14" column="3" lean-forward="false" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
+              <folding>
+                <element signature="e#0#16#0" expanded="true" />
+                <marker date="1502287867000" expanded="true" signature="5543:5555" ph="ALTER TABLE missing_value... " />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="re.py" pinned="false" current-in-tab="false">
-        <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/re.py">
+      <file leaf-file-name="mssql.py" pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/mssql.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-3221">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#44#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mysql.py" pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/mysql.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="233" column="0" lean-forward="false" selection-start-line="233" selection-start-column="0" selection-end-line="233" selection-end-column="0" />
-              <folding />
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#44#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mysqlOperation.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mysqlOperation.py">
+      <file leaf-file-name="oracle.py" pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/oracle.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
-              <caret line="21" column="8" lean-forward="false" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
+            <state relative-caret-position="-1016">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1507648981000" expanded="true" signature="756:804" ph="select disti... stock5DayDetailData" />
-                <marker date="1507648981000" expanded="true" signature="1314:1520" ph="insert into missing_value... " />
-                <marker date="1507648981000" expanded="true" signature="1419:1520" ph="select code,... missing_value" />
-                <marker date="1507648981000" expanded="true" signature="1638:1650" ph="delete from " />
+                <element signature="e#0#44#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="postgresql.py" pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/postgresql.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+                <marker date="1502287867000" expanded="true" signature="4595:5055" ph="select c.rel... pg_class" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="schemaobj.py" pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Python/2.7/site-packages/alembic/operations/schemaobj.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-110">
+              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#42#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sqlite.py" pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/sqlite.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="constant.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/constant.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="13" lean-forward="true" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -77,12 +138,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>利亚</find>
-      <find>rank</find>
-      <find>合</find>
-      <find>last</find>
-      <find>update</find>
-      <find>print</find>
       <find>mostValueableStockUrl</find>
       <find>美的</find>
       <find>3年</find>
@@ -103,10 +158,16 @@
       <find>mostValueableCompanyString</find>
       <find>szyjlString</find>
       <find>model = szyjl(item.code)</find>
-      <find>sort</find>
       <find>sort(</find>
-      <find>CompanyProfitRankModel</find>
       <find>companyProfitRankModel</find>
+      <find>sort</find>
+      <find>CompanyProfitRankModel</find>
+      <find>SQL</find>
+      <find>ROEList</find>
+      <find>康得新</find>
+      <find>getDetailStockInfo</find>
+      <find>getlast</find>
+      <find>CompanyKLineDetailDat</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -130,10 +191,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="17" />
-    <option name="y" value="30" />
-    <option name="width" value="1222" />
-    <option name="height" value="683" />
+    <option name="y" value="28" />
+    <option name="width" value="1280" />
+    <option name="height" value="714" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -166,6 +226,56 @@
               <item name="stockUtils" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; Python 2.7.10 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7) &gt;" type="70bed36:NamedLibraryElementNode" />
+            </path>
+            <path>
+              <item name="stockUtils" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; Python 2.7.10 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7) &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stockUtils" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; Python 2.7.10 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7) &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
+              <item name="alembic" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stockUtils" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; Python 2.7.10 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7) &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
+              <item name="alembic" type="462c0819:PsiDirectoryNode" />
+              <item name="autogenerate" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stockUtils" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; Python 2.7.10 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7) &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
+              <item name="alembic" type="462c0819:PsiDirectoryNode" />
+              <item name="ddl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stockUtils" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; Python 2.7.10 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7) &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
+              <item name="alembic" type="462c0819:PsiDirectoryNode" />
+              <item name="operations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stockUtils" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; Python 2.7.10 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7) &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
+              <item name="bson" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stockUtils" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; Python 2.7.10 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7) &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="lxml-2.3-py2.5-macosx-10.3-i386.egg" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -380,7 +490,7 @@
     </task>
     <servers />
   </component>
-  <component name="TodoView" selected-index="1">
+  <component name="TodoView">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -390,19 +500,20 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="17" y="30" width="1222" height="683" extended-state="0" />
+    <frame x="0" y="28" width="1280" height="714" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20373514" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32723948" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29761904" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48129252" sideWeight="0.5059322" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.450727" sideWeight="0.4940678" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27210885" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282313" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22959183" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21359223" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35204083" sideWeight="0.4940678" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32885906" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32885906" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32885906" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3070326" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42164782" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -410,7 +521,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -425,153 +535,60 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>659</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>656</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>112</line>
+          <line>114</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>404</line>
-          <option name="timeStamp" value="40" />
+          <line>336</line>
+          <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>403</line>
-          <option name="timeStamp" value="41" />
+          <line>461</line>
+          <option name="timeStamp" value="49" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>401</line>
-          <option name="timeStamp" value="43" />
+          <line>801</line>
+          <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>129</line>
-          <option name="timeStamp" value="45" />
+          <line>763</line>
+          <option name="timeStamp" value="52" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>133</line>
-          <option name="timeStamp" value="46" />
+          <line>633</line>
+          <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/stockInfo.py</url>
-          <line>398</line>
-          <option name="timeStamp" value="47" />
+          <line>196</line>
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/stockInfo.py</url>
+          <line>198</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/stockInfo.py</url>
+          <line>643</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/stockInfo.py</url>
+          <line>112</line>
+          <option name="timeStamp" value="59" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="48" />
+      <option name="time" value="60" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/constant.py" />
-    <entry file="file://$PROJECT_DIR$/stock_crontab.log" />
-    <entry file="file://$PROJECT_DIR$/stockInfo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#70#80#0" expanded="true" />
-            <marker date="1509033935000" expanded="true" signature="28172:28259" ph="insert into missing_value... " />
-            <marker date="1509033935000" expanded="true" signature="28349:28395" ph="insert into missing_value... " />
-            <marker date="1509033935000" expanded="true" signature="29694:29826" ph="update missi... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mysqlOperation.py" />
-    <entry file="file://$PROJECT_DIR$/constant.py" />
-    <entry file="file://$PROJECT_DIR$/stock_crontab.log" />
-    <entry file="file://$PROJECT_DIR$/stockInfo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8873">
-          <caret line="476" column="9" lean-forward="false" selection-start-line="476" selection-start-column="9" selection-end-line="476" selection-end-column="9" />
-          <folding>
-            <element signature="e#70#80#0" expanded="true" />
-            <marker date="1509033935000" expanded="true" signature="28172:28259" ph="insert into missing_value... " />
-            <marker date="1509033935000" expanded="true" signature="28349:28395" ph="insert into missing_value... " />
-            <marker date="1509033935000" expanded="true" signature="29694:29826" ph="update missi... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mysqlOperation.py" />
-    <entry file="file://$PROJECT_DIR$/constant.py" />
-    <entry file="file://$PROJECT_DIR$/stockInfo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#70#80#0" expanded="true" />
-            <marker date="1509033935000" expanded="true" signature="28172:28259" ph="insert into missing_value... " />
-            <marker date="1509033935000" expanded="true" signature="28349:28395" ph="insert into missing_value... " />
-            <marker date="1509033935000" expanded="true" signature="29694:29826" ph="update missi... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mysqlOperation.py" />
-    <entry file="file://$PROJECT_DIR$/constant.py" />
-    <entry file="file://$PROJECT_DIR$/stockInfo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#70#80#0" expanded="true" />
-            <marker date="1509033935000" expanded="true" signature="28172:28259" ph="insert into missing_value... " />
-            <marker date="1509033935000" expanded="true" signature="28349:28395" ph="insert into missing_value... " />
-            <marker date="1509033935000" expanded="true" signature="29694:29826" ph="update missi... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stockUtils/stockInfo.py" />
-    <entry file="file://$PROJECT_DIR$/stockUtils/stockInfo.py" />
-    <entry file="file:///Library/Python/2.7/site-packages/MySQLdb/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-68">
-          <caret line="82" column="0" lean-forward="false" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2017.1/python_stubs/-2125986627/_sqlite3.py" />
-    <entry file="file://$PROJECT_DIR$/stockUtils/mysqlOperation.py" />
-    <entry file="file://$PROJECT_DIR$/stockUtils/stockInfo.py" />
-    <entry file="file:///Library/Python/2.7/site-packages/pep8-1.7.0-py2.7.egg/pep8.py" />
-    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk/Canvas.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1898">
-          <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac/Carbon/Alias.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac/lib-scriptpackages/Netscape/Mozilla_suite.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4738">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2017.1/python_stubs/-2125986627/numpy/core/__init__.py" />
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2017.1/python_stubs/-2125986627/numpy/core/_dotblas.py" />
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2017.1/python_stubs/-2125986627/numpy/core/_dummy.py" />
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2017.1/python_stubs/-2125986627/numpy/core/multiarray.py" />
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2017.1/python_stubs/-2125986627/numpy/core/multiarray_tests.py" />
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2017.1/python_stubs/-2125986627/numpy/core/operand_flag_tests.py" />
@@ -640,7 +657,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9785">
           <caret line="515" column="0" lean-forward="false" selection-start-line="515" selection-start-column="0" selection-end-line="515" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -652,46 +668,271 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/encodings/utf_8.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stock_crontab.log" />
     <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/re.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="129" column="28" lean-forward="true" selection-start-line="129" selection-start-column="28" selection-end-line="129" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/sre_constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="213" column="0" lean-forward="false" selection-start-line="213" selection-start-column="0" selection-end-line="213" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="233" column="0" lean-forward="false" selection-start-line="233" selection-start-column="0" selection-end-line="233" selection-end-column="0" />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/operations/batch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/operations/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/lxml-2.3-py2.5-macosx-10.3-i386.egg/lxml/html/_dictmixin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/lxml-2.3-py2.5-macosx-10.3-i386.egg/lxml/html/_diffcommand.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/lxml-2.3-py2.5-macosx-10.3-i386.egg/lxml/html/_html5builder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/lxml-2.3-py2.5-macosx-10.3-i386.egg/lxml/html/_setmixin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/pip-9.0.1-py2.7.egg/pip/_vendor/cachecontrol/_cmd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/pip-9.0.1-py2.7.egg/pip/_vendor/cachecontrol/adapter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/pip-9.0.1-py2.7.egg/pip/_vendor/cachecontrol/compat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/constant.py" />
-    <entry file="file://$PROJECT_DIR$/stock_crontab.log" />
-    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/encodings/utf_8.py">
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/autogenerate/compare.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/autogenerate/render.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/autogenerate/rewriter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/bs4-0.0.1-py2.7.egg-info/top_level.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/bs4-0.0.1-py2.7.egg-info/requires.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/bs4-0.0.1-py2.7.egg-info/PKG-INFO">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/autogenerate/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/constant.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="13" lean-forward="true" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mysqlOperation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="21" column="8" lean-forward="false" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
+        <state relative-caret-position="15">
+          <caret line="1" column="23" lean-forward="false" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
           <folding>
-            <marker date="1507648981000" expanded="true" signature="756:804" ph="select disti... stock5DayDetailData" />
-            <marker date="1507648981000" expanded="true" signature="1314:1520" ph="insert into missing_value... " />
-            <marker date="1507648981000" expanded="true" signature="1419:1520" ph="select code,... missing_value" />
-            <marker date="1507648981000" expanded="true" signature="1638:1650" ph="delete from " />
+            <marker date="1509191211000" expanded="true" signature="810:858" ph="select disti... stock5DayDetailData" />
+            <marker date="1509191211000" expanded="true" signature="1401:1607" ph="insert into missing_value... " />
+            <marker date="1509191211000" expanded="true" signature="1506:1607" ph="select code,... missing_value" />
+            <marker date="1509191211000" expanded="true" signature="1731:1743" ph="delete from " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/impl.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3477">
+          <caret line="101" column="18" lean-forward="false" selection-start-line="101" selection-start-column="18" selection-end-line="101" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2576">
+          <caret line="14" column="3" lean-forward="false" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+            <marker date="1502287867000" expanded="true" signature="5543:5555" ph="ALTER TABLE missing_value... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/mssql.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3221">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/mysql.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/oracle.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1016">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/sqlite.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/ddl/postgresql.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <marker date="1502287867000" expanded="true" signature="4595:5055" ph="select c.rel... pg_class" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/alembic/operations/schemaobj.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-110">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/stockInfo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="754" column="28" lean-forward="true" selection-start-line="754" selection-start-column="28" selection-end-line="754" selection-end-column="28" />
+        <state relative-caret-position="189">
+          <caret line="113" column="23" lean-forward="false" selection-start-line="113" selection-start-column="23" selection-end-line="113" selection-end-column="23" />
           <folding>
             <element signature="e#70#80#0" expanded="true" />
-            <marker date="1509033935000" expanded="true" signature="28172:28259" ph="insert into missing_value... " />
-            <marker date="1509033935000" expanded="true" signature="28349:28395" ph="insert into missing_value... " />
-            <marker date="1509033935000" expanded="true" signature="29694:29826" ph="update missi... " />
+            <marker date="1509285787000" expanded="true" signature="29409:29496" ph="insert into missing_value... " />
+            <marker date="1509285787000" expanded="true" signature="29586:29632" ph="insert into missing_value... " />
+            <marker date="1509285787000" expanded="true" signature="31248:31380" ph="update missi... " />
           </folding>
         </state>
       </provider>

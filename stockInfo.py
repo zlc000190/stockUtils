@@ -93,6 +93,9 @@ last4MonthKLineUrl = 'http://pifm.eastmoney.com/EM_Finance2014PictureInterface/I
 #近4年k线走势
 last4YearKLineUrl = 'http://pifm.eastmoney.com/EM_Finance2014PictureInterface/Index.aspx?ID=%s&UnitWidth=-6&imageType=KXL&EF=&Formula=RSI&AT=1&&type=M&token=44c9d251add88e27b65ed86506f6e5da&_=0.4133575449252702'
 
+#周线k图数据
+weekKLineUrl = 'http://pdfm2.eastmoney.com/EM_UBG_PDTI_Fast/api/js?id=%s&TYPE=wk&js=fsData1509282309077((x))&rtntype=5&isCR=false&fsData1509282309077=fsData1509282309077'
+
 #公司市值下限
 companySzDownLimit = 50
 companyHslDownLimit = 1.0
@@ -107,9 +110,8 @@ def getHtmlFromUrl(url,utf8coding=False):
         else:
             res = ret.read()
     except  Exception:
-            print 'exception  occur'
-    finally:
-        return res
+            print 'exception  occur',url
+            return None
 
 def hasHTML(obj):
     return obj.startswith('<!DOCTYPE HTML PUBLIC')
@@ -190,6 +192,21 @@ def getJsonObj5(obj):
     else:
         return None
 
+def getJsonObj6(obj):
+    if not obj: return None
+    if hasHTML(obj): return None
+    partern = re.compile("\(.*?\)")
+    list = re.findall(partern, obj)
+    try:
+        if list and len(list) > 0:
+            s = list[0]
+            return simplejson.loads(s[1:-1])
+        else:
+            return None
+    except Exception:
+        print s
+
+
 def getMarketId(code):
     subCode = code[0:3]
     if subCode == '009' or subCode == '126' or subCode == '110':
@@ -220,6 +237,23 @@ class CompanyInfo(object):
         super(CompanyInfo,self).__init__()
         self.code = code
         self.name = name
+
+class CompanyKLineDetailDataList(object):
+    def __init__(self,date,startPrice,endPrice,maxPrice,minPrice,tradeCount,tradeMoneyCount,increasePercent):
+        self.date = date
+        self.startPrice = startPrice
+        self.endPrice = endPrice
+        self.maxPrice = maxPrice
+        self.minPrice = minPrice
+        self.tradeCount = tradeCount
+        self.tradeMoneyCount = tradeMoneyCount
+        self.increasePercent = increasePercent
+
+class CompanyKLineDataDetail(CompanyInfo):
+    def __init__(self,code,name,priceList):
+        super(CompanyKLineDataDetail,self).__init__(code,name)
+        self.priceList = priceList
+
 
 class CompanyResearchReport(CompanyInfo):
     def __init__(self,code,name ,startTime = None,desc = None,sum = None):
@@ -426,7 +460,6 @@ class StockUtils(object):
     @classmethod
     def profitRankForCode(self,code):
         li = self.getRoeModelListOfStockForCode(code)
-        s = ''
         if li and len(li) > 0:
             return li[0].profit
         else:
@@ -555,6 +588,23 @@ class StockUtils(object):
             return cList
         return None
 
+    def getAllStockList(self):
+        stockList = []
+        startPage = 1
+        while True:
+            li = StockUtils().getDetailStockInfo(startPage)
+            if li and len(li) > 0:
+                for item in li:
+                    array = item.split(',')
+                    # code1  name2   zhangfu5, startPrice10，max11，min12
+                    code = str(array[1])
+                    stockList.append(code)
+            if len(li) < pageSize:
+                break
+            startPage += 1
+        return stockList
+
+
     @classmethod
     def getInflowRankForPage(self,page):
         '''资金流入排行'''
@@ -578,16 +628,21 @@ class StockUtils(object):
            return CompanyValueInfo(valueList[1],valueList[2],valueList[-15],valueList[-10],str(long(valueList[-7])/10000/10000), valueList[-16]+'%')
         return None
 
-    def getLast4MonthKLine(self,code):
-        '''近4个月k线图'''
-        url = last4MonthKLineUrl % (code + getMarketId(code))
-        # res = getHtmlFromUrl(url)
-        return  url
-
-    def getLast4YearKLine(self,code):
-        url = last4YearKLineUrl % (code + getMarketId(code))
-        # res = getHtmlFromUrl(url)
-        return  url
+    def getWeekKLineForCode(self,code):
+        dataList = []
+        url = weekKLineUrl % (code + getMarketId(code))
+        res = getHtmlFromUrl(url)
+        if not res:return None
+        obj = getJsonObj6(res)
+        if not obj:return None
+        priceList = obj['data']
+        for data in priceList:
+            dList = data.split(',')
+            if len(dList) < 8:continue
+            d = CompanyKLineDetailDataList(dList[0],dList[1],dList[2],dList[3],dList[4],dList[5],dList[6],dList[7])
+            dataList.append(d)
+        detail = CompanyKLineDataDetail(obj['code'],obj['name'],dataList)
+        return detail
 
 
 def szyjl(code):
@@ -636,18 +691,18 @@ def mainMethod():
             if not model: continue
             if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
             print item.name,item.code,szyjlString(model)
-            print '月K线图:' +  util.getLast4MonthKLine(item.code)
-            print '年K线图:' +  util.getLast4YearKLine(item.code)
+
 
     #价值投资选股
     print '\n===============================价值投资股票========================================'
     th = util.getMostValueableStockList()
     if th and len(th) > 0:
+        print '===============================共 %s 个========================================\n' % str(len(th))
         for item in th:
             model = szyjl(item.code)
             if not model: continue
             #不需要过滤换手率以及市值，价值投资
-            print item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
+            print (u'第%s个:' % str(th.index(item) + 1)), item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
             print util.roeStringForCode(item.code)
 
     # #调研次数
@@ -690,11 +745,11 @@ def mainMethod():
             print item.split(',')[10],item.split(',')[-1],'   ', item
 
     #行业资金流入排行
-    print '\n==============================行业资金流入排行====================================='
-    lit = util.getHyzfRank()
-    if lit and len(lit):
-        for item in lit:
-            print item
+    # print '\n==============================行业资金流入排行====================================='
+    # lit = util.getHyzfRank()
+    # if lit and len(lit):
+    #     for item in lit:
+    #         print item
 
     # #概念排行
     print '\n=================================概念涨幅排行====================================='
@@ -703,33 +758,18 @@ def mainMethod():
         for item in lit:
             print item
 
-    #如果是周六日，不执行
-    day = time.strftime('%w')
-    if day == '0' or day == '6':return
+    #周k线图
+    print '\n=================================周K线图====================================='
+    stocklist = util.getAllStockList()
+    for item in stocklist:
+        week = util.getWeekKLineForCode(item)
+        print week
 
-    #判断日期，如果是当天的重复数据，就只更新stock5DayDetailData，否则开始迁移表数据
-    #=======================================================
-    tstr = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    hour = time.localtime().tm_hour
-    sqlTime = sqlins.getNewestDate()
-    if sqlTime and sqlTime not in tstr and hour >= 16 and hour <= 23:
-        #下午4点到夜里23点才能更新数据
-        # ================================================
-        # 10天的数据，后9张表数据往前挪，所有的新数据插入到第5张表中
-        sqlins.moveDataIntables(stockDetailTableList);
-        # ================================================
-        # ================================股票详细信息入库第5张表==================================
-        # 先清理第10张表股票详细的数据
-        sqlins.clearTableData(stockDetailTableList[9])
-        # 清理股票列表，因为有新股更新
-        sqlins.clearTableData(stocklistName)
-    else:
-        # 先清理，然后直接更新stock5DayDetailData的数据
-        sqlins.clearTableData(stockDetailTableList[9])
+    #月k线图
 
 
     # 资金流入排行
-    print '\n==============================资金流入排行======================================='
+    print '\n==============================盈利排行======================================'
     startPage = 1
     profitModelList = []
     while True:
@@ -750,17 +790,27 @@ def mainMethod():
                 # sqlins.executeSQL(sql)
                 # sqlins.executeSQL(listsql)
                 p = util.profitRankForCode(array[1])
-                pmodel = CompanyProfitRankModel(array[1],array[2],p)
-                if pmodel.profit.endswith(u'万'):
+                # 如果没有数据
+                try:
+                    if '-' in p:continue
+                    elif p.endswith(u'万'):
+                        pr = float(p[0:-1])/10000
+                    else:
+                        pr = float(p[0:-1])
+
+                except Exception:
+                    print Exception.__name__,p,pr
                     continue
-                else:
+                finally:
+                    pass
+                pmodel = CompanyProfitRankModel(array[1], array[2], pr)
+                if pmodel:
                     profitModelList.append(pmodel)
 
-                print 'page = %s'%str(startPage)
         if infl and len(infl) < pageSize:
-            sorted(profitModelList, key=lambda mo: mo.profit)
-            for model in profitModelList:
-                print model.code ,model.name,model.profit
+            nlist = sorted(profitModelList, key=lambda mo: mo.profit,reverse=True)
+            for model in nlist:
+                print model.code ,model.name,(str(model.profit)+'亿')
             break
         startPage += 1
 
