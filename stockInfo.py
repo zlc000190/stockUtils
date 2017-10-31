@@ -112,6 +112,7 @@ def getHtmlFromUrl(url,utf8coding=False):
     except  Exception:
             print 'exception  occur',url
             return None
+    return res
 
 def hasHTML(obj):
     return obj.startswith('<!DOCTYPE HTML PUBLIC')
