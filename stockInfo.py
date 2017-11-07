@@ -764,8 +764,10 @@ def mainMethod():
     stocklist = util.getAllStockList()
     for item in stocklist:
         week = util.getWeekKLineForCode(item)
-        print week.code,week.name
-
+        if week:
+            print week.code,week.name
+        else:
+            pass
     #月k线图
 
 
