@@ -469,7 +469,9 @@ class StockUtils(object):
         #ROEList = getJsonList(res)
         obj = getJsonObjOrigin(res)
         if not obj:return None
-        ROEList = obj['Result']['zyzb']
+        resu = obj['Result']
+        if not resu:return None
+        ROEList = resu['zyzb']
         if isinstance(ROEList,list) and len(ROEList) > 0:
             cList = []
             for item in ROEList:
