@@ -796,6 +796,7 @@ def mainMethod():
         for item in lit:
             print item
 
+
     # #周k线图
     # print '\n=================================周K线图====================================='
     # stocklist = util.getAllStockList()
@@ -809,6 +810,67 @@ def mainMethod():
     for i in fundList:
         print i.code,i.name
 
+
+    #周k线图
+    print '\n=================================周K线图====================================='
+    stocklist = util.getAllStockList()
+    for item in stocklist:
+        week = util.getWeekKLineForCode(item)
+        if week:
+            print week.code,week.name
+        else:
+            pass
+    #月k线图
+
+
+    # 资金流入排行
+    print '\n==============================盈利排行======================================'
+    startPage = 1
+    profitModelList = []
+    while True:
+        infl = util.getInflowRankForPage(startPage)
+        if infl and len(infl) > 0:
+            for item in infl:
+                # code，name，newestprice,zhangfu,zhuliliuru,riqi
+                array = item.split(',')
+                # print array[5] + 'w' + '  ', array[1],array[2],array[3],array[4],array[5],array[15],item
+                value = '\'' + str(array[1]) + '\'' + ',' + '\'' + str(array[2]).encode(
+                    'utf8') + '\'' + ',' + '\'' + str(array[3]) + '\'' + ',' + '\'' + str(
+                    array[4]) + '\'' + ',' + '\'' + str(array[5]) + '\'' + ',' + '\'' + str(array[15]) + '\''
+                # 资金流入sql
+                sql = 'insert into %s(code,sname,endPrice,priceIncrementPercent, inflowCount,sdate) VALUE (%s)' % (stockDetailTableList[-1],value)
+                # 证券列表sql
+                listsql = 'insert into %s(code,name) value(\'%s\',\'%s\')' % (
+                stocklistName, str(array[1]), str(array[2]))
+                # sqlins.executeSQL(sql)
+                # sqlins.executeSQL(listsql)
+                p = util.profitRankForCode(array[1])
+                # 如果没有数据
+                try:
+                    if '-' in p:continue
+                    elif p.endswith(u'万'):
+                        pr = float(p[0:-1])/10000
+                    else:
+                        pr = float(p[0:-1])
+
+                except Exception:
+                    print Exception.__name__,p,pr
+                    continue
+                finally:
+                    pass
+                pmodel = CompanyProfitRankModel(array[1], array[2], pr)
+                if pmodel:
+                    profitModelList.append(pmodel)
+
+        if infl and len(infl) < pageSize:
+            nlist = sorted(profitModelList, key=lambda mo: mo.profit,reverse=True)
+            for model in nlist:
+                print model.code ,model.name,(str(model.profit)+'亿')
+            break
+        startPage += 1
+
+
+    print '\n\n\n\n\n\n\n\n\n'
 
 if __name__ == '__main__':
     mainMethod()
