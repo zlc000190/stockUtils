@@ -101,6 +101,12 @@ companySzDownLimit = 50
 companyHslDownLimit = 1.0
 pageSize  = 100
 
+
+#上证 招行5星 基金
+goodFundUrl =  'http://fund.eastmoney.com/api/FundGuide.aspx?dt=0&ft=hh&sd=&ed=&rt=zs,5_sz,5&sc=rt_sz&st=asc&pi=1&pn=20&zf=diy&sh=list&rnd=0.940397707319909'
+
+
+
 def getHtmlFromUrl(url,utf8coding=False):
     try:
         ret = urllib.urlopen(url)
@@ -202,6 +208,19 @@ def getJsonObj6(obj):
         if list and len(list) > 0:
             s = list[0]
             return simplejson.loads(s[1:-1])
+        else:
+            return None
+    except Exception:
+        print s
+def getJsonObj7(obj):
+    if not obj: return None
+    if hasHTML(obj): return None
+    partern = re.compile("{.*?}")
+    list = re.findall(partern, obj)
+    try:
+        if list and len(list) > 0:
+            s = list[0]
+            return simplejson.loads(s)
         else:
             return None
     except Exception:
@@ -336,6 +355,20 @@ class  CompanyProfitRankModel(CompanyInfo):
     def __init__(self,code,name,profit):
         super(CompanyProfitRankModel,self).__init__(code,name)
         self.profit = profit
+
+
+
+class FundDetailModel(CompanyInfo):
+    def __init__(self,code,name,type,weekProfit,oneMonthProfit,threeMonthProfit,halfYearProfit,oneYearProfit,threeYearProfit):
+        super(FundDetailModel,self).__init__(code,name)
+        self.type = type
+        self.weekProfit = weekProfit + '%'
+        self.oneMonthProfit = oneMonthProfit + '%'
+        self.threeMonthProfit = threeMonthProfit + '%'
+        self.halfYearProfit = halfYearProfit + '%'
+        self.oneYearProfit = oneYearProfit + '%'
+        self.threeYearProfit = threeYearProfit + '%'
+
 
 class StockUtils(object):
     def __init__(self):
@@ -605,6 +638,16 @@ class StockUtils(object):
             startPage += 1
         return stockList
 
+    def getGoodFundList(self):
+        fundList = []
+        res = getHtmlFromUrl(goodFundUrl)
+        fundList = getJsonObj7(res)
+        if fundList:
+            for item in fundList['datas']:
+                fundArray = item.split(',')
+                m = FundDetailModel(fundArray[0],fundArray[1],fundArray[3], fundArray[5],fundArray[6],fundArray[7],fundArray[8],fundArray[4],fundArray[11])
+                fundList.append(item)
+        return fundList
 
     @classmethod
     def getInflowRankForPage(self,page):
@@ -745,12 +788,6 @@ def mainMethod():
         for item in hy:
             print item.split(',')[10],item.split(',')[-1],'   ', item
 
-    #行业资金流入排行
-    # print '\n==============================行业资金流入排行====================================='
-    # lit = util.getHyzfRank()
-    # if lit and len(lit):
-    #     for item in lit:
-    #         print item
 
     # #概念排行
     print '\n=================================概念涨幅排行====================================='
@@ -759,88 +796,19 @@ def mainMethod():
         for item in lit:
             print item
 
-    #周k线图
-    print '\n=================================周K线图====================================='
-    stocklist = util.getAllStockList()
-    for item in stocklist:
-        week = util.getWeekKLineForCode(item)
-        print week
-
-    #月k线图
+    # #周k线图
+    # print '\n=================================周K线图====================================='
+    # stocklist = util.getAllStockList()
+    # for item in stocklist:
+    #     week = util.getWeekKLineForCode(item)
+    #     print week
 
 
-    # 资金流入排行
-    print '\n==============================盈利排行======================================'
-    startPage = 1
-    profitModelList = []
-    while True:
-        infl = util.getInflowRankForPage(startPage)
-        if infl and len(infl) > 0:
-            for item in infl:
-                # code，name，newestprice,zhangfu,zhuliliuru,riqi
-                array = item.split(',')
-                # print array[5] + 'w' + '  ', array[1],array[2],array[3],array[4],array[5],array[15],item
-                value = '\'' + str(array[1]) + '\'' + ',' + '\'' + str(array[2]).encode(
-                    'utf8') + '\'' + ',' + '\'' + str(array[3]) + '\'' + ',' + '\'' + str(
-                    array[4]) + '\'' + ',' + '\'' + str(array[5]) + '\'' + ',' + '\'' + str(array[15]) + '\''
-                # 资金流入sql
-                sql = 'insert into %s(code,sname,endPrice,priceIncrementPercent, inflowCount,sdate) VALUE (%s)' % (stockDetailTableList[-1],value)
-                # 证券列表sql
-                listsql = 'insert into %s(code,name) value(\'%s\',\'%s\')' % (
-                stocklistName, str(array[1]), str(array[2]))
-                # sqlins.executeSQL(sql)
-                # sqlins.executeSQL(listsql)
-                p = util.profitRankForCode(array[1])
-                # 如果没有数据
-                try:
-                    if '-' in p:continue
-                    elif p.endswith(u'万'):
-                        pr = float(p[0:-1])/10000
-                    else:
-                        pr = float(p[0:-1])
+    #优质基金列表
+    fundList = util.getGoodFundList()
+    for i in fundList:
+        print i.code,i.name
 
-                except Exception:
-                    print Exception.__name__,p,pr
-                    continue
-                finally:
-                    pass
-                pmodel = CompanyProfitRankModel(array[1], array[2], pr)
-                if pmodel:
-                    profitModelList.append(pmodel)
-
-        if infl and len(infl) < pageSize:
-            nlist = sorted(profitModelList, key=lambda mo: mo.profit,reverse=True)
-            for model in nlist:
-                print model.code ,model.name,(str(model.profit)+'亿')
-            break
-        startPage += 1
-
-    # 沪深A 股的详细数据
-    # print '\n================================沪深A股详细数据==================================='
-    # startPage = 1
-    # while True:
-    #     li = util.getDetailStockInfo(startPage)
-    #     if li and len(li) > 0:
-    #         for item in li:
-    #             array = item.split(',')
-    #             # code1  name2   zhangfu5, startPrice10，max11，min12
-    #             code = str(array[1])
-    #             #市盈率、市净率、市值
-    #             valueModel = util.getSylDetailDataForCode(code)
-    #             if not valueModel:continue
-    #             sql = 'update  %s set startPrice = \'%s\',maxPrice=\'%s\',minPrice=\'%s\',syl = \'%s\',sjl=\'%s\',sz=\'%s\',hsl=\'%s\' WHERE  code = \'%s\'' % (
-    #             stockDetailTableList[-1],str(array[10]), str(array[11]), str(array[12]),valueModel.syl,valueModel.sjl,valueModel.sz,valueModel.hsl,str(array[1]))
-    #             sqlins.executeSQL(sql)
-    #     if len(li) < pageSize:
-    #         break
-    #     startPage += 1
-    #
-    # # 提交更新
-    # sqlins.cur.close()
-    # sqlins.conn.commit()
-    # sqlins.conn.close()
-    # # ============================end===============================
-    print '\n\n\n\n\n\n\n\n\n'
 
 if __name__ == '__main__':
     mainMethod()
