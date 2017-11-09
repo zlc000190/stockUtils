@@ -781,7 +781,7 @@ def mainMethod():
     if gd and len(gd):
         for item in gd:
             companyInfo = item.split(',')
-            print companyInfo[0],companyInfo[1], companyInfo[-4],u'至',companyInfo[-3], companyInfo[5],(companyInfo[6] + u'万').ljust(13,' '),u'占流通股的', (companyInfo[7] + '%')
+            print companyInfo[0],companyInfo[1].ljust(7,' '), companyInfo[-4],u'至',companyInfo[-3], companyInfo[5],(companyInfo[6] + u'万').ljust(13,' '),(u'占流通股的' +  (companyInfo[7] + '%')).ljust(15,' '),(u'市值: ' + util.getSylDetailDataForCode(companyInfo[0]).sz + u'亿').ljust(15,' ')
 
     # #行业报告
     print '\n==================================行业涨幅分析报告================================='
@@ -811,7 +811,8 @@ def mainMethod():
     print '\n=================================优质基金====================================='
     fundList = util.getGoodFundList()
     for i in fundList:
-        print i.code,i.name,i.threeMonthProfit ,i.threeYearProfit
+        print i.code,i.name,i.weekProfit,i.oneMonthProfit,i.threeMonthProfit,i.halfYearProfit,i.threeYearProfit
+
 
 
     #周k线图
@@ -825,7 +826,7 @@ def mainMethod():
     #         pass
 
 
-    print '\n\n\n\n\n\n\n\n\n'
+    print '\n\n\n'
 
 if __name__ == '__main__':
     mainMethod()
