@@ -106,8 +106,7 @@ pageSize  = 100
 
 
 #上证 招行 4星 ,混合型 基金
-# goodFundUrl =  'http://fund.eastmoney.com/api/FundGuide.aspx?dt=0&ft=hh&sd=&ed=&rt=zs,5_sz,5&sc=rt_sz&st=asc&pi=1&pn=20&zf=diy&sh=list&rnd=0.940397707319909'
-goodFundUrl = 'http://fund.eastmoney.com/api/FundGuide.aspx?dt=0&ft=hh,gp&sd=&ed=&rt=sz,4_zs,4_ja,4&sc=rt_ja&st=desc&pi=1&pn=200&zf=diy&sh=list&rnd=0.7837798846716704'
+goodFundUrl = 'http://fund.eastmoney.com/api/FundGuide.aspx?dt=0&ft=hh,gp&sd=&ed=&rt=zs,4_sz,4_ja,4&sc=rt_ja&st=asc&pi=1&pn=200&zf=diy&sh=list&rnd=0.8072472366449683'
 fundHoldCompanyList = 'http://fund.eastmoney.com/pingzhongdata/%s.js?v=20171112101206'
 
 #次新股列表
@@ -865,7 +864,7 @@ def mainMethod():
     fundList = util.getGoodFundList()
     companyRank = {}
     for i in fundList:
-        print i.code,(i.name).ljust(20,' '), ('一周收益:' + i.weekProfit).ljust(15,' '), ('月收益' +  i.oneMonthProfit).ljust(14,' '),('3个月收益:' + i.threeMonthProfit).ljust(17,' '),('半年收益:' + i.halfYearProfit).ljust(15,' '),('3年收益:' +  i.threeYearProfit).ljust(15,' ')
+        print i.code,(i.name).ljust(20,' '), ('一周收益:' + i.weekProfit).ljust(15,' '), ('月收益' +  i.oneMonthProfit).ljust(14,' '),('3个月收益:' + i.threeMonthProfit).ljust(17,' '),('半年收益:' + i.halfYearProfit).ljust(15,' '),('一年收益:' + i.oneYearProfit).ljust(15,' '),('3年收益:' +  i.threeYearProfit).ljust(15,' ')
         companyList = util.getFundHoldCompanyList(i.code)
         if companyList and len(companyList):
             for code in companyList:
