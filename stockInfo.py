@@ -885,8 +885,8 @@ def mainMethod():
         print '\n'
     ret = sorted(companyRank.iteritems(), key=lambda item: item[1], reverse=True)
     for item in ret:
-        k = item.kyes[0]
-        v = item[k]
+        k = item[0]
+        v = companyRank[k]
         print k,util.getStockNameFromCode(k),v
 
     #周k线图
