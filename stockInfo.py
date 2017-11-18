@@ -881,14 +881,14 @@ def mainMethod():
                     continue
                 # print model.code,model.name
     ret = sorted(companyRank.iteritems(), key=lambda item: int(item[1]), reverse=True)
-    print '\n'
+    print '\n\n'
     for item in ret:
         k = item[0]
         v = companyRank[k]
         print k,util.getStockNameFromCode(k),v
 
 
-    print '\n\n\n'
+    print '\n\n'
 
 if __name__ == '__main__':
     mainMethod()
