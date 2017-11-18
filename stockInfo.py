@@ -881,6 +881,7 @@ def mainMethod():
                     continue
                 # print model.code,model.name
     ret = sorted(companyRank.iteritems(), key=lambda item: int(item[1]), reverse=True)
+    print '\n'
     for item in ret:
         k = item[0]
         v = companyRank[k]
