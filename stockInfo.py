@@ -153,10 +153,15 @@ def getJsonObjOrigin(obj):
     return o
 
 def getFundCompanyListJsonObjFrom(obj):
-    par = re.compile('var stockCodes=.*?')
+    par = re.compile('var stockCodes=\[.*?\];')
     list = re.findall(par,obj)
     if list and len(list) > 0:
-        return  list[0]
+        companyString = list[0]
+        if companyString.startswith('var stockCodes='):
+            #去除前面无效数据以及分号
+            s = companyString[15:-1]
+            return simplejson.loads(s)
+
     return None
 
 
@@ -240,6 +245,9 @@ def getJsonObj7(obj):
             return None
     except Exception:
         print s
+
+def getCompanyListFromJsonObj(obj):
+    return  None
 
 
 def getMarketId(code):
@@ -674,6 +682,13 @@ class StockUtils(object):
                 fl.append(m)
         return fl
 
+
+    def getStockListFromFund(self,fundCode):
+        fl = []
+        res = getHtmlFromUrl(fundHoldCompanyList % fundCode)
+        compnanyList = getCompanyListFromJsonObj(res)
+        return compnanyList
+
     def getFundHoldCompanyList(self,fundCode):
         res = getHtmlFromUrl(fundHoldCompanyList % fundCode)
         return getFundCompanyListJsonObjFrom(res)
@@ -839,10 +854,27 @@ def mainMethod():
     #优质基金列表
     print '\n=================================优质基金====================================='
     fundList = util.getGoodFundList()
+    companyRank = {}
     for i in fundList:
-        print i.code,i.name,i.weekProfit,i.oneMonthProfit,i.threeMonthProfit,i.halfYearProfit,i.threeYearProfit
-
-
+        print i.code,(i.name).ljust(20,' '), ('一周收益:' + i.weekProfit).ljust(15,' '), ('月收益' +  i.oneMonthProfit).ljust(14,' '),('3个月收益:' + i.threeMonthProfit).ljust(17,' '),('半年收益:' + i.halfYearProfit).ljust(15,' '),('3年收益:' +  i.threeYearProfit).ljust(15,' ')
+        companyList = util.getFundHoldCompanyList(i.code)
+        if companyList and len(companyList):
+            for code in companyList:
+                #code 最后一位是市场代码，沪市还是深市
+                c = code[0:-1]
+                model = szyjl(c)
+                if model:
+                    if companyRank.has_key(c):
+                        v = companyRank[c]
+                        companyRank[c] = str(int(v) + 1)
+                    else:
+                        companyRank[c] = "1"
+                else:
+                    continue
+                # print model.code,model.name
+        print '\n'
+    ret = sorted(companyRank.iteritems(), key=lambda item: item[1], reverse=True)
+    print ret
 
     #周k线图
     # print '\n=================================周K线图====================================='
