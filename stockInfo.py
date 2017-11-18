@@ -105,6 +105,13 @@ pageSize  = 100
 #上证 招行 4星 ,混合型 基金
 goodFundUrl =  'http://fund.eastmoney.com/api/FundGuide.aspx?dt=0&ft=hh&sd=&ed=&rt=sz,4_zs,4_ja,4&sc=3n&st=asc&pi=1&pn=200&zf=diy&sh=list&rnd=0.4962112203634159'
 
+#次新股列表
+newStockList = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C.BK05011&sty=FCOIATA&sortType=C&sortRule=-1&page=2&pageSize= 0&js=var%20quote_123%3d{rank:[(x)],pages:(pc)}&token=7bc05d0d4c3c22ef9fca8c2a912d779c&jsName=quote_123&_g=0.15960346179032192'
+
+#上证 招行5星 基金
+goodFundUrl =  'http://fund.eastmoney.com/api/FundGuide.aspx?dt=0&ft=hh&sd=&ed=&rt=zs,5_sz,5&sc=rt_sz&st=asc&pi=1&pn=20&zf=diy&sh=list&rnd=0.940397707319909'
+fundHoldCompanyList = 'http://fund.eastmoney.com/pingzhongdata/%s.js?v=20171112101206'
+
 
 
 def getHtmlFromUrl(url,utf8coding=False):
@@ -144,6 +151,14 @@ def getJsonObjOrigin(obj):
     except Exception:
         print  Exception.__name__,Exception
     return o
+
+def getFundCompanyListJsonObjFrom(obj):
+    par = re.compile('var stockCodes=.*?')
+    list = re.findall(par,obj)
+    if list and len(list) > 0:
+        return  list[0]
+    return None
+
 
 def getJsonList(obj):
     '''解析列表,[ 开头'''
@@ -658,6 +673,10 @@ class StockUtils(object):
                 m = FundDetailModel(fundArray[0],fundArray[1],fundArray[3], fundArray[5],fundArray[6],fundArray[7],fundArray[8],fundArray[4],fundArray[11])
                 fl.append(m)
         return fl
+
+    def getFundHoldCompanyList(self,fundCode):
+        res = getHtmlFromUrl(fundHoldCompanyList % fundCode)
+        return getFundCompanyListJsonObjFrom(res)
 
     @classmethod
     def getInflowRankForPage(self,page):
