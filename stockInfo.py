@@ -96,6 +96,9 @@ last4YearKLineUrl = 'http://pifm.eastmoney.com/EM_Finance2014PictureInterface/In
 #周线k图数据
 weekKLineUrl = 'http://pdfm2.eastmoney.com/EM_UBG_PDTI_Fast/api/js?id=%s&TYPE=wk&js=fsData1509282309077((x))&rtntype=5&isCR=false&fsData1509282309077=fsData1509282309077'
 
+
+companyNameUrl = 'http://suggest.eastmoney.com/SuggestData/Default.aspx?name=sData_1510989642587&input=%s&type=1,2,3'
+
 #公司市值下限
 companySzDownLimit = 50
 companyHslDownLimit = 1.0
@@ -597,11 +600,6 @@ class StockUtils(object):
                 return cList
         return None
 
-    @classmethod
-    def getMbzfRank(cls):
-        '''目标涨幅空间'''
-        res = getHtmlFromUrl(mbzfRank)
-
 
     @classmethod
     def getStockholderHoldsStocks(self):
@@ -654,6 +652,18 @@ class StockUtils(object):
                 cList.append(item)
             return cList
         return None
+
+    def getStockNameFromCode(self,code):
+        res = getHtmlFromUrl(companyNameUrl % code)
+        pa = re.compile('=.*?;')
+        li = re.findall(pa,res)
+        if li and len(li):
+            s = li[0]
+            ret = (s[1:-1]).split(',')
+            if ret and len(ret):
+                return ret[3]
+        else:
+            return None
 
     def getAllStockList(self):
         stockList = []
@@ -874,7 +884,10 @@ def mainMethod():
                 # print model.code,model.name
         print '\n'
     ret = sorted(companyRank.iteritems(), key=lambda item: item[1], reverse=True)
-    print ret
+    for item in ret:
+        k = item.kyes[0]
+        v = item[k]
+        print k,util.getStockNameFromCode(k),v
 
     #周k线图
     # print '\n=================================周K线图====================================='
