@@ -106,14 +106,13 @@ pageSize  = 100
 
 
 #上证 招行 4星 ,混合型 基金
-goodFundUrl =  'http://fund.eastmoney.com/api/FundGuide.aspx?dt=0&ft=hh&sd=&ed=&rt=sz,4_zs,4_ja,4&sc=3n&st=asc&pi=1&pn=200&zf=diy&sh=list&rnd=0.4962112203634159'
+# goodFundUrl =  'http://fund.eastmoney.com/api/FundGuide.aspx?dt=0&ft=hh&sd=&ed=&rt=zs,5_sz,5&sc=rt_sz&st=asc&pi=1&pn=20&zf=diy&sh=list&rnd=0.940397707319909'
+goodFundUrl = 'http://fund.eastmoney.com/api/FundGuide.aspx?dt=0&ft=hh,gp&sd=&ed=&rt=sz,4_zs,4_ja,4&sc=rt_ja&st=desc&pi=1&pn=200&zf=diy&sh=list&rnd=0.7837798846716704'
+fundHoldCompanyList = 'http://fund.eastmoney.com/pingzhongdata/%s.js?v=20171112101206'
 
 #次新股列表
 newStockList = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C.BK05011&sty=FCOIATA&sortType=C&sortRule=-1&page=2&pageSize= 0&js=var%20quote_123%3d{rank:[(x)],pages:(pc)}&token=7bc05d0d4c3c22ef9fca8c2a912d779c&jsName=quote_123&_g=0.15960346179032192'
 
-#上证 招行5星 基金
-goodFundUrl =  'http://fund.eastmoney.com/api/FundGuide.aspx?dt=0&ft=hh&sd=&ed=&rt=zs,5_sz,5&sc=rt_sz&st=asc&pi=1&pn=20&zf=diy&sh=list&rnd=0.940397707319909'
-fundHoldCompanyList = 'http://fund.eastmoney.com/pingzhongdata/%s.js?v=20171112101206'
 
 
 
@@ -654,14 +653,14 @@ class StockUtils(object):
         return None
 
     def getStockNameFromCode(self,code):
-        res = getHtmlFromUrl(companyNameUrl % code)
+        res = getHtmlFromUrl(companyNameUrl % code,utf8coding=True)
         pa = re.compile('=.*?;')
         li = re.findall(pa,res)
         if li and len(li):
             s = li[0]
             ret = (s[1:-1]).split(',')
             if ret and len(ret):
-                return ret[3]
+                return ret[4]
         else:
             return None
 
@@ -883,21 +882,11 @@ def mainMethod():
                     continue
                 # print model.code,model.name
         print '\n'
-    ret = sorted(companyRank.iteritems(), key=lambda item: item[1], reverse=True)
+    ret = sorted(companyRank.iteritems(), key=lambda item: int(item[1]), reverse=True)
     for item in ret:
         k = item[0]
         v = companyRank[k]
         print k,util.getStockNameFromCode(k),v
-
-    #周k线图
-    # print '\n=================================周K线图====================================='
-    # stocklist = util.getAllStockList()
-    # for item in stocklist:
-    #     week = util.getWeekKLineForCode(item)
-    #     if week:
-    #         print week.code,week.name
-    #     else:
-    #         pass
 
 
     print '\n\n\n'
