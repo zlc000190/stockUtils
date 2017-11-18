@@ -885,7 +885,7 @@ def mainMethod():
     for item in ret:
         k = item[0]
         v = companyRank[k]
-        print k,util.getStockNameFromCode(k),v,mostValueableCompanyString(szyjl(k))
+        print k,util.getStockNameFromCode(k),v,szyjlString(szyjl(k))
 
 
     print '\n\n'
