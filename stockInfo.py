@@ -880,7 +880,6 @@ def mainMethod():
                 else:
                     continue
                 # print model.code,model.name
-        print '\n'
     ret = sorted(companyRank.iteritems(), key=lambda item: int(item[1]), reverse=True)
     for item in ret:
         k = item[0]
