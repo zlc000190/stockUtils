@@ -102,8 +102,8 @@ companyHslDownLimit = 1.0
 pageSize  = 100
 
 
-#上证 招行5星 基金
-goodFundUrl =  'http://fund.eastmoney.com/api/FundGuide.aspx?dt=0&ft=hh&sd=&ed=&rt=zs,5_sz,5&sc=rt_sz&st=asc&pi=1&pn=20&zf=diy&sh=list&rnd=0.940397707319909'
+#上证 招行 4星 ,混合型 基金
+goodFundUrl =  'http://fund.eastmoney.com/api/FundGuide.aspx?dt=0&ft=hh&sd=&ed=&rt=sz,4_zs,4_ja,4&sc=3n&st=asc&pi=1&pn=200&zf=diy&sh=list&rnd=0.4962112203634159'
 
 
 
@@ -482,12 +482,20 @@ class StockUtils(object):
             return  None
 
     @classmethod
-    def roeStringForCode(self,code):
+    def roeStringForCode(self,code,model):
         li = self.getRoeModelListOfStockForCode(code)
         s = ''
         if li and len(li) > 0:
             for item in li:
-                s += (u'季报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ')
+                szDivProfit = None
+                if li.index(item) == 0:
+                    szDivProfit = u'性价比率:' + str(round(float(model.sz)/float(item.profit[0:-1]),2))
+                else:
+                    szDivProfit = None
+                if(szDivProfit):
+                    s += (u'季报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ') + szDivProfit
+                else:
+                    s += (u'季报:' + item.dateOfRoe).ljust(15, ' ') + (u'净资产收益率:' + item.roe + '%').ljust(15, ' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17, ' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18, ' ') + (u'总收入:' + item.income).ljust(12, ' ') + (u' 总利润:' + item.profit).ljust(12,' ')
                 s += '\n'
             return s
         else:
@@ -749,7 +757,8 @@ def mainMethod():
             if not model: continue
             #不需要过滤换手率以及市值，价值投资
             print (u'第%s个:' % str(th.index(item) + 1)), item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
-            print util.roeStringForCode(item.code)
+            print util.roeStringForCode(item.code,model)
+
 
     # #调研次数
     print '\n=================================机构调研次数排行==================================='
@@ -771,7 +780,8 @@ def mainMethod():
     if tj and len(tj):
         for item in tj:
             print item.code.ljust(9,' '),item.name.ljust(8,' '),('券商推荐次数:'+item.count + '  买入评级:' + item.buyCount + '  增持评级:' + item.addCount)
-            print util.roeStringForCode(item.code)
+            model = szyjl(item.code)
+            print util.roeStringForCode(item.code,model)
             print util.getCompanyBussinessDetailString(item.code)
             print '\n'
 
