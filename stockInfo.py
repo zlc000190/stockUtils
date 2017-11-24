@@ -26,10 +26,17 @@ sys.setdefaultencoding('utf8')
 #东方财富网-今日最高
 todayMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb03]&p=1&jn=moJuuzHq&ps=100&s=hqzb03&st=-1&r=1503071461051'
 #3日新高
-threeDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|3)]&p=1&jn=EYOfLXHJ&ps=40&s=hqzb05(1|3)&st=-1&r=1507347185807'
+threeDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|3)]&p=1&jn=EYOfLXHJ&ps=100&s=hqzb05(1|3)&st=-1&r=1507347185807'
 
 #5日新高
-fiveDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|5)]&p=1&jn=JODmOFXH&ps=40&s=hqzb05(1|5)&st=-1&r=1507347434465'
+fiveDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|5)]&p=1&jn=JODmOFXH&ps=100&s=hqzb05(1|5)&st=-1&r=1507347434465'
+
+#20日新高
+TwentyDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|20)]&p=1&jn=JODmOFXH&ps=100&s=hqzb05(1|20)&st=-1&r=1507347434465'
+
+#60日新高
+SixtyDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|60)]&p=1&jn=JODmOFXH&ps=100&s=hqzb05(1|60)&st=-1&r=1507347434465'
+
 
 #连续涨3天以上
 # moreAndMoreMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb07(4|3)]&p=1&jn=xiZaGiTW&ps=300&s=hqzb07(4|3)&st=-1'
@@ -448,6 +455,36 @@ class StockUtils(object):
                 return cList
         return  None
 
+    def get20DaysMaxStockList(self):
+        '''最近5天创新高'''
+        res = getHtmlFromUrl(TwentyDaysMaxPriceUrl)
+        companyListObj = getJsonObj(res)
+        if companyListObj:
+            list =  companyListObj['Results']
+            cList = []
+            if list and len(list):
+                for item in list:
+                    stockInfo = item.split(',')
+                    cinfo = CompanyInfo(stockInfo[1],stockInfo[2])
+                    cList.append(cinfo)
+                return cList
+        return  None
+
+    def get60DaysMaxStockList(self):
+        '''最近5天创新高'''
+        res = getHtmlFromUrl(SixtyDaysMaxPriceUrl)
+        companyListObj = getJsonObj(res)
+        if companyListObj:
+            list =  companyListObj['Results']
+            cList = []
+            if list and len(list):
+                for item in list:
+                    stockInfo = item.split(',')
+                    cinfo = CompanyInfo(stockInfo[1],stockInfo[2])
+                    cList.append(cinfo)
+                return cList
+        return  None
+
     def getCompanyBussinessDetailString(self,code):
         res = getHtmlFromUrl((bussinessDetailUrl % getMarketCode(code)))
         obj = getJsonObjOrigin(res)
@@ -789,6 +826,25 @@ def mainMethod():
             print item.name,item.code,szyjlString(model)
 
 
+    print '\n=================================近20天创新高====================================='
+    th = util.get20DaysMaxStockList()
+    if th and len(th) > 0:
+        for item in th:
+            model = szyjl(item.code)
+            if not model: continue
+            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
+            print item.name,item.code,szyjlString(model)
+
+    print '\n=================================近60天创新高====================================='
+    th = util.get60DaysMaxStockList()
+    if th and len(th) > 0:
+        for item in th:
+            model = szyjl(item.code)
+            if not model: continue
+            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
+            print item.name,item.code,szyjlString(model)
+
+
     #价值投资选股
     print '\n===============================价值投资股票========================================'
     th = util.getMostValueableStockList()
@@ -833,22 +889,22 @@ def mainMethod():
     if gd and len(gd):
         for item in gd:
             companyInfo = item.split(',')
-            print companyInfo[0],companyInfo[1].ljust(7,' '), companyInfo[-4],u'至',companyInfo[-3], companyInfo[5],(companyInfo[6] + u'万').ljust(13,' '),(u'占流通股的' +  (companyInfo[7] + '%')).ljust(15,' '),(u'市值: ' + util.getSylDetailDataForCode(companyInfo[0]).sz + u'亿').ljust(15,' ')
+            print companyInfo[0],companyInfo[1].ljust(7,' '), companyInfo[-4],u'至',companyInfo[-3],companyInfo[4], companyInfo[5],(companyInfo[6] + u'万').ljust(13,' '),(u'占流通股的' +  (companyInfo[7] + '%')).ljust(15,' '),(u'市值: ' + util.getSylDetailDataForCode(companyInfo[0]).sz + u'亿').ljust(15,' ')
 
     # #行业报告
-    print '\n==================================行业涨幅分析报告================================='
-    hy = util.getIndustryReport()
-    if hy and len(hy):
-        for item in hy:
-            print item.split(',')[10],item.split(',')[-1],'   ', item
-
-
-    # #概念排行
-    print '\n=================================概念涨幅排行====================================='
-    lit = util.getIndustryRank()
-    if lit and len(lit):
-        for item in lit:
-            print item
+    # print '\n==================================行业涨幅分析报告================================='
+    # hy = util.getIndustryReport()
+    # if hy and len(hy):
+    #     for item in hy:
+    #         print item.split(',')[10],item.split(',')[-1],'   ', item
+    #
+    #
+    # # #概念排行
+    # print '\n=================================概念涨幅排行====================================='
+    # lit = util.getIndustryRank()
+    # if lit and len(lit):
+    #     for item in lit:
+    #         print item
 
 
     # #周k线图
