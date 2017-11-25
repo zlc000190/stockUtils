@@ -789,14 +789,13 @@ def mainMethod():
     #
 
 
-    print '\n=================================近60天创新高====================================='
+    print '\n===============================================近60天创新高======================================================'
     th = util.get60DaysMaxStockList()
     if th and len(th) > 0:
         for code in th:
             model = szyjl(code)
             print model.code,model.name,szyjlString(model)
-
-
+            print util.roeStringForCode(code,model)
 
 
     #价值投资选股
