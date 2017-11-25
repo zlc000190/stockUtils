@@ -13,7 +13,6 @@ from datetime import datetime
 import os.path as fpath
 from bs4 import BeautifulSoup
 from mysqlOperation import mysqlOp
-from constant import stockDetailTableList,stocklistName
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -31,12 +30,9 @@ threeDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&st
 #5日新高
 fiveDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|5)]&p=1&jn=JODmOFXH&ps=100&s=hqzb05(1|5)&st=-1&r=1507347434465'
 
-#20日新高
-TwentyDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|20)]&p=1&jn=JODmOFXH&ps=100&s=hqzb05(1|20)&st=-1&r=1507347434465'
 
 #60日新高
-SixtyDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|60)]&p=1&jn=JODmOFXH&ps=100&s=hqzb05(1|60)&st=-1&r=1507347434465'
-
+SixtyDaysMaxPrice = 'http://data.10jqka.com.cn/rank/cxg/board/4/field/stockcode/order/asc/ajax/1/'
 
 #连续涨3天以上
 # moreAndMoreMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb07(4|3)]&p=1&jn=xiZaGiTW&ps=300&s=hqzb07(4|3)&st=-1'
@@ -121,6 +117,9 @@ newStockList = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?t
 
 
 
+def getStockCodeFromHtmlString(string):
+    if string and len(string):
+        return string[16:22]
 
 def getHtmlFromUrl(url,utf8coding=False):
     try:
@@ -455,35 +454,18 @@ class StockUtils(object):
                 return cList
         return  None
 
-    def get20DaysMaxStockList(self):
-        '''最近5天创新高'''
-        res = getHtmlFromUrl(TwentyDaysMaxPriceUrl)
-        companyListObj = getJsonObj(res)
-        if companyListObj:
-            list =  companyListObj['Results']
-            cList = []
-            if list and len(list):
-                for item in list:
-                    stockInfo = item.split(',')
-                    cinfo = CompanyInfo(stockInfo[1],stockInfo[2])
-                    cList.append(cinfo)
-                return cList
-        return  None
+
+
+
 
     def get60DaysMaxStockList(self):
         '''最近5天创新高'''
-        res = getHtmlFromUrl(SixtyDaysMaxPriceUrl)
-        companyListObj = getJsonObj(res)
-        if companyListObj:
-            list =  companyListObj['Results']
-            cList = []
-            if list and len(list):
-                for item in list:
-                    stockInfo = item.split(',')
-                    cinfo = CompanyInfo(stockInfo[1],stockInfo[2])
-                    cList.append(cinfo)
-                return cList
-        return  None
+        res = getHtmlFromUrl(SixtyDaysMaxPrice)
+
+        part = re.compile('target="_blank">.*?</a></td>')
+        li = re.findall(part,res)
+        tu = [getStockCodeFromHtmlString(c) for c in li]
+        return  list(tu)
 
     def getCompanyBussinessDetailString(self,code):
         res = getHtmlFromUrl((bussinessDetailUrl % getMarketCode(code)))
@@ -805,44 +787,16 @@ def mainMethod():
             if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit :continue
             print item.name, item.code,szyjlString(model)
     #
-    # #最近3天创新高
-    print '\n=================================近3天创新高===================================='
-    th = util.getThreeDaysMaxStockList()
-    if th and len(th) > 0:
-        for item in th:
-            model = szyjl(item.code)
-            if not model: continue
-            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
-            print item.name,item.code,szyjlString(model)
 
-    # #最近5天创新高
-    print '\n=================================近5天创新高====================================='
-    th = util.getFiveDaysMaxStockList()
-    if th and len(th) > 0:
-        for item in th:
-            model = szyjl(item.code)
-            if not model: continue
-            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
-            print item.name,item.code,szyjlString(model)
-
-
-    print '\n=================================近20天创新高====================================='
-    th = util.get20DaysMaxStockList()
-    if th and len(th) > 0:
-        for item in th:
-            model = szyjl(item.code)
-            if not model: continue
-            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
-            print item.name,item.code,szyjlString(model)
 
     print '\n=================================近60天创新高====================================='
     th = util.get60DaysMaxStockList()
     if th and len(th) > 0:
-        for item in th:
-            model = szyjl(item.code)
-            if not model: continue
-            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
-            print item.name,item.code,szyjlString(model)
+        for code in th:
+            model = szyjl(code)
+            print model.code,model.name,szyjlString(model)
+
+
 
 
     #价值投资选股
