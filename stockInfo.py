@@ -776,10 +776,10 @@ def mainMethod():
 
     print '\n========================================当前时间:%s===========================================' % datetime.today()
     print '\n===============================================近60天创新高======================================================'
-    th = util.get60DaysMaxStockList()
-    print '===============================================共 %s 个======================================================' % str(len(th))
-    if th and len(th) > 0:
-        for code in th:
+    mh = util.get60DaysMaxStockList()
+    print '===============================================共 %s 个======================================================' % str(len(mh))
+    if mh and len(mh) > 0:
+        for code in mh:
             model = szyjl(code)
             if float(model.sz) > 100.0:
                 print model.code,model.name,szyjlString(model)
@@ -799,6 +799,13 @@ def mainMethod():
             print (u'第%s个:' % str(th.index(item) + 1)), item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
             print util.roeStringForCode(item.code,model)
 
+
+    print '================================创新高绩优股========================================='
+    interList = list(set(mh).intersection(set([item.code for item in th])))
+    for code in interList:
+        model = szyjl(code)
+        print model.code,model.name
+        print util.roeStringForCode(code,model)
 
     # #调研次数
     print '\n=================================机构调研次数排行==================================='
