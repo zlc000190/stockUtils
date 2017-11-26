@@ -781,8 +781,10 @@ def mainMethod():
     if th and len(th) > 0:
         for code in th:
             model = szyjl(code)
-            print model.code,model.name,szyjlString(model)
-            print util.roeStringForCode(code,model)
+            if float(model.sz) > 100.0:
+                print model.code,model.name,szyjlString(model)
+                print util.roeStringForCode(code,model)
+            else:continue
 
 
     #价值投资选股
