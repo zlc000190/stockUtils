@@ -72,8 +72,6 @@ xxsjSuffix = '&pageSize=100&js=var%20quote_123%3d{rank:[(x)],pages:(pc)}&token=7
 sylDetailPrefixUrl = 'http://nuff.eastmoney.com/EM_Finance2015TradeInterface/JS.ashx?id='
 sylDetailSuffixUrl = '&token=4f1862fc3b5e77c150a2b985b12db0fd&cb=jQuery183041202991002070233_1505234287664&_=1505234288231'
 
-#涨幅空间排行
-mbzfRank = 'http://q.stock.sohu.com/jlp/rank/priceExpect.up'
 
 #净资产收益率12%  3年利润增长率10% 100亿市值以上
 #mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.12)][cz_cznl06(1|0.1)][cz20(1|100y)]&p=1&jn=pUnYlfVk&ps=100&s=cz20(1|100y)&st=-1&r=1507352123438'
@@ -776,21 +774,10 @@ def mainMethod():
     util = StockUtils()
     sqlins = mysqlOp()
 
-    print '\n=======================%s=========================' % datetime.today()
-    print '\n==============================当日新高======================================'
-    print '=======================可能当日开始突破、也可能已经突破了数日======================='
-    li = util.getTodayMaxStockList()
-    if li and len(li) > 0:
-        for item in li:
-            model = szyjl(item.code)
-            if not model:continue
-            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit :continue
-            print item.name, item.code,szyjlString(model)
-    #
-
-
+    print '\n========================================当前时间:%s===========================================' % datetime.today()
     print '\n===============================================近60天创新高======================================================'
     th = util.get60DaysMaxStockList()
+    print '===============================================共 %s 个======================================================' % str(len(th))
     if th and len(th) > 0:
         for code in th:
             model = szyjl(code)
