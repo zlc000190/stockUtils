@@ -12,6 +12,7 @@ import  time
 from datetime import datetime
 import os.path as fpath
 from bs4 import BeautifulSoup
+import pickle,pprint
 from mysqlOperation import mysqlOp
 
 reload(sys)
@@ -779,10 +780,48 @@ def mainMethod():
     mh = util.get60DaysMaxStockList()
     print '===============================================共 %s 个======================================================' % str(len(mh))
     if mh and len(mh) > 0:
+        maxPriceList = []
+        needSync = False
+        fileName = 'stockMaxFile'
+        #读取本地数据
+        if fpath.exists(fileName):
+            f = open(fileName,'rb')
+            allData = pickle.load(f)
+            maxPriceList =allData['data']
+            date = allData['date']
+            if str(datetime.today())[0:10] != date or  not date:
+                needSync = True
+            f.close()
+        else:
+            needSync = True
+            f = open(fileName, 'w')
+            f.close()
         for code in mh:
+            if needSync:
+                if len(maxPriceList) > 0:
+                    maxCount = 0
+                    for d in maxPriceList:
+                        if d.has_key(code):
+                            maxCount = int(d[code]) + 1
+                            d[code] = maxCount
+                            break
+                        else:continue
+                            # maxPriceList.append({'code': code, 'maxPriceCount': '1'})
+                    if maxCount == 0:
+                        maxPriceList.append({code: '1'})
+                else:
+                    maxPriceList.append({code:'1'})
+            else:pass
             model = szyjl(code)
             print model.code,model.name,szyjlString(model)
             print util.roeStringForCode(code,model)
+
+        if needSync:
+            pprint.pprint(maxPriceList)
+            f = open(fileName, 'w')
+            pickle.dump({'data':maxPriceList,'date':str(datetime.today())[0:10]},f)
+            f.close()
+        else:pass
 
 
     #价值投资选股
