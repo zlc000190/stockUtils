@@ -3,8 +3,8 @@
 #author:蔡董
 #date:2017.8.16
 
-import MySQLdb
-from constant import stockDetailTableList
+# import MySQLdb
+# from constant import stockDetailTableList
 
 # conn = MySQLdb.connect(host='localhost',
 #                        port=3306,
