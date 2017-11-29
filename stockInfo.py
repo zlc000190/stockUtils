@@ -859,15 +859,15 @@ def mainMethod():
             print item.code, item.name, item.time, item.org, item.reason, item.advice
 
     #推荐次数排行公司
-    print '\n======================================券商推荐次数排行============================================='
-    tj = util.getRcommandRankList()
-    if tj and len(tj):
-        for item in tj:
-            print item.code.ljust(9,' '),item.name.ljust(8,' '),('券商推荐次数:'+item.count + '  买入评级:' + item.buyCount + '  增持评级:' + item.addCount)
-            model = szyjl(item.code)
-            print util.roeStringForCode(item.code,model)
-            print util.getCompanyBussinessDetailString(item.code)
-            print '\n'
+    # print '\n======================================券商推荐次数排行============================================='
+    # tj = util.getRcommandRankList()
+    # if tj and len(tj):
+    #     for item in tj:
+    #         print item.code.ljust(9,' '),item.name.ljust(8,' '),('券商推荐次数:'+item.count + '  买入评级:' + item.buyCount + '  增持评级:' + item.addCount)
+    #         model = szyjl(item.code)
+    #         print util.roeStringForCode(item.code,model)
+    #         print util.getCompanyBussinessDetailString(item.code)
+    #         print '\n'
 
     # #股东增持
     print '\n====================================股东增持====================================='
@@ -927,8 +927,13 @@ def mainMethod():
     for item in ret:
         k = item[0]
         v = companyRank[k]
-        print k,util.getStockNameFromCode(k),v,szyjlString(szyjl(k))
-        print util.roeStringForCode(code, model)
+        weekModel = util.getWeekKLineForCode(k)
+        price = ''
+        if weekModel:
+            price =  (weekModel.priceList[-1]).endPrice
+        print k,util.getStockNameFromCode(k),v,szyjlString(szyjl(k)),(u'现价:' +  price)
+        model = szyjl(k)
+        print util.roeStringForCode(k, model)
 
 
     print '\n\n'
