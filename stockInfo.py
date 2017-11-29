@@ -928,6 +928,7 @@ def mainMethod():
         k = item[0]
         v = companyRank[k]
         print k,util.getStockNameFromCode(k),v,szyjlString(szyjl(k))
+        print util.roeStringForCode(code, model)
 
 
     print '\n\n'
