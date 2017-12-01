@@ -14,6 +14,7 @@ import os.path as fpath
 from bs4 import BeautifulSoup
 import pickle,pprint
 from mysqlOperation import mysqlOp
+from send_email import sendMail
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -782,6 +783,7 @@ def mainMethod():
     mh = util.get60DaysMaxStockList()
     print '===============================================共 %s 个======================================================' % str(len(mh))
     if mh and len(mh) > 0:
+        mailString = ('===================================当前日期%s==================================' % str(datetime.today())[0:10])
         maxPriceList = []
         needSync = False
         fileName = 'stockMaxFile'
@@ -815,8 +817,12 @@ def mainMethod():
                     maxPriceList.append({code:'1'})
             else:pass
             model = szyjl(code)
-            print model.code,model.name,szyjlString(model)
-            print util.roeStringForCode(code,model)
+            s1 =  model.code.ljust(8,' ') + model.name.ljust(6,' ') + szyjlString(model)
+            s2 =  util.roeStringForCode(code,model)
+            mailString = mailString + s1 + s2 + '\n\n'
+            print s1
+            print s2
+
 
         if needSync:
             pprint.pprint(maxPriceList)
@@ -824,6 +830,9 @@ def mainMethod():
             pickle.dump({'data':maxPriceList,'date':str(datetime.today())[0:10]},f)
             f.close()
         else:pass
+
+        # 发送邮件
+        sendMail(None,None,'stock60Days',mailString)
 
 
     #价值投资选股
