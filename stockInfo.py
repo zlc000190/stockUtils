@@ -5,7 +5,7 @@
 
 import  os
 import  sys
-import  urllib
+import  urllib2
 import  re
 import simplejson
 import  time
@@ -122,7 +122,9 @@ def getStockCodeFromHtmlString(string):
 
 def getHtmlFromUrl(url,utf8coding=False):
     try:
-        ret = urllib.urlopen(url)
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
+        req = urllib2.Request(url, headers=headers)
+        ret = urllib2.urlopen(req)
         res = None
         if utf8coding:
             res = ret.read().decode('gbk', 'ignore').encode('utf-8')
