@@ -577,10 +577,25 @@ class StockUtils(object):
     def roeStringInYearsForCode(self,code,model):
         li = self.getRoeModelListOfStockInYearsForCode(code)
         s = ''
+        roeSwitch = False
         if li and len(li) > 0:
+            count = 0
+            roeAll = 0
+            profitCount = 0
+            profitAll = 0
             for item in li:
                 s += (u'年报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ')
                 s += '\n'
+                if item.roe != '--':
+                    count = count + 1
+                    roeAll = roeAll + float(item.roe)
+
+                if item.profitRate != '--':
+                    profitCount = profitCount + 1
+                    profitAll = profitAll + float(item.profitRate)
+
+            if roeSwitch and roeAll / count > 20 and profitAll / profitCount > 20:
+                s = '（=================================高速成长，可以关注===================================）\n' + s
             return s
         else:
             return None
@@ -852,11 +867,12 @@ def mainMethod():
             s1 =  model.code.ljust(8,' ') + model.name.ljust(6,' ') + szyjlString(model)
             s2 =  util.roeStringForCode(code,model)
             s3 = util.roeStringInYearsForCode(code,model)
-            mailString = mailString + s1 + s2 + s3 + '\n\n'
-            print s1
-            print s2
-            print s3
-
+            if s1 and s2 and  s3:
+                mailString = mailString + s1 + s2 + s3 + '\n\n'
+                print s1
+                print s2
+                print s3
+            else:pass
 
         if needSync:
             pprint.pprint(maxPriceList)
@@ -866,7 +882,7 @@ def mainMethod():
         else:pass
 
         # 发送邮件
-        sendMail(None,None,'stock60Days',mailString)
+        if mailString:sendMail(None,None,'stock60Days',mailString)
 
 
     #价值投资选股
