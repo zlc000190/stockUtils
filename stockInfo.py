@@ -85,10 +85,19 @@ mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&s
 
 #ROE 投资回报率
 ROEOfStockUrl = 'http://data.eastmoney.com/DataCenter_V3/stockdata/cwzy.ashx?code=%s'
+
 #code = sh601318
 ROEOfStockUrl2 = 'http://emweb.securities.eastmoney.com/PC_HSF10/FinanceAnalysis/FinanceAnalysisAjax?code=%s&ctype=2'
+
+#年报
+ROEOfStockInYears = 'http://emweb.securities.eastmoney.com/PC_HSF10/FinanceAnalysis/MainTargetAjax?code=%s&type=1'
+
+
 #公司经营业务  sz000001
 bussinessDetailUrl = 'http://emweb.securities.eastmoney.com/PC_HSF10/CoreConception/CoreConceptionAjax?code=%s'
+
+
+
 
 #近4个月k线走势
 last4MonthKLineUrl = 'http://pifm.eastmoney.com/EM_Finance2014PictureInterface/Index.aspx?ID=%s&UnitWidth=-5&imageType=KXL&EF=&Formula=RSI&AT=1&&type=&token=44c9d251add88e27b65ed86506f6e5da&_=0.7768000600639573'
@@ -508,7 +517,6 @@ class StockUtils(object):
     @classmethod
     def getRoeModelListOfStockForCode(self,code):
         '''价值投资股票信息'''
-        #url = ROEOfStockUrl % (getMarketCode(code,prefix=False))
         url = ROEOfStockUrl2 % (getMarketCode(code,prefix=True))
         res = getHtmlFromUrl(url,False)
         #ROEList = getJsonList(res)
@@ -517,6 +525,26 @@ class StockUtils(object):
         resu = obj['Result']
         if not resu:return None
         ROEList = resu['zyzb']
+        if isinstance(ROEList,list) and len(ROEList) > 0:
+            cList = []
+            for item in ROEList:
+                m = RoeModel(item['date'],item['jqjzcsyl'],item['gsjlrtbzz'],item['yyzsrtbzz'], item['yyzsr'],item['kfjlr'])
+                cList.append(m)
+            return cList
+        else:
+            return  None
+
+
+    def getRoeModelListOfStockInYearsForCode(self,code):
+        '''价值投资股票信息'''
+        url = ROEOfStockInYears % (getMarketCode(code,prefix=True))
+        res = getHtmlFromUrl(url,False)
+        #ROEList = getJsonList(res)
+        obj = getJsonObjOrigin(res)
+        if not obj:return None
+        resu = obj['Result']
+        if not resu:return None
+        ROEList = resu
         if isinstance(ROEList,list) and len(ROEList) > 0:
             cList = []
             for item in ROEList:
@@ -546,13 +574,17 @@ class StockUtils(object):
         else:
             return None
 
-    @classmethod
-    def profitRankForCode(self,code):
-        li = self.getRoeModelListOfStockForCode(code)
+    def roeStringInYearsForCode(self,code,model):
+        li = self.getRoeModelListOfStockInYearsForCode(code)
+        s = ''
         if li and len(li) > 0:
-            return li[0].profit
+            for item in li:
+                s += (u'年报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ')
+                s += '\n'
+            return s
         else:
             return None
+
 
     @classmethod
     def getIndustryReport(self):
@@ -819,9 +851,11 @@ def mainMethod():
             model = szyjl(code)
             s1 =  model.code.ljust(8,' ') + model.name.ljust(6,' ') + szyjlString(model)
             s2 =  util.roeStringForCode(code,model)
-            mailString = mailString + s1 + s2 + '\n\n'
+            s3 = util.roeStringInYearsForCode(code,model)
+            mailString = mailString + s1 + s2 + s3 + '\n\n'
             print s1
             print s2
+            print s3
 
 
         if needSync:
@@ -846,6 +880,7 @@ def mainMethod():
             #不需要过滤换手率以及市值，价值投资
             print (u'第%s个:' % str(th.index(item) + 1)), item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
             print util.roeStringForCode(item.code,model)
+            print util.roeStringInYearsForCode(item.code, model)
 
 
     print '================================创新高绩优股========================================='
