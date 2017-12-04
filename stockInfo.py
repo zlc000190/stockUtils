@@ -882,7 +882,12 @@ def mainMethod():
         else:pass
 
         # 发送邮件
-        if mailString:sendMail(None,None,'stock60Days',mailString)
+        try:
+            if mailString:sendMail(None,None,'stock60Days',mailString)
+        except Exception:
+            print Exception.__name__
+        finally:
+            print ''
 
 
     #价值投资选股
