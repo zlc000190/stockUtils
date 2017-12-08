@@ -864,6 +864,7 @@ def mainMethod():
                     maxPriceList.append({code:'1'})
             else:pass
             model = szyjl(code)
+            if not model: continue
             s1 =  model.code.ljust(8,' ') + model.name.ljust(6,' ') + szyjlString(model)
             s2 =  util.roeStringForCode(code,model)
             s3 = util.roeStringInYearsForCode(code,model)
