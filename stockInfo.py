@@ -80,7 +80,7 @@ sylDetailSuffixUrl = '&token=4f1862fc3b5e77c150a2b985b12db0fd&cb=jQuery183041202
 #净资产收益率12%  3年利润增长率10%，利润同比增长率
 #mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.12)][cz_cznl06(1|0.1)][cz_jgcg01][cznl05(4|0.1)][cz19(1|100y)]&p=1&jn=DvMQgnCP&ps=100&r=1507563206241'
 #3年净利润增长率10以上，资产收益率大于10%（0.1,5）），市值超过200亿
-mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cznl06(1|0.1)][cz_jgcg01][cz_ylnl01(4|0.1,5|1.00)][cz19(4|2000000w)]&p=%s&jn=qVlwdjPQ&ps=100&s=cz_jgcg01&st=-1&r=1507621522335'
+mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cznl06(1|0.1)][cz_jgcg01][cz_ylnl01(4|0.1,5|1.00)][cz19(4|1000000w)]&p=%s&jn=qVlwdjPQ&ps=100&s=cz_jgcg01&st=-1&r=1507621522335'
 
 
 #ROE 投资回报率
@@ -115,6 +115,7 @@ companyNameUrl = 'http://suggest.eastmoney.com/SuggestData/Default.aspx?name=sDa
 companySzDownLimit = 50
 companyHslDownLimit = 1.0
 pageSize  = 100
+roeSwitch = True
 
 
 #上证 招行 4星 ,混合型 基金
@@ -559,6 +560,10 @@ class StockUtils(object):
         li = self.getRoeModelListOfStockForCode(code)
         s = ''
         if li and len(li) > 0:
+            count = 0
+            roeAll = 0
+            profitCount = 0
+            profitAll = 0
             for item in li:
                 szDivProfit = None
                 if li.index(item) == 0:
@@ -570,14 +575,23 @@ class StockUtils(object):
                 else:
                     s += (u'季报:' + item.dateOfRoe).ljust(15, ' ') + (u'净资产收益率:' + item.roe + '%').ljust(15, ' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17, ' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18, ' ') + (u'总收入:' + item.income).ljust(12, ' ') + (u' 总利润:' + item.profit).ljust(12,' ')
                 s += '\n'
-            return s
+                if item.roe != '--':
+                    count = count + 1
+                    roeAll = roeAll + float(item.roe)
+
+                if item.profitRate != '--':
+                    profitCount = profitCount + 1
+                    profitAll = profitAll + float(item.profitRate)
+            if roeSwitch and roeAll / count >= 18 and profitAll / profitCount >= 18:
+                return (s,True)
+
+            return (s,False)
         else:
             return None
 
     def roeStringInYearsForCode(self,code,model):
         li = self.getRoeModelListOfStockInYearsForCode(code)
         s = ''
-        roeSwitch = False
         if li and len(li) > 0:
             count = 0
             roeAll = 0
@@ -594,9 +608,9 @@ class StockUtils(object):
                     profitCount = profitCount + 1
                     profitAll = profitAll + float(item.profitRate)
 
-            if roeSwitch and roeAll / count > 20 and profitAll / profitCount > 20:
-                s = '（=================================高速成长，可以关注===================================）\n' + s
-            return s
+            if roeSwitch and roeAll / count >= 18 and profitAll / profitCount >= 18:
+                return  (s,True)
+            return (s,False)
         else:
             return None
 
@@ -865,8 +879,8 @@ def mainMethod():
             else:pass
             model = szyjl(code)
             s1 =  model.code.ljust(8,' ') + model.name.ljust(6,' ') + szyjlString(model)
-            s2 =  util.roeStringForCode(code,model)
-            s3 = util.roeStringInYearsForCode(code,model)
+            s2 =  util.roeStringForCode(code,model)[0]
+            s3 = util.roeStringInYearsForCode(code,model)[0]
             if s1 and s2 and  s3:
                 mailString = mailString + s1 + s2 + s3 + '\n\n'
                 print s1
@@ -900,16 +914,22 @@ def mainMethod():
             if not model: continue
             #不需要过滤换手率以及市值，价值投资
             print (u'第%s个:' % str(th.index(item) + 1)), item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
-            print util.roeStringForCode(item.code,model)
-            print util.roeStringInYearsForCode(item.code, model)
-
+            jidu =  util.roeStringForCode(item.code,model)
+            niandu =  util.roeStringInYearsForCode(item.code, model)
+            if jidu[1] or niandu[1]:
+                print '=======================================高速增加,可以关注======================================='
+                print jidu[0]
+                print niandu[0]
+            else:
+                print jidu[0]
+                print niandu[0]
 
     print '================================创新高绩优股========================================='
     interList = list(set(mh).intersection(set([item.code for item in th])))
     for code in interList:
         model = szyjl(code)
         print model.code,model.name
-        print util.roeStringForCode(code,model)
+        print util.roeStringForCode(code,model)[0]
 
     # #调研次数
     print '\n=================================机构调研次数排行==================================='
@@ -1000,7 +1020,10 @@ def mainMethod():
             price =  (weekModel.priceList[-1]).endPrice
         print k,util.getStockNameFromCode(k),v,szyjlString(szyjl(k)),(u'现价:' +  price)
         model = szyjl(k)
-        print util.roeStringForCode(k, model)
+        if model:
+            print util.roeStringForCode(k, model)[0]
+            print util.roeStringInYearsForCode(item.code, model)[0]
+        else:pass
 
 
     print '\n\n'
