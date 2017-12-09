@@ -1023,7 +1023,7 @@ def mainMethod():
         model = szyjl(k)
         if model:
             print util.roeStringForCode(k, model)[0]
-            print util.roeStringInYearsForCode(item.code, model)[0]
+            print util.roeStringInYearsForCode(k,model)[0]
         else:pass
 
 
