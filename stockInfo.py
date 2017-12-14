@@ -131,6 +131,12 @@ def getStockCodeFromHtmlString(string):
     if string and len(string):
         return string[16:22]
 
+def geFloatFromString(s):
+    if s == '--':
+        return 0
+    else:
+        return float(s)
+
 def getHtmlFromUrl(url,utf8coding=False):
     try:
         headers = {'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
@@ -560,10 +566,6 @@ class StockUtils(object):
         li = self.getRoeModelListOfStockForCode(code)
         s = ''
         if li and len(li) > 0:
-            count = 0
-            roeAll = 0
-            profitCount = 0
-            profitAll = 0
             for item in li:
                 szDivProfit = None
                 if li.index(item) == 0:
@@ -575,19 +577,11 @@ class StockUtils(object):
                 else:
                     s += (u'季报:' + item.dateOfRoe).ljust(15, ' ') + (u'净资产收益率:' + item.roe + '%').ljust(15, ' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17, ' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18, ' ') + (u'总收入:' + item.income).ljust(12, ' ') + (u' 总利润:' + item.profit).ljust(12,' ')
                 s += '\n'
-                if item.roe != '--':
-                    count = count + 1
-                    roeAll = roeAll + float(item.roe)
-
-                if item.profitRate != '--':
-                    profitCount = profitCount + 1
-                    profitAll = profitAll + float(item.profitRate)
-            if  roeSwitch and ((count >0 and roeAll / count >= 18 ) or (profitCount > 0 and  profitAll / profitCount >= 18)):
-                return (s,True)
 
             return (s,False)
         else:
             return None
+
 
     def roeStringInYearsForCode(self,code,model):
         li = self.getRoeModelListOfStockInYearsForCode(code)
@@ -608,11 +602,17 @@ class StockUtils(object):
                     profitCount = profitCount + 1
                     profitAll = profitAll + float(item.profitRate)
 
-            if roeSwitch and roeAll / count >= 18 and profitAll / profitCount >= 18:
-                return  (s,True)
-            return (s,False)
-        else:
-            return None
+            if roeSwitch:
+                if count > 0 and roeAll / count >= 20:
+                    return (s,True,True)
+                elif count >=3 and geFloatFromString(li[0].roe) >= 20 and geFloatFromString(li[1].roe) >= 20 and geFloatFromString(li[2].roe) >= 20:
+                    return (s,True,True)
+                elif (profitCount > 0 and profitAll / profitCount >= 30)or (profitAll >=3 and geFloatFromString(li[0].profitRate) >= 30 and  geFloatFromString(li[1].profitRate) >= 30 and  geFloatFromString(li[2].profitRate) >= 30) or(profitAll >=2 and geFloatFromString(li[0].profitRate) >= 60 and  geFloatFromString(li[1].profitRate) >= 60) :
+                    return (s,True,False)
+            else:
+                return (s,False,False)
+
+        return (s,False,False)
 
 
     @classmethod
@@ -917,8 +917,11 @@ def mainMethod():
             print (u'第%s个:' % str(th.index(item) + 1)), item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
             jidu =  util.roeStringForCode(item.code,model)
             niandu =  util.roeStringInYearsForCode(item.code, model)
-            if jidu[1] or niandu[1]:
+            if  niandu[1]:
                 print '=======================================高速增加,可以关注======================================='
+                if niandu[2]:
+                    print '=======================================高潜质企业,可以关注======================================='
+
                 print jidu[0]
                 print niandu[0]
             else:
