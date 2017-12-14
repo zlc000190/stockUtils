@@ -582,7 +582,7 @@ class StockUtils(object):
                 if item.profitRate != '--':
                     profitCount = profitCount + 1
                     profitAll = profitAll + float(item.profitRate)
-            if roeSwitch and roeAll / count >= 18 and profitAll / profitCount >= 18:
+            if  roeSwitch and ((count >0 and roeAll / count >= 18 ) or (profitCount > 0 and  profitAll / profitCount >= 18)):
                 return (s,True)
 
             return (s,False)
