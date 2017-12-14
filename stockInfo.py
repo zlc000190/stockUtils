@@ -908,6 +908,7 @@ def mainMethod():
     #价值投资选股
     print '\n===============================价值投资股票========================================'
     th = util.getMostValueableStockList()
+    myStock = []
     if th and len(th) > 0:
         print '===============================共 %s 个========================================\n' % str(len(th))
         for item in th:
@@ -921,12 +922,19 @@ def mainMethod():
                 print '=======================================高速增加,可以关注======================================='
                 if niandu[2]:
                     print '=======================================高潜质企业,可以关注======================================='
+                    myStock.append(item)
 
                 print jidu[0]
                 print niandu[0]
             else:
                 print jidu[0]
                 print niandu[0]
+    if len(myStock) > 0:
+        ret = sorted(myStock.iteritems(), key=lambda item: item.jzcsyl, reverse=True)
+        for i in ret:
+            print i.code,i.name, '机构持仓数:'+ i.orgCount,'资产收益率:' + i.jzcsyl
+        print '\n\n'
+
 
     print '================================创新高绩优股========================================='
     interList = list(set(mh).intersection(set([item.code for item in th])))
