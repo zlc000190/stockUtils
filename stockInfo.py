@@ -918,37 +918,56 @@ def mainMethod():
             print (u'第%s个:' % str(th.index(item) + 1)), item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
             jidu =  util.roeStringForCode(item.code,model)
             niandu =  util.roeStringInYearsForCode(item.code, model)
-            if  niandu[1]:
-                print '=======================================高速增加,可以关注======================================='
-                if niandu[2]:
-                    print '=======================================高潜质企业,可以关注======================================='
-                    myStock.append(item)
+            if jidu and niandu:
+                if  niandu[1]:
+                    print '=======================================高速增加,可以关注======================================='
+                    if niandu[2]:
+                        print '=======================================高潜质企业,可以关注======================================='
+                        myStock.append(item)
 
-                print jidu[0]
-                print niandu[0]
-            else:
-                print jidu[0]
-                print niandu[0]
+                    print jidu[0]
+                    print niandu[0]
+                else:
+                    print jidu[0]
+                    print niandu[0]
+            else:continue
+
     if len(myStock) > 0:
+        print '\n\n\n'
+        print '=======================================高成长企业列表，强烈关注============================================='
+        print '=======================================高成长企业列表，强烈关注============================================='
+        print '=======================================高成长企业列表，强烈关注============================================='
         ret = sorted(myStock, key=lambda item: item.jzcsyl, reverse=True)
         for i in ret:
-            print i.code,i.name, '机构持仓数:'+ i.orgCount,'资产收益率:' + i.jzcsyl
+            if float(i.jzcsyl[0:-2]) / 100 <= float(0.12):continue
+            model = szyjl(i.code)
+            if model:
+                print i.code, i.name, '机构持仓数:' + i.orgCount, '资产收益率:' + i.jzcsyl,'  ',szyjlString(model)
+                print util.roeStringForCode(i.code, model)[0]
+                print util.roeStringInYearsForCode(i.code, model)[0]
+                print '\n\n'
+            else:continue
         print '\n\n'
 
-
-    print '================================创新高绩优股========================================='
-    interList = list(set(mh).intersection(set([item.code for item in th])))
-    for code in interList:
+    stocklist = util.getAllStockList()
+    for code in stocklist:
         model = szyjl(code)
-        print model.code,model.name
-        print util.roeStringForCode(code,model)[0]
+        print util.roeStringForCode(code, model)[0]
+        print util.roeStringInYearsForCode(code, model)[0]
+
+    # print '================================创新高绩优股========================================='
+    # interList = list(set(mh).intersection(set([item.code for item in th])))
+    # for code in interList:
+    #     model = szyjl(code)
+    #     print model.code,model.name
+    #     print util.roeStringForCode(code,model)[0]
 
     #调研次数
-    print '\n=================================机构调研次数排行==================================='
-    dy = util.getCompanyResearchRank()
-    if dy and len(dy):
-        for item in dy:
-            print item.name, item.code, item.time, item.desc, item.sum
+    # print '\n=================================机构调研次数排行==================================='
+    # dy = util.getCompanyResearchRank()
+    # if dy and len(dy):
+    #     for item in dy:
+    #         print item.name, item.code, item.time, item.desc, item.sum
     #
     # #推荐公司
     # print '\n===============================券商推荐公司======================================='
