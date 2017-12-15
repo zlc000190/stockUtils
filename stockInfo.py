@@ -930,7 +930,7 @@ def mainMethod():
                 print jidu[0]
                 print niandu[0]
     if len(myStock) > 0:
-        ret = sorted(myStock.iteritems(), key=lambda item: item.jzcsyl, reverse=True)
+        ret = sorted(myStock, key=lambda item: item.jzcsyl, reverse=True)
         for i in ret:
             print i.code,i.name, '机构持仓数:'+ i.orgCount,'资产收益率:' + i.jzcsyl
         print '\n\n'
@@ -943,7 +943,7 @@ def mainMethod():
         print model.code,model.name
         print util.roeStringForCode(code,model)[0]
 
-    # #调研次数
+    #调研次数
     print '\n=================================机构调研次数排行==================================='
     dy = util.getCompanyResearchRank()
     if dy and len(dy):
@@ -951,11 +951,11 @@ def mainMethod():
             print item.name, item.code, item.time, item.desc, item.sum
     #
     # #推荐公司
-    print '\n===============================券商推荐公司======================================='
-    tj = util.getRcommandedCompanyList()
-    if tj and len(tj):
-        for item in tj:
-            print item.code, item.name, item.time, item.org, item.reason, item.advice
+    # print '\n===============================券商推荐公司======================================='
+    # tj = util.getRcommandedCompanyList()
+    # if tj and len(tj):
+    #     for item in tj:
+    #         print item.code, item.name, item.time, item.org, item.reason, item.advice
 
     #推荐次数排行公司
     # print '\n======================================券商推荐次数排行============================================='
@@ -1022,7 +1022,7 @@ def mainMethod():
                     continue
                 # print model.code,model.name
     ret = sorted(companyRank.iteritems(), key=lambda item: int(item[1]), reverse=True)
-    print '\n===============================持仓机构数量====================================\n'
+    print '\n================ ===============持仓机构数量====================================\n'
     for item in ret:
         k = item[0]
         v = companyRank[k]
