@@ -607,7 +607,7 @@ class StockUtils(object):
                     return (s,True,True)
                 elif count >=3 and geFloatFromString(li[0].roe) >= 20 and geFloatFromString(li[1].roe) >= 20 and geFloatFromString(li[2].roe) >= 20:
                     return (s,True,True)
-                elif (profitCount > 0 and profitAll / profitCount >= 30)or (profitAll >=3 and geFloatFromString(li[0].profitRate) >= 30 and  geFloatFromString(li[1].profitRate) >= 30 and  geFloatFromString(li[2].profitRate) >= 30) or(profitAll >=2 and geFloatFromString(li[0].profitRate) >= 60 and  geFloatFromString(li[1].profitRate) >= 60) :
+                elif (profitCount > 0 and profitAll / profitCount >= 30)or (profitCount >=3 and geFloatFromString(li[0].profitRate) >= 30 and  geFloatFromString(li[1].profitRate) >= 30 and  geFloatFromString(li[2].profitRate) >= 30) or(profitCount >=2 and geFloatFromString(li[0].profitRate) >= 60 and  geFloatFromString(li[1].profitRate) >= 60) :
                     return (s,True,False)
             else:
                 return (s,False,False)
