@@ -945,6 +945,7 @@ def mainMethod():
                 print i.code, i.name, '机构持仓数:' + i.orgCount, '资产收益率:' + i.jzcsyl,'  ',szyjlString(model)
                 print util.roeStringForCode(i.code, model)[0]
                 print util.roeStringInYearsForCode(i.code, model)[0]
+                print util.getCompanyBussinessDetailString(i.code)
                 print '\n\n'
             else:continue
         print '\n\n'
