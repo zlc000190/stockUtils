@@ -949,12 +949,6 @@ def mainMethod():
             else:continue
         print '\n\n'
 
-    stocklist = util.getAllStockList()
-    for code in stocklist:
-        model = szyjl(code)
-        print model.code,model.name,szyjlString(model)
-        print util.roeStringForCode(code, model)[0]
-        print util.roeStringInYearsForCode(code, model)[0]
 
     # print '================================创新高绩优股========================================='
     # interList = list(set(mh).intersection(set([item.code for item in th])))
