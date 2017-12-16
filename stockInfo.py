@@ -952,6 +952,7 @@ def mainMethod():
     stocklist = util.getAllStockList()
     for code in stocklist:
         model = szyjl(code)
+        print model.code,model.name,szyjlString(model)
         print util.roeStringForCode(code, model)[0]
         print util.roeStringInYearsForCode(code, model)[0]
 
