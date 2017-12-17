@@ -111,6 +111,9 @@ weekKLineUrl = 'http://pdfm2.eastmoney.com/EM_UBG_PDTI_Fast/api/js?id=%s&TYPE=wk
 
 companyNameUrl = 'http://suggest.eastmoney.com/SuggestData/Default.aspx?name=sData_1510989642587&input=%s&type=1,2,3'
 
+#月线股价数据
+companyStockPriceEachMonth = 'http://pdfm2.eastmoney.com/EM_UBG_PDTI_Fast/api/js?id=%s&TYPE=mk&js=fsData1513509273045((x))&rtntype=5&isCR=false&fsData1513509273045=fsData1513509273045'
+
 #公司市值下限
 companySzDownLimit = 50
 companyHslDownLimit = 1.0
@@ -131,8 +134,8 @@ def getStockCodeFromHtmlString(string):
     if string and len(string):
         return string[16:22]
 
-def geFloatFromString(s):
-    if s == '--':
+def getFloatFromString(s):
+    if s == '--' or s == '-':
         return 0
     else:
         return float(s)
@@ -345,16 +348,16 @@ class CompanyRecommandRankInfo(CompanyInfo):
         self.buyCount = buyCount
         self.addCount = addCount
 
-class StockEachDayInfo(CompanyInfo):
+class StockEachMonthInfo(CompanyInfo):
     '''每一天的数据行情'''
-    def __init__(self,code,name,startPrice,endPrice,maxPrice,minPrice,inflowCount,concept):
-        super(StockEachDayInfo,self).__init__(code,name)
+    def __init__(self,code,name,month,startPrice,endPrice,maxPrice,minPrice):
+        super(StockEachMonthInfo,self).__init__(code,name)
+        self.month = month
         self.startPrice = startPrice
         self.endPrice = endPrice
         self.maxPrice = maxPrice
         self.minPrice = minPrice
-        self.inflowCount = inflowCount
-        self.concept = concept
+
 
 class CompanyValueInfo(CompanyInfo):
     def __init__(self,code,name,syl,sjl,sz,hsl):
@@ -605,9 +608,9 @@ class StockUtils(object):
             if roeSwitch:
                 if count > 0 and roeAll / count >= 20:
                     return (s,True,True)
-                elif count >=3 and geFloatFromString(li[0].roe) >= 20 and geFloatFromString(li[1].roe) >= 20 and geFloatFromString(li[2].roe) >= 20:
+                elif count >=3 and getFloatFromString(li[0].roe) >= 20 and getFloatFromString(li[1].roe) >= 20 and getFloatFromString(li[2].roe) >= 20:
                     return (s,True,True)
-                elif (profitCount > 0 and profitAll / profitCount >= 30)or (profitCount >=3 and geFloatFromString(li[0].profitRate) >= 30 and  geFloatFromString(li[1].profitRate) >= 30 and  geFloatFromString(li[2].profitRate) >= 30) or(profitCount >=2 and geFloatFromString(li[0].profitRate) >= 60 and  geFloatFromString(li[1].profitRate) >= 60) :
+                elif (profitCount > 0 and profitAll / profitCount >= 30)or (profitCount >=3 and getFloatFromString(li[0].profitRate) >= 30 and  getFloatFromString(li[1].profitRate) >= 30 and  getFloatFromString(li[2].profitRate) >= 30) or(profitCount >=2 and getFloatFromString(li[0].profitRate) >= 60 and  getFloatFromString(li[1].profitRate) >= 60) :
                     return (s,True,False)
             else:
                 return (s,False,False)
@@ -806,6 +809,37 @@ class StockUtils(object):
            return CompanyValueInfo(valueList[1],valueList[2],valueList[-15],valueList[-10],str(long(valueList[-7])/10000/10000), valueList[-16]+'%')
         return None
 
+    def getStockPriceEachMonth(self,code,onlyYears=False):
+        '''股价月线数据'''
+        res = getHtmlFromUrl(companyStockPriceEachMonth % (code+getMarketId(code)))
+        if not res: return None
+        if hasHTML(res): return None
+        partern = re.compile("\({\"name\":.*?}\)")
+        rel = re.findall(partern, res)
+        mList = []
+        if rel and len(rel) > 0:
+            s = rel[0]
+            m = simplejson.loads(s[1:-1])
+            if m:
+                plist =  m['data']
+                if plist and len(plist):
+                    for i in plist:
+                        parray = i.split(',')
+                        time = parray[0]
+                        if onlyYears:
+                            if time and getFloatFromString(time.split('-')[1]) == 12:
+                                pmodel = StockEachMonthInfo(code,m['name'],parray[0],parray[1],parray[2],parray[3],parray[4])
+                                mList.append(pmodel)
+                            else:continue
+                        else:
+                            pmodel = StockEachMonthInfo(code, m['name'], parray[0], parray[1], parray[2], parray[3],parray[4])
+                            mList.append(pmodel)
+        else:
+            return None
+        if mList and len(mList) > 0:
+            return mList
+        else:return None
+
     def getWeekKLineForCode(self,code):
         dataList = []
         url = weekKLineUrl % (code + getMarketId(code))
@@ -839,6 +873,15 @@ def mainMethod():
     util = StockUtils()
     sqlins = mysqlOp()
 
+
+    #例子。。。。。。。。。。。。。。，如果如果遍历这个A股，调用 # stocklist = util.getAllStockList()
+    pList = util.getStockPriceEachMonth('000001',True)#False 返回是每个月的数据，True 是年的数据
+    for i in pList:
+        print i.code,i.name,'时间:'+i.month,'开始价格:'+i.startPrice,'结束价格'+i.endPrice,'最高价:'+i.maxPrice,'最低价:'+i.minPrice
+
+
+
+    #
     print '\n========================================当前时间:%s===========================================' % datetime.today()
     print '\n===============================================近60天创新高======================================================'
     mh = util.get60DaysMaxStockList()
