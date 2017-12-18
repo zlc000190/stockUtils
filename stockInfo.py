@@ -393,7 +393,7 @@ class MostValueableCompanyInfo(CompanyInfo):
 
 class RoeModel(object):
     '''日期，roe，利润增长率,收入增长率，总收入，总利润'''
-    def __init__(self,date,roe,profitRate,incomeRate,income,profit,):
+    def __init__(self,date,roe,profitRate,incomeRate,income,profit,maolilv,jinglilv):
         super(RoeModel,self).__init__()
         self.dateOfRoe = date
         self.roe = roe
@@ -401,6 +401,8 @@ class RoeModel(object):
         self.incomeRate = incomeRate
         self.income = income
         self.profit = profit
+        self.maolilv = maolilv
+        self.jinglilv = jinglilv
 
 class  CompanyProfitRankModel(CompanyInfo):
     def __init__(self,code,name,profit):
@@ -538,7 +540,7 @@ class StockUtils(object):
         if isinstance(ROEList,list) and len(ROEList) > 0:
             cList = []
             for item in ROEList:
-                m = RoeModel(item['date'],item['jqjzcsyl'],item['gsjlrtbzz'],item['yyzsrtbzz'], item['yyzsr'],item['kfjlr'])
+                m = RoeModel(item['date'],item['jqjzcsyl'],item['gsjlrtbzz'],item['yyzsrtbzz'], item['yyzsr'],item['kfjlr'],item['mll'],item['jll'])
                 cList.append(m)
             return cList
         else:
@@ -558,7 +560,7 @@ class StockUtils(object):
         if isinstance(ROEList,list) and len(ROEList) > 0:
             cList = []
             for item in ROEList:
-                m = RoeModel(item['date'],item['jqjzcsyl'],item['gsjlrtbzz'],item['yyzsrtbzz'], item['yyzsr'],item['kfjlr'])
+                m = RoeModel(item['date'],item['jqjzcsyl'],item['gsjlrtbzz'],item['yyzsrtbzz'], item['yyzsr'],item['kfjlr'],item['mll'],item['jll'])
                 cList.append(m)
             return cList
         else:
@@ -570,17 +572,8 @@ class StockUtils(object):
         s = ''
         if li and len(li) > 0:
             for item in li:
-                szDivProfit = None
-                if li.index(item) == 0:
-                    szDivProfit = u'性价比率:' + str(round(float(model.sz)/float(item.profit[0:-1]),2))
-                else:
-                    szDivProfit = None
-                if(szDivProfit):
-                    s += (u'季报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ') + szDivProfit
-                else:
-                    s += (u'季报:' + item.dateOfRoe).ljust(15, ' ') + (u'净资产收益率:' + item.roe + '%').ljust(15, ' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17, ' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18, ' ') + (u'总收入:' + item.income).ljust(12, ' ') + (u' 总利润:' + item.profit).ljust(12,' ')
-                s += '\n'
-
+                    s += (u'季报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ') + (u'毛利率:' + item.maolilv + '%').ljust(13,' ') + (u'净利率:' + item.jinglilv + '%').ljust(13,' ')
+                    s += '\n'
             return (s,False)
         else:
             return None
@@ -594,28 +587,42 @@ class StockUtils(object):
             roeAll = 0
             profitCount = 0
             profitAll = 0
+            jinglilv = 0
+            jinglilvCount = 0
+
             for item in li:
-                s += (u'年报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ')
+                s += (u'年报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ') + (u'毛利率:' + item.maolilv + '%').ljust(13,' ') + (u'净利率:' + item.jinglilv + '%').ljust(13,' ')
                 s += '\n'
+
+                #投资收益率
                 if item.roe != '--':
                     count = count + 1
                     roeAll = roeAll + float(item.roe)
 
+                #利润增长率
                 if item.profitRate != '--':
                     profitCount = profitCount + 1
                     profitAll = profitAll + float(item.profitRate)
 
+                #净利率
+                if item.jinglilv != '--':
+                    jinglilvCount = jinglilvCount + 1
+                    jinglilv = jinglilv + float(item.jinglilv)
+
+            valueableCompany = False
+            if jinglilv / jinglilvCount >= 20 or (getFloatFromString(li[0].jinglilv) >= 20 and getFloatFromString(li[1].jinglilv) >= 20):
+                valueableCompany = True
             if roeSwitch:
                 if count > 0 and roeAll / count >= 20:
-                    return (s,True,True)
+                    return (s,True,True,valueableCompany)
                 elif count >=3 and getFloatFromString(li[0].roe) >= 20 and getFloatFromString(li[1].roe) >= 20 and getFloatFromString(li[2].roe) >= 20:
-                    return (s,True,True)
+                    return (s,True,True,valueableCompany)
                 elif (profitCount > 0 and profitAll / profitCount >= 30)or (profitCount >=3 and getFloatFromString(li[0].profitRate) >= 30 and  getFloatFromString(li[1].profitRate) >= 30 and  getFloatFromString(li[2].profitRate) >= 30) or(profitCount >=2 and getFloatFromString(li[0].profitRate) >= 60 and  getFloatFromString(li[1].profitRate) >= 60) :
-                    return (s,True,False)
+                    return (s,True,False,valueableCompany)
             else:
-                return (s,False,False)
+                return (s,False,False,False)
 
-        return (s,False,False)
+        return (s,False,False,False)
 
 
     @classmethod
@@ -964,15 +971,14 @@ def mainMethod():
             if jidu and niandu:
                 if  niandu[1]:
                     print '=======================================高速增加,可以关注======================================='
-                    if niandu[2]:
-                        print '=======================================高潜质企业,可以关注======================================='
-                        myStock.append(item)
-
-                    print jidu[0]
-                    print niandu[0]
-                else:
-                    print jidu[0]
-                    print niandu[0]
+                if niandu[2]:
+                   print '=======================================高潜质企业,可以关注======================================='
+                if niandu[3]:
+                    print '=======================================高附加值,可以关注======================================='
+                if(niandu[1] or niandu[3]):
+                    myStock.append(item)
+                print jidu[0]
+                print niandu[0]
             else:continue
 
     if len(myStock) > 0:
