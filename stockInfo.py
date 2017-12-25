@@ -96,7 +96,8 @@ ROEOfStockInYears = 'http://emweb.securities.eastmoney.com/PC_HSF10/FinanceAnaly
 #公司经营业务  sz000001
 bussinessDetailUrl = 'http://emweb.securities.eastmoney.com/PC_HSF10/CoreConception/CoreConceptionAjax?code=%s'
 
-
+#行业排名
+hypmUrl = 'http://data.eastmoney.com/stockdata/%s.html'
 
 
 #近4个月k线走势
@@ -368,15 +369,15 @@ class CompanyValueInfo(CompanyInfo):
         self.sz = sz
         self.hsl = hsl
 
-class StockLatestInfo(CompanyInfo):
-    '''股票最近数据行情,保存的是 StockEachDayInfo 的数据'''
-    def __init__(self,eachDayInfo):
-        super(StockLatestInfo,self)
-        self.stockInfo = []
-        self.stockInfo.append(eachDayInfo)
-
-    def addStockDayInfo(self,dayInfo):
-        self.stockInfo.append(dayInfo)
+class   CompanyHYPMRankModel(CompanyInfo):
+    '''行业排名'''
+    def __init__(self,code,name,szRank,profitRank,sylRank,sjlRank,roeRank):
+        super(CompanyHYPMRankModel,self).__init__(code,name)
+        self.szRank = szRank
+        self.profitRank = profitRank
+        self.sylRank = sylRank
+        self.sjlRank = sjlRank
+        self.roeRank = roeRank
 
 class MostValueableCompanyInfo(CompanyInfo):
     '''最可投资价值股票,净资产收益率>15%，3年净利润复合增长率>10%'''
@@ -685,6 +686,26 @@ class StockUtils(object):
 
 
     @classmethod
+    def getHYPMModel(self,code):
+        '''行业排名'''
+        res = getHtmlFromUrl(hypmUrl % code,utf8coding=True)
+        complie = re.compile('var hypmData=.*?;')
+        li = re.findall(complie,res)
+        if li and len(li):
+            s = li[0]
+            d = simplejson.loads(s[13:-1])
+            if d and d['Data'] and len(d['Data'])>=2:
+                name =  d['Data'][0]['Name']
+                array = d['Data']
+                rank = None
+                for dict in array:
+                    if dict['Name'] == u'行业排名':
+                        rank = dict
+                        return CompanyHYPMRankModel(code, name, rank['TotalMarketValue'], rank['Profit'],
+                                                    rank['PERation'], rank['PBRation'], rank['ROE'])
+        return None
+
+    @classmethod
     def getStockholderHoldsStocks(self):
         '''股东增持'''
         res = getHtmlFromUrl(gdzcBaseUrl,True)
@@ -859,9 +880,14 @@ class StockUtils(object):
 
 def szyjl(code):
     return  StockUtils().getSylDetailDataForCode(code)
+def szyjlRank(code):
+    return StockUtils().getHYPMModel(code)
 
 def szyjlString(model):
     return u'市值:'+ model.sz +u'亿' + u'  市盈率:'+model.syl + u'  市净率:'+model.sjl + u'  换手率:'+model.hsl
+
+def szyjlRankString(model):
+    return '\n' + u'市值排行:'+ model.szRank + u'  利润排行:'+model.profitRank + u'  市盈率排行:'+model.sjlRank + u'  市净率排行:'+model.sjlRank + u'  资产收益率排行:' +model.roeRank
 
 def mostValueableCompanyString(model):
     return ('净资产收益率年增长率:'+model.jzcsyl).ljust(15,' ') + (u'  3年利润复合增长率:'+model.fhjlrzzl).ljust(21,' ') + ('  持仓机构数:' + model.orgCount)
@@ -956,9 +982,10 @@ def mainMethod():
         print '===============================共 %s 个========================================\n' % str(len(th))
         for item in th:
             model = szyjl(item.code)
-            if not model: continue
+            rankModel = szyjlRank(item.code)
+            if not model or not rankModel: continue
             #不需要过滤换手率以及市值，价值投资
-            print (u'第%s个:' % str(th.index(item) + 1)), item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
+            print (u'第%s个:' % str(th.index(item) + 1)), item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model),szyjlRankString(rankModel)
             jidu =  util.roeStringForCode(item.code,model)
             niandu =  util.roeStringInYearsForCode(item.code, model)
             if jidu and niandu:
@@ -1085,10 +1112,11 @@ def mainMethod():
         k = item[0]
         v = companyRank[k]
         weekModel = util.getWeekKLineForCode(k)
+        rankModel = szyjlRank(k)
         price = ''
         if weekModel:
             price =  (weekModel.priceList[-1]).endPrice
-        print k,util.getStockNameFromCode(k),v,szyjlString(szyjl(k)),(u'现价:' +  price)
+        print k,util.getStockNameFromCode(k),v,szyjlString(szyjl(k)),szyjlRankString(rankModel), (u'现价:' +  price)
         model = szyjl(k)
         if model:
             print util.roeStringForCode(k, model)[0]
