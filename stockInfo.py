@@ -5,15 +5,16 @@
 
 import  os
 import  sys
-import  urllib
+import  urllib2
 import  re
 import simplejson
 import  time
 from datetime import datetime
 import os.path as fpath
 from bs4 import BeautifulSoup
+import pickle,pprint
 from mysqlOperation import mysqlOp
-from constant import stockDetailTableList,stocklistName
+from send_email import sendMail
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -26,10 +27,14 @@ sys.setdefaultencoding('utf8')
 #东方财富网-今日最高
 todayMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb03]&p=1&jn=moJuuzHq&ps=100&s=hqzb03&st=-1&r=1503071461051'
 #3日新高
-threeDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|3)]&p=1&jn=EYOfLXHJ&ps=40&s=hqzb05(1|3)&st=-1&r=1507347185807'
+threeDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|3)]&p=1&jn=EYOfLXHJ&ps=100&s=hqzb05(1|3)&st=-1&r=1507347185807'
 
 #5日新高
-fiveDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|5)]&p=1&jn=JODmOFXH&ps=40&s=hqzb05(1|5)&st=-1&r=1507347434465'
+fiveDaysMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb05(1|5)]&p=1&jn=JODmOFXH&ps=100&s=hqzb05(1|5)&st=-1&r=1507347434465'
+
+
+#60日新高
+SixtyDaysMaxPrice = 'http://data.10jqka.com.cn/rank/cxg/board/4/field/stockcode/order/asc/ajax/1/'
 
 #连续涨3天以上
 # moreAndMoreMaxPriceUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[hqzb07(4|3)]&p=1&jn=xiZaGiTW&ps=300&s=hqzb07(4|3)&st=-1'
@@ -69,23 +74,31 @@ xxsjSuffix = '&pageSize=100&js=var%20quote_123%3d{rank:[(x)],pages:(pc)}&token=7
 sylDetailPrefixUrl = 'http://nuff.eastmoney.com/EM_Finance2015TradeInterface/JS.ashx?id='
 sylDetailSuffixUrl = '&token=4f1862fc3b5e77c150a2b985b12db0fd&cb=jQuery183041202991002070233_1505234287664&_=1505234288231'
 
-#涨幅空间排行
-mbzfRank = 'http://q.stock.sohu.com/jlp/rank/priceExpect.up'
 
 #净资产收益率12%  3年利润增长率10% 100亿市值以上
 #mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.12)][cz_cznl06(1|0.1)][cz20(1|100y)]&p=1&jn=pUnYlfVk&ps=100&s=cz20(1|100y)&st=-1&r=1507352123438'
 #净资产收益率12%  3年利润增长率10%，利润同比增长率
 #mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cz_ylnl01(1|0.12)][cz_cznl06(1|0.1)][cz_jgcg01][cznl05(4|0.1)][cz19(1|100y)]&p=1&jn=DvMQgnCP&ps=100&r=1507563206241'
 #3年净利润增长率10以上，资产收益率大于10%（0.1,5）），市值超过200亿
-mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cznl06(1|0.1)][cz_jgcg01][cz_ylnl01(4|0.1,5|1.00)][cz19(4|2000000w)]&p=%s&jn=qVlwdjPQ&ps=100&s=cz_jgcg01&st=-1&r=1507621522335'
+mostValueableStockUrl = 'http://xuanguapi.eastmoney.com/Stock/JS.aspx?type=xgq&sty=xgq&token=eastmoney&c=[cznl06(1|0.1)][cz_jgcg01][cz_ylnl01(4|0.1,5|1.00)][cz19(4|1000000w)]&p=%s&jn=qVlwdjPQ&ps=100&s=cz_jgcg01&st=-1&r=1507621522335'
 
 
 #ROE 投资回报率
 ROEOfStockUrl = 'http://data.eastmoney.com/DataCenter_V3/stockdata/cwzy.ashx?code=%s'
+
 #code = sh601318
 ROEOfStockUrl2 = 'http://emweb.securities.eastmoney.com/PC_HSF10/FinanceAnalysis/FinanceAnalysisAjax?code=%s&ctype=2'
+
+#年报
+ROEOfStockInYears = 'http://emweb.securities.eastmoney.com/PC_HSF10/FinanceAnalysis/MainTargetAjax?code=%s&type=1'
+
+
 #公司经营业务  sz000001
 bussinessDetailUrl = 'http://emweb.securities.eastmoney.com/PC_HSF10/CoreConception/CoreConceptionAjax?code=%s'
+
+#行业排名
+hypmUrl = 'http://data.eastmoney.com/stockdata/%s.html'
+
 
 #近4个月k线走势
 last4MonthKLineUrl = 'http://pifm.eastmoney.com/EM_Finance2014PictureInterface/Index.aspx?ID=%s&UnitWidth=-5&imageType=KXL&EF=&Formula=RSI&AT=1&&type=&token=44c9d251add88e27b65ed86506f6e5da&_=0.7768000600639573'
@@ -99,10 +112,14 @@ weekKLineUrl = 'http://pdfm2.eastmoney.com/EM_UBG_PDTI_Fast/api/js?id=%s&TYPE=wk
 
 companyNameUrl = 'http://suggest.eastmoney.com/SuggestData/Default.aspx?name=sData_1510989642587&input=%s&type=1,2,3'
 
+#月线股价数据
+companyStockPriceEachMonth = 'http://pdfm2.eastmoney.com/EM_UBG_PDTI_Fast/api/js?id=%s&TYPE=mk&js=fsData1513509273045((x))&rtntype=5&isCR=false&fsData1513509273045=fsData1513509273045'
+
 #公司市值下限
 companySzDownLimit = 50
 companyHslDownLimit = 1.0
 pageSize  = 100
+roeSwitch = True
 
 
 #上证 招行 4星 ,混合型 基金
@@ -114,10 +131,21 @@ newStockList = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?t
 
 
 
+def getStockCodeFromHtmlString(string):
+    if string and len(string):
+        return string[16:22]
+
+def getFloatFromString(s):
+    if s == '--' or s == '-':
+        return 0
+    else:
+        return float(s)
 
 def getHtmlFromUrl(url,utf8coding=False):
     try:
-        ret = urllib.urlopen(url)
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
+        req = urllib2.Request(url, headers=headers)
+        ret = urllib2.urlopen(req)
         res = None
         if utf8coding:
             res = ret.read().decode('gbk', 'ignore').encode('utf-8')
@@ -321,16 +349,16 @@ class CompanyRecommandRankInfo(CompanyInfo):
         self.buyCount = buyCount
         self.addCount = addCount
 
-class StockEachDayInfo(CompanyInfo):
+class StockEachMonthInfo(CompanyInfo):
     '''每一天的数据行情'''
-    def __init__(self,code,name,startPrice,endPrice,maxPrice,minPrice,inflowCount,concept):
-        super(StockEachDayInfo,self).__init__(code,name)
+    def __init__(self,code,name,month,startPrice,endPrice,maxPrice,minPrice):
+        super(StockEachMonthInfo,self).__init__(code,name)
+        self.month = month
         self.startPrice = startPrice
         self.endPrice = endPrice
         self.maxPrice = maxPrice
         self.minPrice = minPrice
-        self.inflowCount = inflowCount
-        self.concept = concept
+
 
 class CompanyValueInfo(CompanyInfo):
     def __init__(self,code,name,syl,sjl,sz,hsl):
@@ -341,15 +369,15 @@ class CompanyValueInfo(CompanyInfo):
         self.sz = sz
         self.hsl = hsl
 
-class StockLatestInfo(CompanyInfo):
-    '''股票最近数据行情,保存的是 StockEachDayInfo 的数据'''
-    def __init__(self,eachDayInfo):
-        super(StockLatestInfo,self)
-        self.stockInfo = []
-        self.stockInfo.append(eachDayInfo)
-
-    def addStockDayInfo(self,dayInfo):
-        self.stockInfo.append(dayInfo)
+class   CompanyHYPMRankModel(CompanyInfo):
+    '''行业排名'''
+    def __init__(self,code,name,szRank,profitRank,sylRank,sjlRank,roeRank):
+        super(CompanyHYPMRankModel,self).__init__(code,name)
+        self.szRank = szRank
+        self.profitRank = profitRank
+        self.sylRank = sylRank
+        self.sjlRank = sjlRank
+        self.roeRank = roeRank
 
 class MostValueableCompanyInfo(CompanyInfo):
     '''最可投资价值股票,净资产收益率>15%，3年净利润复合增长率>10%'''
@@ -366,7 +394,7 @@ class MostValueableCompanyInfo(CompanyInfo):
 
 class RoeModel(object):
     '''日期，roe，利润增长率,收入增长率，总收入，总利润'''
-    def __init__(self,date,roe,profitRate,incomeRate,income,profit,):
+    def __init__(self,date,roe,profitRate,incomeRate,income,profit,maolilv,jinglilv):
         super(RoeModel,self).__init__()
         self.dateOfRoe = date
         self.roe = roe
@@ -374,6 +402,8 @@ class RoeModel(object):
         self.incomeRate = incomeRate
         self.income = income
         self.profit = profit
+        self.maolilv = maolilv
+        self.jinglilv = jinglilv
 
 class  CompanyProfitRankModel(CompanyInfo):
     def __init__(self,code,name,profit):
@@ -448,6 +478,19 @@ class StockUtils(object):
                 return cList
         return  None
 
+
+
+
+
+    def get60DaysMaxStockList(self):
+        '''最近5天创新高'''
+        res = getHtmlFromUrl(SixtyDaysMaxPrice)
+
+        part = re.compile('target="_blank">.*?</a></td>')
+        li = re.findall(part,res)
+        tu = [getStockCodeFromHtmlString(c) for c in li]
+        return  list(tu)
+
     def getCompanyBussinessDetailString(self,code):
         res = getHtmlFromUrl((bussinessDetailUrl % getMarketCode(code)))
         obj = getJsonObjOrigin(res)
@@ -487,7 +530,6 @@ class StockUtils(object):
     @classmethod
     def getRoeModelListOfStockForCode(self,code):
         '''价值投资股票信息'''
-        #url = ROEOfStockUrl % (getMarketCode(code,prefix=False))
         url = ROEOfStockUrl2 % (getMarketCode(code,prefix=True))
         res = getHtmlFromUrl(url,False)
         #ROEList = getJsonList(res)
@@ -499,7 +541,27 @@ class StockUtils(object):
         if isinstance(ROEList,list) and len(ROEList) > 0:
             cList = []
             for item in ROEList:
-                m = RoeModel(item['date'],item['jqjzcsyl'],item['gsjlrtbzz'],item['yyzsrtbzz'], item['yyzsr'],item['kfjlr'])
+                m = RoeModel(item['date'],item['jqjzcsyl'],item['gsjlrtbzz'],item['yyzsrtbzz'], item['yyzsr'],item['kfjlr'],item['mll'],item['jll'])
+                cList.append(m)
+            return cList
+        else:
+            return  None
+
+
+    def getRoeModelListOfStockInYearsForCode(self,code):
+        '''价值投资股票信息'''
+        url = ROEOfStockInYears % (getMarketCode(code,prefix=True))
+        res = getHtmlFromUrl(url,False)
+        #ROEList = getJsonList(res)
+        obj = getJsonObjOrigin(res)
+        if not obj:return None
+        resu = obj['Result']
+        if not resu:return None
+        ROEList = resu
+        if isinstance(ROEList,list) and len(ROEList) > 0:
+            cList = []
+            for item in ROEList:
+                m = RoeModel(item['date'],item['jqjzcsyl'],item['gsjlrtbzz'],item['yyzsrtbzz'], item['yyzsr'],item['kfjlr'],item['mll'],item['jll'])
                 cList.append(m)
             return cList
         else:
@@ -511,27 +573,58 @@ class StockUtils(object):
         s = ''
         if li and len(li) > 0:
             for item in li:
-                szDivProfit = None
-                if li.index(item) == 0:
-                    szDivProfit = u'性价比率:' + str(round(float(model.sz)/float(item.profit[0:-1]),2))
-                else:
-                    szDivProfit = None
-                if(szDivProfit):
-                    s += (u'季报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ') + szDivProfit
-                else:
-                    s += (u'季报:' + item.dateOfRoe).ljust(15, ' ') + (u'净资产收益率:' + item.roe + '%').ljust(15, ' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17, ' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18, ' ') + (u'总收入:' + item.income).ljust(12, ' ') + (u' 总利润:' + item.profit).ljust(12,' ')
-                s += '\n'
-            return s
+                    s += (u'季报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ') + (u'毛利率:' + item.maolilv + '%').ljust(13,' ') + (u'净利率:' + item.jinglilv + '%').ljust(13,' ')
+                    s += '\n'
+            return (s,False)
         else:
             return None
 
-    @classmethod
-    def profitRankForCode(self,code):
-        li = self.getRoeModelListOfStockForCode(code)
+
+    def roeStringInYearsForCode(self,code,model):
+        li = self.getRoeModelListOfStockInYearsForCode(code)
+        s = ''
         if li and len(li) > 0:
-            return li[0].profit
-        else:
-            return None
+            count = 0
+            roeAll = 0
+            profitCount = 0
+            profitAll = 0
+            jinglilv = 0
+            jinglilvCount = 0
+
+            for item in li:
+                s += (u'年报:' + item.dateOfRoe).ljust(15,' ') + (u'净资产收益率:' + item.roe + '%').ljust(15,' ') + (u'收入同比增长率:' + item.incomeRate + '%').ljust(17,' ') + (u'净利润同比增长率:' + item.profitRate + '%').ljust(18,' ') + (u'总收入:' + item.income).ljust(12,' ')  + (u' 总利润:' + item.profit).ljust(12,' ') + (u'毛利率:' + item.maolilv + '%').ljust(13,' ') + (u'净利率:' + item.jinglilv + '%').ljust(13,' ')
+                s += '\n'
+
+                #投资收益率
+                if item.roe != '--':
+                    count = count + 1
+                    roeAll = roeAll + float(item.roe)
+
+                #利润增长率
+                if item.profitRate != '--':
+                    profitCount = profitCount + 1
+                    profitAll = profitAll + float(item.profitRate)
+
+                #净利率
+                if item.jinglilv != '--':
+                    jinglilvCount = jinglilvCount + 1
+                    jinglilv = jinglilv + float(item.jinglilv)
+
+            valueableCompany = False
+            if jinglilv / jinglilvCount >= 20 or (getFloatFromString(li[0].jinglilv) >= 20 and getFloatFromString(li[1].jinglilv) >= 20):
+                valueableCompany = True
+            if roeSwitch:
+                if count > 0 and roeAll / count >= 20:
+                    return (s,True,True,valueableCompany)
+                elif count >=3 and getFloatFromString(li[0].roe) >= 20 and getFloatFromString(li[1].roe) >= 20 and getFloatFromString(li[2].roe) >= 20:
+                    return (s,True,True,valueableCompany)
+                elif (profitCount > 0 and profitAll / profitCount >= 30)or (profitCount >=3 and getFloatFromString(li[0].profitRate) >= 30 and  getFloatFromString(li[1].profitRate) >= 30 and  getFloatFromString(li[2].profitRate) >= 30) or(profitCount >=2 and getFloatFromString(li[0].profitRate) >= 60 and  getFloatFromString(li[1].profitRate) >= 60) :
+                    return (s,True,False,valueableCompany)
+            else:
+                return (s,False,False,False)
+
+        return (s,False,False,False)
+
 
     @classmethod
     def getIndustryReport(self):
@@ -598,6 +691,26 @@ class StockUtils(object):
                 return cList
         return None
 
+
+    @classmethod
+    def getHYPMModel(self,code):
+        '''行业排名'''
+        res = getHtmlFromUrl(hypmUrl % code,utf8coding=True)
+        complie = re.compile('var hypmData=.*?;')
+        li = re.findall(complie,res)
+        if li and len(li):
+            s = li[0]
+            d = simplejson.loads(s[13:-1])
+            if d and d['Data'] and len(d['Data'])>=2:
+                name =  d['Data'][0]['Name']
+                array = d['Data']
+                rank = None
+                for dict in array:
+                    if dict['Name'] == u'行业排名':
+                        rank = dict
+                        return CompanyHYPMRankModel(code, name, rank['TotalMarketValue'], rank['Profit'],
+                                                    rank['PERation'], rank['PBRation'], rank['ROE'])
+        return None
 
     @classmethod
     def getStockholderHoldsStocks(self):
@@ -724,6 +837,37 @@ class StockUtils(object):
            return CompanyValueInfo(valueList[1],valueList[2],valueList[-15],valueList[-10],str(long(valueList[-7])/10000/10000), valueList[-16]+'%')
         return None
 
+    def getStockPriceEachMonth(self,code,onlyYears=False):
+        '''股价月线数据'''
+        res = getHtmlFromUrl(companyStockPriceEachMonth % (code+getMarketId(code)))
+        if not res: return None
+        if hasHTML(res): return None
+        partern = re.compile("\({\"name\":.*?}\)")
+        rel = re.findall(partern, res)
+        mList = []
+        if rel and len(rel) > 0:
+            s = rel[0]
+            m = simplejson.loads(s[1:-1])
+            if m:
+                plist =  m['data']
+                if plist and len(plist):
+                    for i in plist:
+                        parray = i.split(',')
+                        time = parray[0]
+                        if onlyYears:
+                            if time and getFloatFromString(time.split('-')[1]) == 12:
+                                pmodel = StockEachMonthInfo(code,m['name'],parray[0],parray[1],parray[2],parray[3],parray[4])
+                                mList.append(pmodel)
+                            else:continue
+                        else:
+                            pmodel = StockEachMonthInfo(code, m['name'], parray[0], parray[1], parray[2], parray[3],parray[4])
+                            mList.append(pmodel)
+        else:
+            return None
+        if mList and len(mList) > 0:
+            return mList
+        else:return None
+
     def getWeekKLineForCode(self,code):
         dataList = []
         url = weekKLineUrl % (code + getMarketId(code))
@@ -743,9 +887,14 @@ class StockUtils(object):
 
 def szyjl(code):
     return  StockUtils().getSylDetailDataForCode(code)
+def szyjlRank(code):
+    return StockUtils().getHYPMModel(code)
 
 def szyjlString(model):
     return u'市值:'+ model.sz +u'亿' + u'  市盈率:'+model.syl + u'  市净率:'+model.sjl + u'  换手率:'+model.hsl
+
+def szyjlRankString(model):
+    return '\n' + u'市值排行:'+ model.szRank + u'  利润排行:'+model.profitRank + u'  市盈率排行:'+model.sjlRank + u'  市净率排行:'+model.sjlRank + u'  资产收益率排行:' +model.roeRank
 
 def mostValueableCompanyString(model):
     return ('净资产收益率年增长率:'+model.jzcsyl).ljust(15,' ') + (u'  3年利润复合增长率:'+model.fhjlrzzl).ljust(21,' ') + ('  持仓机构数:' + model.orgCount)
@@ -757,75 +906,158 @@ def mainMethod():
     util = StockUtils()
     sqlins = mysqlOp()
 
-    print '\n=======================%s=========================' % datetime.today()
-    print '\n==============================当日新高======================================'
-    print '=======================可能当日开始突破、也可能已经突破了数日======================='
-    li = util.getTodayMaxStockList()
-    if li and len(li) > 0:
-        for item in li:
-            model = szyjl(item.code)
-            if not model:continue
-            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit :continue
-            print item.name, item.code,szyjlString(model)
-    #
-    # #最近3天创新高
-    print '\n=================================近3天创新高===================================='
-    th = util.getThreeDaysMaxStockList()
-    if th and len(th) > 0:
-        for item in th:
-            model = szyjl(item.code)
-            if not model: continue
-            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
-            print item.name,item.code,szyjlString(model)
 
-    # #最近5天创新高
-    print '\n=================================近5天创新高====================================='
-    th = util.getFiveDaysMaxStockList()
-    if th and len(th) > 0:
-        for item in th:
-            model = szyjl(item.code)
+    #例子。。。。。。。。。。。。。。，如果如果遍历这个A股，调用 # stocklist = util.getAllStockList()
+    pList = util.getStockPriceEachMonth('000001',True)#False 返回是每个月的数据，True 是年的数据
+    for i in pList:
+        print i.code,i.name,'时间:'+i.month,'开始价格:'+i.startPrice,'结束价格'+i.endPrice,'最高价:'+i.maxPrice,'最低价:'+i.minPrice
+
+
+
+    #
+    print '\n========================================当前时间:%s===========================================' % datetime.today()
+    print '\n===============================================近60天创新高======================================================'
+    mh = util.get60DaysMaxStockList()
+    print '===============================================共 %s 个======================================================' % str(len(mh))
+    if mh and len(mh) > 0:
+        mailString = ('===================================当前日期%s==================================' % str(datetime.today())[0:10])
+        maxPriceList = []
+        needSync = False
+        fileName = 'stockMaxFile'
+        #读取本地数据
+        if fpath.exists(fileName):
+            f = open(fileName,'rb')
+            allData = pickle.load(f)
+            maxPriceList =allData['data']
+            date = allData['date']
+            if str(datetime.today())[0:10] != date or  not date:
+                needSync = True
+            f.close()
+        else:
+            needSync = True
+            f = open(fileName, 'w')
+            f.close()
+        for code in mh:
+            if needSync:
+                if len(maxPriceList) > 0:
+                    maxCount = 0
+                    for d in maxPriceList:
+                        if d.has_key(code):
+                            maxCount = int(d[code]) + 1
+                            d[code] = maxCount
+                            break
+                        else:continue
+                            # maxPriceList.append({'code': code, 'maxPriceCount': '1'})
+                    if maxCount == 0:
+                        maxPriceList.append({code: '1'})
+                else:
+                    maxPriceList.append({code:'1'})
+            else:pass
+            model = szyjl(code)
             if not model: continue
-            if int(model.sz) < companySzDownLimit or percentToFloat(model.hsl) < companyHslDownLimit: continue
-            print item.name,item.code,szyjlString(model)
+            s1 =  model.code.ljust(8,' ') + model.name.ljust(6,' ') + szyjlString(model)
+            s2 =  util.roeStringForCode(code,model)[0]
+            s3 = util.roeStringInYearsForCode(code,model)[0]
+            if s1 and s2 and  s3:
+                mailString = mailString + s1 + s2 + s3 + '\n\n'
+                print s1
+                print s2
+                print s3
+            else:pass
+
+        if needSync:
+            pprint.pprint(maxPriceList)
+            f = open(fileName, 'w')
+            pickle.dump({'data':maxPriceList,'date':str(datetime.today())[0:10]},f)
+            f.close()
+        else:pass
+
+        # 发送邮件
+        try:
+            if mailString:sendMail(None,None,'stock60Days',mailString)
+        except Exception:
+            print Exception.__name__
+        finally:
+            print ''
 
 
     #价值投资选股
     print '\n===============================价值投资股票========================================'
     th = util.getMostValueableStockList()
+    myStock = []
     if th and len(th) > 0:
         print '===============================共 %s 个========================================\n' % str(len(th))
         for item in th:
             model = szyjl(item.code)
-            if not model: continue
+            rankModel = szyjlRank(item.code)
+            if not model or not rankModel: continue
             #不需要过滤换手率以及市值，价值投资
-            print (u'第%s个:' % str(th.index(item) + 1)), item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model)
-            print util.roeStringForCode(item.code,model)
+            print (u'第%s个:' % str(th.index(item) + 1)), item.name.ljust(6,' '),item.code.ljust(7,' '),mostValueableCompanyString(item),szyjlString(model),szyjlRankString(rankModel)
+            jidu =  util.roeStringForCode(item.code,model)
+            niandu =  util.roeStringInYearsForCode(item.code, model)
+            if jidu and niandu:
+                if  niandu[1]:
+                    print '=======================================高速增加,可以关注======================================='
+                if niandu[2]:
+                   print '=======================================高潜质企业,可以关注======================================='
+                if niandu[3]:
+                    print '=======================================高附加值,可以关注======================================='
+                if(niandu[1] or niandu[3]):
+                    myStock.append(item)
+                print jidu[0]
+                print niandu[0]
+            else:continue
+
+    if len(myStock) > 0:
+        print '\n\n\n'
+        print '=======================================高成长企业列表，强烈关注============================================='
+        print '=======================================高成长企业列表，强烈关注============================================='
+        print '=======================================高成长企业列表，强烈关注============================================='
+        ret = sorted(myStock, key=lambda item: item.jzcsyl, reverse=True)
+        for i in ret:
+            if float(i.jzcsyl[0:-2]) / 100 <= float(0.12):continue
+            model = szyjl(i.code)
+            if model:
+                print i.code, i.name, '机构持仓数:' + i.orgCount, '资产收益率:' + i.jzcsyl,'  ',szyjlString(model)
+                print util.roeStringForCode(i.code, model)[0]
+                print util.roeStringInYearsForCode(i.code, model)[0]
+                print util.getCompanyBussinessDetailString(i.code)
+                print '\n\n'
+            else:continue
+        print '\n\n'
 
 
-    # #调研次数
-    print '\n=================================机构调研次数排行==================================='
-    dy = util.getCompanyResearchRank()
-    if dy and len(dy):
-        for item in dy:
-            print item.name, item.code, item.time, item.desc, item.sum
+    # print '================================创新高绩优股========================================='
+    # interList = list(set(mh).intersection(set([item.code for item in th])))
+    # for code in interList:
+    #     model = szyjl(code)
+    #     print model.code,model.name
+    #     print util.roeStringForCode(code,model)[0]
+
+    #调研次数
+    # print '\n=================================机构调研次数排行==================================='
+    # dy = util.getCompanyResearchRank()
+    # if dy and len(dy):
+    #     for item in dy:
+    #         print item.name, item.code, item.time, item.desc, item.sum
     #
     # #推荐公司
-    print '\n===============================券商推荐公司======================================='
-    tj = util.getRcommandedCompanyList()
-    if tj and len(tj):
-        for item in tj:
-            print item.code, item.name, item.time, item.org, item.reason, item.advice
+    # print '\n===============================券商推荐公司======================================='
+    # tj = util.getRcommandedCompanyList()
+    # if tj and len(tj):
+    #     for item in tj:
+    #         print item.code, item.name, item.time, item.org, item.reason, item.advice
 
     #推荐次数排行公司
-    print '\n======================================券商推荐次数排行============================================='
-    tj = util.getRcommandRankList()
-    if tj and len(tj):
-        for item in tj:
-            print item.code.ljust(9,' '),item.name.ljust(8,' '),('券商推荐次数:'+item.count + '  买入评级:' + item.buyCount + '  增持评级:' + item.addCount)
-            model = szyjl(item.code)
-            print util.roeStringForCode(item.code,model)
-            print util.getCompanyBussinessDetailString(item.code)
-            print '\n'
+    # print '\n======================================券商推荐次数排行============================================='
+    # tj = util.getRcommandRankList()
+    # if tj and len(tj):
+    #     for item in tj:
+    #         print item.code.ljust(9,' '),item.name.ljust(8,' '),('券商推荐次数:'+item.count + '  买入评级:' + item.buyCount + '  增持评级:' + item.addCount)
+    #         model = szyjl(item.code)
+    #         print util.roeStringForCode(item.code,model)
+    #         print util.getCompanyBussinessDetailString(item.code)
+    #         print '\n'
 
     # #股东增持
     print '\n====================================股东增持====================================='
@@ -833,22 +1065,22 @@ def mainMethod():
     if gd and len(gd):
         for item in gd:
             companyInfo = item.split(',')
-            print companyInfo[0],companyInfo[1].ljust(7,' '), companyInfo[-4],u'至',companyInfo[-3], companyInfo[5],(companyInfo[6] + u'万').ljust(13,' '),(u'占流通股的' +  (companyInfo[7] + '%')).ljust(15,' '),(u'市值: ' + util.getSylDetailDataForCode(companyInfo[0]).sz + u'亿').ljust(15,' ')
+            print companyInfo[0],companyInfo[1].ljust(7,' '), companyInfo[-4],u'至',companyInfo[-3],(companyInfo[4]).ljust(30,' '), companyInfo[5],(companyInfo[6] + u'万').ljust(13,' '),(u'占流通股的' +  (companyInfo[7] + '%')).ljust(15,' '),(u'市值: ' + util.getSylDetailDataForCode(companyInfo[0]).sz + u'亿').ljust(15,' ')
 
     # #行业报告
-    print '\n==================================行业涨幅分析报告================================='
-    hy = util.getIndustryReport()
-    if hy and len(hy):
-        for item in hy:
-            print item.split(',')[10],item.split(',')[-1],'   ', item
-
-
-    # #概念排行
-    print '\n=================================概念涨幅排行====================================='
-    lit = util.getIndustryRank()
-    if lit and len(lit):
-        for item in lit:
-            print item
+    # print '\n==================================行业涨幅分析报告================================='
+    # hy = util.getIndustryReport()
+    # if hy and len(hy):
+    #     for item in hy:
+    #         print item.split(',')[10],item.split(',')[-1],'   ', item
+    #
+    #
+    # # #概念排行
+    # print '\n=================================概念涨幅排行====================================='
+    # lit = util.getIndustryRank()
+    # if lit and len(lit):
+    #     for item in lit:
+    #         print item
 
 
     # #周k线图
@@ -881,11 +1113,21 @@ def mainMethod():
                     continue
                 # print model.code,model.name
     ret = sorted(companyRank.iteritems(), key=lambda item: int(item[1]), reverse=True)
-    print '\n\n'
+    print '\n================ ===============持仓机构数量====================================\n'
     for item in ret:
         k = item[0]
         v = companyRank[k]
-        print k,util.getStockNameFromCode(k),v,szyjlString(szyjl(k))
+        weekModel = util.getWeekKLineForCode(k)
+        rankModel = szyjlRank(k)
+        price = ''
+        if weekModel:
+            price =  (weekModel.priceList[-1]).endPrice
+        print k,util.getStockNameFromCode(k),v,szyjlString(szyjl(k)),szyjlRankString(rankModel), (u'现价:' +  price)
+        model = szyjl(k)
+        if model:
+            print util.roeStringForCode(k, model)[0]
+            print util.roeStringInYearsForCode(k,model)[0]
+        else:pass
 
 
     print '\n\n'
